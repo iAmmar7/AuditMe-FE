@@ -40,4 +40,10 @@ export default defineConfig({
   },
   exportStatic: {},
   esbuild: {},
+  define: {
+    'process.env.AUDITME_DEV_BE_URL': process.env.AUDITME_DEV_BE_URL,
+    'process.env.AUDITME_PROD_BE_URL': process.env.AUDITME_PROD_BE_URL,
+    'process.env.AUDITME_DEV_FE_URL': process.env.AUDITME_DEV_FE_URL,
+    'process.env.AUDITME_PROD_FE_URL': process.env.AUDITME_PROD_FE_URL,
+  },
 });

@@ -1,11 +1,19 @@
-import { LockTwoTone, UserOutlined, MailOutlined } from '@ant-design/icons';
-import { Alert, Tabs } from 'antd';
 import React, { useState } from 'react';
-import ProForm, { ProFormText, ProFormSelect } from '@ant-design/pro-form';
-import { history, connect } from 'umi';
+import { Alert, Tabs, message } from 'antd';
+import ProForm from '@ant-design/pro-form';
+import { history } from 'umi';
+import axios from 'axios';
+
+import SignUp from './Signup';
+import LogIn from './Login';
 import styles from './index.less';
 
-const LoginMessage = ({ content }) => (
+const URL =
+  process.env.NODE_ENV === 'development'
+    ? process.env.AUDITME_DEV_BE_URL
+    : process.env.AUDITME_PROD_BE_URL;
+
+const AuthMessage = ({ content }) => (
   <Alert
     style={{
       marginBottom: 24,
@@ -16,21 +24,72 @@ const LoginMessage = ({ content }) => (
   />
 );
 
-const Login = (props) => {
-  const { userLogin = {}, submitting } = props;
-  const { status } = userLogin;
-  const [type, setType] = useState('login');
+const Auth = () => {
+  const [response, setResponse] = useState({
+    loading: false,
+    success: null,
+    data: null,
+  });
+  const [tab, setTab] = useState('login');
 
   const handleSubmit = (values) => {
-    console.log(values);
-    if (type === 'login') {
-      // request to server for login
-      if (value.authUser === 'admin') {
-      }
+    setResponse({
+      ...response,
+      loading: true,
+    });
+
+    if (tab === 'login') {
+      axios
+        .post(`${URL}/api/auth/${values.userType}/login`, {
+          email: values.email,
+          password: values.password,
+        })
+        .then((res) => {
+          if (res.data.success) {
+            localStorage.setItem('userType', values.userType);
+            localStorage.setItem('userToken', res.data.token);
+            localStorage.setItem('user', res.data.user);
+            message.success('Login successfull');
+
+            if (values.userType === 'user') history.push('/user');
+
+            if (values.userType === 'admin') history.push('/admin');
+          }
+        })
+        .catch((err) => {
+          setResponse({
+            loading: false,
+            success: false,
+            error: err.response?.data?.message,
+          });
+        });
     }
 
-    if (type === 'signup') {
-      // request to server for signup
+    if (tab === 'signup') {
+      axios
+        .post(`${URL}/api/auth/${values.userType}/signup`, {
+          name: values.name,
+          email: values.email,
+          password: values.password,
+        })
+        .then((res) => {
+          if (res.data.success) {
+            localStorage.setItem('userType', values.userType);
+            message.success('SignUp successfull');
+            setResponse({
+              ...response,
+              loading: false,
+            });
+            setTab('login');
+          }
+        })
+        .catch((err) => {
+          setResponse({
+            loading: false,
+            success: false,
+            error: err.response?.data?.message,
+          });
+        });
     }
   };
 
@@ -38,12 +97,12 @@ const Login = (props) => {
     <div className={styles.main}>
       <ProForm
         initialValues={{
-          autoLogin: true,
+          userType: localStorage.getItem('userType') ? localStorage.getItem('userType') : null,
         }}
         submitter={{
           render: (_, dom) => dom.pop(),
           submitButtonProps: {
-            loading: submitting,
+            loading: response.loading,
             size: 'large',
             style: {
               width: '100%',
@@ -54,122 +113,23 @@ const Login = (props) => {
           handleSubmit(values);
         }}
       >
-        <Tabs activeKey={type} onChange={setType}>
+        <Tabs activeKey={tab} onChange={setTab}>
           <Tabs.TabPane key="login" tab="Login" />
           <Tabs.TabPane key="signup" tab="Signup" />
         </Tabs>
 
-        {status === 'error' && type === 'login' && !submitting && (
-          <LoginMessage content="Incorrect email/password" />
+        {response.success === false && tab === 'login' && !response.loading && (
+          <AuthMessage content={response.error} />
         )}
-        {type === 'login' && (
-          <>
-            <ProFormText
-              name="email"
-              fieldProps={{
-                size: 'large',
-                prefix: <MailOutlined className={styles.prefixIcon} />,
-              }}
-              placeholder="Enter your email"
-              rules={[
-                {
-                  required: true,
-                  message: 'Email is required',
-                },
-              ]}
-            />
-            <ProFormText.Password
-              name="password"
-              fieldProps={{
-                size: 'large',
-                prefix: <LockTwoTone className={styles.prefixIcon} />,
-              }}
-              placeholder="Enter your password"
-              rules={[
-                {
-                  required: true,
-                  message: 'Password is required',
-                },
-              ]}
-            />
-            <ProFormSelect
-              name="authUser"
-              hasFeedback
-              valueEnum={{
-                admin: 'Admin',
-                user: 'User',
-              }}
-              placeholder="Login as"
-              rules={[{ required: true, message: 'Please select login as' }]}
-            />
-          </>
-        )}
+        {tab === 'login' && <LogIn styles={styles} />}
 
-        {status === 'error' && type === 'signup' && !submitting && (
-          <LoginMessage content="Unable to signup" />
+        {response.success === false && tab === 'signup' && !response.loading && (
+          <AuthMessage content={response.error} />
         )}
-        {type === 'signup' && (
-          <>
-            <ProFormText
-              name="name"
-              fieldProps={{
-                size: 'large',
-                prefix: <UserOutlined className={styles.prefixIcon} />,
-              }}
-              placeholder="Enter your name"
-              rules={[
-                {
-                  required: true,
-                  message: 'Name is required',
-                },
-              ]}
-            />
-            <ProFormText
-              name="email"
-              fieldProps={{
-                size: 'large',
-                prefix: <MailOutlined className={styles.prefixIcon} />,
-              }}
-              placeholder="Enter your email"
-              rules={[
-                {
-                  required: true,
-                  message: 'Email is required',
-                },
-              ]}
-            />
-            <ProFormText.Password
-              name="password"
-              fieldProps={{
-                size: 'large',
-                prefix: <LockTwoTone className={styles.prefixIcon} />,
-              }}
-              placeholder="Enter your password"
-              rules={[
-                {
-                  required: true,
-                  message: 'Password is required',
-                },
-              ]}
-            />
-            <ProFormSelect
-              name="authUser"
-              hasFeedback
-              valueEnum={{
-                admin: 'Admin',
-                user: 'User',
-              }}
-              placeholder="Signup as"
-              rules={[{ required: true, message: 'Please select signup as' }]}
-            />
-          </>
-        )}
+        {tab === 'signup' && <SignUp styles={styles} />}
       </ProForm>
     </div>
   );
 };
 
-export default connect(({ login, loading }) => ({
-  userLogin: login,
-  submitting: loading.effects['login/login'],
-}))(Login);
+export default Auth;
