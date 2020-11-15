@@ -1,9 +1,23 @@
-import { Link, connect } from 'umi';
 import React from 'react';
-import logo from '../assets/logo.svg';
-import styles from './UserLayout.less';
+import { Link, connect, Redirect } from 'umi';
+import jwt_decode from 'jwt-decode';
 
-const UserLayout = ({ children }) => {
+import logo from '../assets/logo.svg';
+import styles from './AuthLayout.less';
+
+const AuthLayout = ({ children }) => {
+  // Check for Token
+  if (localStorage.userToken) {
+    // Decode token and get user info and expression
+    const decoded = jwt_decode(localStorage.userToken);
+    // Check for expired token
+    const currentTime = Date.now() / 1000;
+    if (decoded.exp > currentTime) {
+      // Redirect to respective page if token has not expired
+      return <Redirect to={`/${decoded.role}`} />;
+    }
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.content}>
@@ -28,4 +42,4 @@ const UserLayout = ({ children }) => {
   );
 };
 
-export default connect(({ settings }) => ({ ...settings }))(UserLayout);
+export default connect(({ settings }) => ({ ...settings }))(AuthLayout);

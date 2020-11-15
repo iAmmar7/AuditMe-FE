@@ -1,49 +1,38 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { PageLoading } from '@ant-design/pro-layout';
-import { Redirect, connect } from 'umi';
-import { stringify } from 'querystring';
+import { Redirect } from 'umi';
+import jwt_decode from 'jwt-decode';
 
-class SecurityLayout extends React.Component {
-  state = {
-    isReady: false,
-  };
+const SecurityLayout = ({ children }) => {
+  const [isReady, setIsReady] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
 
-  componentDidMount() {
-    this.setState({
-      isReady: true,
-    });
-    const { dispatch } = this.props;
+  useEffect(() => {
+    // Check for Token
+    if (localStorage.userToken) {
+      // Decode token and get user info and expression
+      const decoded = jwt_decode(localStorage.userToken);
 
-    if (dispatch) {
-      dispatch({
-        type: 'user/fetchCurrent',
-      });
+      // Check for expired token
+      const currentTime = Date.now() / 1000;
+      if (decoded.exp < currentTime) {
+        setIsLoggedIn(false);
+      }
+    } else {
+      setIsLoggedIn(false);
     }
+    setIsReady(true);
+  }, []);
+
+  if (!isReady) {
+    return <PageLoading />;
   }
 
-  render() {
-    const { isReady } = this.state;
-    const { children, loading, currentUser } = this.props; // You can replace it to your authentication rule (such as check token exists)
-    // 你可以把它替换成你自己的登录认证规则（比如判断 token 是否存在）
-
-    const isLogin = currentUser && currentUser.userid;
-    const queryString = stringify({
-      redirect: window.location.href,
-    });
-
-    if ((!isLogin && loading) || !isReady) {
-      return <PageLoading />;
-    }
-
-    if (!isLogin && window.location.pathname !== '/user/login') {
-      return <Redirect to={`/user/login?${queryString}`} />;
-    }
-
-    return children;
+  if (!isLoggedIn) {
+    return <Redirect to="/auth" />;
   }
-}
 
-export default connect(({ user, loading }) => ({
-  currentUser: user.currentUser,
-  loading: loading.models.user,
-}))(SecurityLayout);
+  return children;
+};
+
+export default SecurityLayout;

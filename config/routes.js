@@ -1,20 +1,34 @@
 export default [
   {
     path: '/',
-    component: '../layouts/UserLayout',
+    redirect: '/auth',
+  },
+  {
+    path: '/auth',
+    component: '../layouts/AuthLayout',
     routes: [
       {
-        path: '/',
+        path: '/auth',
+        name: 'auth',
+        icon: 'smile',
+        component: './auth',
+      },
+    ],
+  },
+  {
+    path: '/admin',
+    component: '../layouts/SecurityLayout',
+    routes: [
+      {
+        path: '/admin',
+        component: '../layouts/BasicLayout',
+        authority: ['admin'],
         routes: [
           {
-            path: '/',
-            redirect: '/auth',
-          },
-          {
-            path: '/auth',
-            name: 'auth',
-            icon: 'smile',
-            component: './auth',
+            path: '/admin',
+            name: 'admin',
+            icon: 'crown',
+            component: './Admin',
           },
         ],
       },
