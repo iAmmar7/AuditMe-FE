@@ -48,7 +48,7 @@ const Auth = () => {
           if (res.data.success) {
             localStorage.setItem('userType', values.userType);
             localStorage.setItem('userToken', res.data.token);
-            localStorage.setItem('user', res.data.user);
+            localStorage.setItem('user', JSON.stringify(res.data.user));
             message.success('Login successfull');
 
             if (values.userType === 'user') history.push('/user');

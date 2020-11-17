@@ -3,65 +3,14 @@
  * You can view component api by:
  * https://github.com/ant-design/ant-design-pro-layout
  */
-import ProLayout, { DefaultFooter } from '@ant-design/pro-layout';
-import React, { useEffect, useMemo, useRef } from 'react';
-import { Link, useIntl, connect, history } from 'umi';
-import { GithubOutlined } from '@ant-design/icons';
-import { Result, Button } from 'antd';
-import Authorized from '@/utils/Authorized';
-import RightContent from '@/components/GlobalHeader/RightContent';
-import { getMatchMenu } from '@umijs/route-utils';
+import ProLayout from '@ant-design/pro-layout';
+import React from 'react';
+import { Link, connect, history } from 'umi';
+import { UserOutlined } from '@ant-design/icons';
+import { Menu, Dropdown, message } from 'antd';
+
 import logo from '../assets/logo.svg';
-const noMatch = (
-  <Result
-    status={403}
-    title="403"
-    subTitle="Sorry, you are not authorized to access this page."
-    extra={
-      <Button type="primary">
-        <Link to="/user/login">Go Login</Link>
-      </Button>
-    }
-  />
-);
-
-/**
- * use Authorized check all menu item
- */
-const menuDataRender = (menuList) =>
-  menuList.map((item) => {
-    const localItem = {
-      ...item,
-      children: item.children ? menuDataRender(item.children) : undefined,
-    };
-    return Authorized.check(item.authority, localItem, null);
-  });
-
-const defaultFooterDom = (
-  <DefaultFooter
-    copyright={`${new Date().getFullYear()} 蚂蚁集团体验技术部出品`}
-    links={[
-      {
-        key: 'Ant Design Pro',
-        title: 'Ant Design Pro',
-        href: 'https://pro.ant.design',
-        blankTarget: true,
-      },
-      {
-        key: 'github',
-        title: <GithubOutlined />,
-        href: 'https://github.com/ant-design/ant-design-pro',
-        blankTarget: true,
-      },
-      {
-        key: 'Ant Design',
-        title: 'Ant Design',
-        href: 'https://ant.design',
-        blankTarget: true,
-      },
-    ]}
-  />
-);
+import userAvatar from '../assets/user_avatar.png';
 
 const BasicLayout = (props) => {
   const {
@@ -72,17 +21,8 @@ const BasicLayout = (props) => {
       pathname: '/',
     },
   } = props;
-  const menuDataRef = useRef([]);
-  useEffect(() => {
-    if (dispatch) {
-      dispatch({
-        type: 'user/fetchCurrent',
-      });
-    }
-  }, []);
-  /**
-   * init variables
-   */
+
+  const user = JSON.parse(localStorage.getItem('user'));
 
   const handleMenuCollapse = (payload) => {
     if (dispatch) {
@@ -91,24 +31,24 @@ const BasicLayout = (props) => {
         payload,
       });
     }
-  }; // get children authority
+  };
 
-  const authorized = useMemo(
-    () =>
-      getMatchMenu(location.pathname || '/', menuDataRef.current).pop() || {
-        authority: undefined,
-      },
-    [location.pathname],
-  );
-  const { formatMessage } = useIntl();
+  const logoutUser = () => {
+    localStorage.removeItem('user');
+    localStorage.removeItem('userToken');
+    message.success('Logout successfully');
+    history.push('/auth');
+  };
+
   return (
     <ProLayout
       logo={logo}
-      formatMessage={formatMessage}
       {...props}
       {...settings}
       onCollapse={handleMenuCollapse}
-      onMenuHeaderClick={() => history.push('/')}
+      onMenuHeaderClick={() => {
+        if (location.pathname !== '/user') history.push('/user');
+      }}
       menuItemRender={(menuItemProps, defaultDom) => {
         if (menuItemProps.isUrl || !menuItemProps.path) {
           return defaultDom;
@@ -119,9 +59,7 @@ const BasicLayout = (props) => {
       breadcrumbRender={(routers = []) => [
         {
           path: '/',
-          breadcrumbName: formatMessage({
-            id: 'menu.home',
-          }),
+          breadcrumbName: 'User',
         },
         ...routers,
       ]}
@@ -133,21 +71,41 @@ const BasicLayout = (props) => {
           <span>{route.breadcrumbName}</span>
         );
       }}
-      footerRender={() => defaultFooterDom}
-      menuDataRender={menuDataRender}
-      rightContentRender={() => <RightContent />}
-      postMenuData={(menuData) => {
-        menuDataRef.current = menuData || [];
-        return menuData || [];
-      }}
+      footerRender={() => (
+        <p style={{ textAlign: 'center', color: 'grey' }}>
+          Coppyright &copy; {`${new Date().getFullYear()} AuditMe`}
+        </p>
+      )}
+      rightContentRender={() => (
+        <Dropdown
+          overlay={
+            <Menu>
+              <Menu.Item onClick={logoutUser}>
+                <UserOutlined />
+                Logout
+              </Menu.Item>
+            </Menu>
+          }
+          placement="bottomRight"
+          arrow
+        >
+          <p style={{ paddingTop: '4px', cursor: 'pointer' }}>
+            <img
+              src={userAvatar}
+              alt="avatar"
+              style={{ width: '25px', height: 'auto', paddingBottom: '-4px', marginRight: '4px' }}
+            />
+            {user.name}
+          </p>
+        </Dropdown>
+      )}
     >
-      <Authorized authority={authorized.authority} noMatch={noMatch}>
-        {children}
-      </Authorized>
+      {children}
     </ProLayout>
   );
 };
 
+// export default BasicLayout;
 export default connect(({ global, settings }) => ({
   collapsed: global.collapsed,
   settings,

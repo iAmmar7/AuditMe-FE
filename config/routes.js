@@ -17,7 +17,7 @@ export default [
   },
   {
     path: '/admin',
-    component: '../layouts/SecurityLayout',
+    component: '../layouts/AdminSecuredLayout',
     routes: [
       {
         path: '/admin',
@@ -35,56 +35,87 @@ export default [
     ],
   },
   {
-    path: '/',
-    component: '../layouts/SecurityLayout',
+    path: '/user',
+    component: '../layouts/UserSecuredLayout',
     routes: [
       {
-        path: '/',
+        path: '/user',
         component: '../layouts/BasicLayout',
-        authority: ['admin', 'user'],
+        authority: ['user'],
         routes: [
           {
-            path: '/',
-            redirect: '/welcome',
-          },
-          {
-            path: '/welcome',
-            name: 'welcome',
-            icon: 'smile',
-            component: './Welcome',
-          },
-          {
-            path: '/admin',
-            name: 'admin',
+            path: '/user/',
+            name: 'User',
             icon: 'crown',
-            component: './Admin',
-            authority: ['admin'],
-            routes: [
-              {
-                path: '/admin/sub-page',
-                name: 'sub-page',
-                icon: 'smile',
-                component: './Welcome',
-                authority: ['admin'],
-              },
-            ],
+            component: './user/Landing',
           },
           {
-            name: 'list.table-list',
-            icon: 'table',
-            path: '/list',
-            component: './ListTableList',
+            path: '/user/audit-report',
+            name: 'Audit Report',
+            icon: 'crown',
+            component: './user/Landing',
           },
           {
-            component: './404',
+            path: '/user/priorities-report',
+            name: 'Prioritites Report',
+            icon: 'crown',
+            component: './user/Landing',
           },
         ],
       },
-      {
-        component: './404',
-      },
     ],
   },
+  // {
+  //   path: '/',
+  //   component: '../layouts/SecurityLayout',
+  //   routes: [
+  //     {
+  //       path: '/',
+  //       component: '../layouts/BasicLayout',
+  //       authority: ['admin', 'user'],
+  //       routes: [
+  //         {
+  //           path: '/',
+  //           redirect: '/welcome',
+  //         },
+  //         {
+  //           path: '/welcome',
+  //           name: 'welcome',
+  //           icon: 'smile',
+  //           component: './Welcome',
+  //         },
+  //         {
+  //           path: '/admin',
+  //           name: 'admin',
+  //           icon: 'crown',
+  //           component: './Admin',
+  //           authority: ['admin'],
+  //           routes: [
+  //             {
+  //               path: '/admin/sub-page',
+  //               name: 'sub-page',
+  //               icon: 'smile',
+  //               component: './Welcome',
+  //               authority: ['admin'],
+  //             },
+  //           ],
+  //         },
+  //         {
+  //           name: 'list.table-list',
+  //           icon: 'table',
+  //           path: '/list',
+  //           component: './ListTableList',
+  //         },
+  //         {
+  //           component: './404',
+  //         },
+  //       ],
+  //     },
+  //     {
+  //       component: './404',
+  //     },
+  //   ],
+  // },
   {
     component: './404',
   },
