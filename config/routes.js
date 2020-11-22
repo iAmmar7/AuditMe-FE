@@ -45,21 +45,24 @@ export default [
         routes: [
           {
             path: '/user/',
-            name: 'User',
+            name: 'Dashboard',
             icon: 'crown',
             component: './user/Landing',
           },
+          // {
+          //   path: '/user/audit-report',
+          //   name: 'Audit Report',
+          //   icon: 'crown',
+          //   component: './user/AuditReport',
+          // },
           {
-            path: '/user/audit-report',
-            name: 'Audit Report',
+            path: '/user/priorities-form',
+            name: 'Raise an issue',
             icon: 'crown',
-            component: './user/AuditReport',
+            component: './user/PrioritiesForm',
           },
           {
-            path: '/user/priorities-report',
-            name: 'Prioritites Report',
-            icon: 'crown',
-            component: './user/Landing',
+            component: './404',
           },
         ],
       },

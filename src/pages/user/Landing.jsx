@@ -25,7 +25,7 @@ const Landing = () => {
             textAlign: 'center',
           }}
         >
-          <SmileTwoTone /> Handle your audit report with ease{' '}
+          <SmileTwoTone /> Handle your audit reports with ease{' '}
           <HeartTwoTone twoToneColor="#eb2f96" />
         </Typography.Title>
       </Card>

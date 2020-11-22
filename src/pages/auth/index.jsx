@@ -38,24 +38,24 @@ const Auth = () => {
       loading: true,
     });
 
-    values.userType = 'user';
+    const userType = 'user';
 
     if (tab === 'login') {
       axios
-        .post(`${URL}/api/auth/${values.userType}/login`, {
+        .post(`${URL}/api/auth/${userType}/login`, {
           email: values.email,
           password: values.password,
         })
         .then((res) => {
           if (res.data.success) {
-            localStorage.setItem('userType', values.userType);
+            localStorage.setItem('userType', userType);
             localStorage.setItem('userToken', res.data.token);
             localStorage.setItem('user', JSON.stringify(res.data.user));
             message.success('Login successfull');
 
-            if (values.userType === 'user') history.push('/user');
+            if (userType === 'user') history.push('/user/');
 
-            if (values.userType === 'admin') history.push('/admin');
+            if (userType === 'admin') history.push('/admin/');
           }
         })
         .catch((err) => {
@@ -69,14 +69,14 @@ const Auth = () => {
 
     if (tab === 'signup') {
       axios
-        .post(`${URL}/api/auth/${values.userType}/signup`, {
+        .post(`${URL}/api/auth/${userType}/signup`, {
           name: values.name,
           email: values.email,
           password: values.password,
         })
         .then((res) => {
           if (res.data.success) {
-            localStorage.setItem('userType', values.userType);
+            localStorage.setItem('userType', userType);
             message.success('SignUp successfull');
             setResponse({
               ...response,
