@@ -4,9 +4,9 @@ import ProForm from '@ant-design/pro-form';
 import { history } from 'umi';
 import axios from 'axios';
 
-import SignUp from './Signup';
-import LogIn from './Login';
 import styles from './index.less';
+import SignUp from '../../components/Auth/Signup';
+import LogIn from '../../components/Auth/Login';
 
 const URL =
   process.env.NODE_ENV === 'development'
@@ -37,6 +37,8 @@ const Auth = () => {
       ...response,
       loading: true,
     });
+
+    values.userType = 'user';
 
     if (tab === 'login') {
       axios
@@ -97,7 +99,8 @@ const Auth = () => {
     <div className={styles.main}>
       <ProForm
         initialValues={{
-          userType: localStorage.getItem('userType') ? localStorage.getItem('userType') : null,
+          // userType: localStorage.getItem('userType') ? localStorage.getItem('userType') : null,
+          userType: 'user',
         }}
         submitter={{
           render: (_, dom) => dom.pop(),

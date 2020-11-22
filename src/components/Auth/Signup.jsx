@@ -1,10 +1,24 @@
 import React from 'react';
-import { LockTwoTone, MailOutlined } from '@ant-design/icons';
-import { ProFormText, ProFormSelect } from '@ant-design/pro-form';
+import { LockTwoTone, UserOutlined, MailOutlined } from '@ant-design/icons';
+import { ProFormText } from '@ant-design/pro-form';
 
-export default function LogIn({ styles }) {
+export default function SingUp({ styles }) {
   return (
     <>
+      <ProFormText
+        name="name"
+        fieldProps={{
+          size: 'large',
+          prefix: <UserOutlined className={styles.prefixIcon} />,
+        }}
+        placeholder="Enter your name"
+        rules={[
+          {
+            required: true,
+            message: 'Name is required',
+          },
+        ]}
+      />
       <ProFormText
         name="email"
         fieldProps={{
@@ -33,16 +47,16 @@ export default function LogIn({ styles }) {
           },
         ]}
       />
-      <ProFormSelect
+      {/* <ProFormSelect
         name="userType"
         hasFeedback
         valueEnum={{
           admin: 'Admin',
           user: 'User',
         }}
-        placeholder="Login as"
-        rules={[{ required: true, message: 'Please select login as' }]}
-      />
+        placeholder="Signup as"
+        rules={[{ required: true, message: 'Please select signup as' }]}
+      /> */}
     </>
   );
 }

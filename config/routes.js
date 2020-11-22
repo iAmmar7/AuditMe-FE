@@ -53,7 +53,7 @@ export default [
             path: '/user/audit-report',
             name: 'Audit Report',
             icon: 'crown',
-            component: './user/Landing',
+            component: './user/AuditReport',
           },
           {
             path: '/user/priorities-report',
