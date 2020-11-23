@@ -15,25 +15,25 @@ export default [
       },
     ],
   },
-  {
-    path: '/admin',
-    component: '../layouts/AdminSecuredLayout',
-    routes: [
-      {
-        path: '/admin',
-        component: '../layouts/BasicLayout',
-        authority: ['admin'],
-        routes: [
-          {
-            path: '/admin',
-            name: 'admin',
-            icon: 'crown',
-            component: './Admin',
-          },
-        ],
-      },
-    ],
-  },
+  // {
+  //   path: '/admin',
+  //   component: '../layouts/AdminSecuredLayout',
+  //   routes: [
+  //     {
+  //       path: '/admin',
+  //       component: '../layouts/BasicLayout',
+  //       authority: ['admin'],
+  //       routes: [
+  //         {
+  //           path: '/admin',
+  //           name: 'admin',
+  //           icon: 'crown',
+  //           component: './Admin',
+  //         },
+  //       ],
+  //     },
+  //   ],
+  // },
   {
     path: '/user',
     component: '../layouts/UserSecuredLayout',
@@ -45,8 +45,8 @@ export default [
         routes: [
           {
             path: '/user/',
-            name: 'Dashboard',
-            icon: 'crown',
+            name: 'Welcome',
+            icon: 'smile',
             component: './user/Landing',
           },
           // {
@@ -58,7 +58,13 @@ export default [
           {
             path: '/user/priorities-form',
             name: 'Raise an issue',
-            icon: 'crown',
+            icon: 'form',
+            component: './user/PrioritiesForm',
+          },
+          {
+            path: '/user/priorities-reports',
+            name: 'Priorities Reports',
+            icon: 'tablet',
             component: './user/PrioritiesForm',
           },
           {
