@@ -73,7 +73,7 @@ const BasicLayout = (props) => {
       }}
       footerRender={() => (
         <p style={{ textAlign: 'center', color: 'grey' }}>
-          Coppyright &copy; {`${new Date().getFullYear()} AuditMe`}
+          Coppyright &copy; {`${new Date().getFullYear()} Petrimon`}
         </p>
       )}
       rightContentRender={() => (

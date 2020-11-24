@@ -63,7 +63,7 @@ const PrioritiesForm = () => {
     // Set axios header with token
     axios.defaults.headers.common.Authorization = localStorage.userToken;
     axios
-      .post(`${URL}/api/user/issue-report`, formData)
+      .post(`${URL}/api/user/priorities-report`, formData)
       .then((res) => {
         setLoading(false);
         if (res.data.success) message.success('Issue has been successfully published!');
@@ -79,13 +79,15 @@ const PrioritiesForm = () => {
       <Card>
         {/* Form start */}
         <ProForm
-          initialValues={{
-            date: '2020-11-22',
-            type: 'Housekeeping',
-            issueDetails: 'Test details',
-            dateIdentified: '2020-11-19',
-            actionTaken: 'None',
-          }}
+          initialValues={
+            {
+              date: '2020-11-22',
+              type: 'Housekeeping',
+              issueDetails: 'Test details',
+              dateIdentified: '2020-11-19',
+              actionTaken: 'None',
+            }
+          }
           submitter={{
             render: (_, dom) => <FooterToolbar> {dom} </FooterToolbar>,
             submitButtonProps: {

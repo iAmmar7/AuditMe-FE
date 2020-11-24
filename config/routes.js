@@ -65,7 +65,7 @@ export default [
             path: '/user/priorities-reports',
             name: 'Priorities Reports',
             icon: 'tablet',
-            component: './user/PrioritiesForm',
+            component: './user/PrioritiesReports',
           },
           {
             component: './404',

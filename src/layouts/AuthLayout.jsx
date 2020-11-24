@@ -25,7 +25,7 @@ const AuthLayout = ({ children }) => {
           <div className={styles.header}>
             <Link to="/">
               <img alt="logo" className={styles.logo} src={logo} />
-              <span className={styles.title}>Ant Design</span>
+              <span className={styles.title}>Petromin</span>
             </Link>
           </div>
           <div className={styles.desc}>An application for auditors and firms</div>

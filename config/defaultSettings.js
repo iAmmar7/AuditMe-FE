@@ -6,7 +6,7 @@ const proSettings = {
   fixedHeader: false,
   fixSiderbar: true,
   colorWeak: false,
-  title: 'AuditMe',
+  title: 'Petromin',
   pwa: false,
   iconfontUrl: '',
 };
