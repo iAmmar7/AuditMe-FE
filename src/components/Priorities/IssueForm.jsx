@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Row, Col, Image, message } from 'antd';
 import ProForm, {
   ProFormText,
   ProFormUploadButton,
@@ -7,42 +8,100 @@ import ProForm, {
   ProFormDatePicker,
   ProFormSelect,
 } from '@ant-design/pro-form';
-import { FooterToolbar } from '@ant-design/pro-layout';
+import moment from 'moment';
+import axios from 'axios';
+import styles from './IssueDetail.less';
 
-function PriorityForm(props) {
-  const {
-    loading,
-    submitForm,
-    statusPending,
-    setStatusPending,
-    evidencesBeforeLimitReached,
-    setEvidencesBeforeLimitReached,
-    evidencesAfterLimitReached,
-    setEvidencesAfterLimitReached,
-  } = props;
+const URL =
+  process.env.NODE_ENV === 'development'
+    ? process.env.AUDITME_DEV_BE_URL
+    : process.env.AUDITME_PROD_BE_URL;
+
+function IssueForm({ item }) {
+  const [loading, setLoading] = useState(false);
+  const [initialValues, setInitialValues] = useState(item);
+  const [statusPending, setStatusPending] = useState(true);
+  const [evidencesBeforeLimitReached, setEvidencesBeforeLimitReached] = useState(
+    item?.evidencesBefore?.length === 5,
+  );
+  const [evidencesAfterLimitReached, setEvidencesAfterLimitReached] = useState(
+    item?.evidencesAfter?.length === 5,
+  );
+
+  const submitForm = async (values) => {
+    setLoading(true);
+
+    const formData = new FormData();
+    Object.keys(values).forEach((value) => {
+      // Extract week from Date.Week picker
+      if (value === 'week') {
+        formData.append(value, moment(values[value], 'YYYY-WW').utcOffset(0).week());
+      }
+
+      // Don't append images
+      else if (value !== 'evidencesBefore' && value !== 'evidencesAfter')
+        formData.append(value, values[value]);
+    });
+
+    // Append evidenc before images
+    if (values.evidencesBefore) {
+      for (let i = 0; i < values.evidencesBefore.length; i += 1) {
+        formData.append(
+          'evidencesBefore',
+          values.evidencesBefore[i].originFileObj,
+          values.evidencesBefore[i].originFileObj.name,
+        );
+      }
+    }
+
+    // Append evidenc after images
+    if (values.evidencesAfter) {
+      for (let i = 0; i < values.evidencesAfter.length; i += 1) {
+        formData.append(
+          'evidencesAfter',
+          values.evidencesAfter[i].originFileObj,
+          values.evidencesAfter[i].originFileObj.name,
+        );
+      }
+    }
+
+    // Set axios header with token
+    axios.defaults.headers.common.Authorization = localStorage.userToken;
+    axios
+      .post(`${URL}/api/user/priority-report/${item._id}`, formData)
+      .then((res) => {
+        setLoading(false);
+        if (res.data.success) message.success('Issue has been successfully updated!');
+      })
+      .catch(() => {
+        setLoading(false);
+        message.error('Unable to unable issue, please try later!', 10);
+      });
+  };
 
   return (
     <ProForm
       initialValues={{
-        date: new Date(),
-        type: 'Housekeeping',
-        issueDetails: 'Test details',
-        dateIdentified: '2020-11-19',
-        actionTaken: 'None',
+        ...initialValues,
+        evidencesBefore: [],
+        evidencesAfter: [],
       }}
       submitter={{
-        render: (_, dom) => <FooterToolbar> {dom} </FooterToolbar>,
         submitButtonProps: {
           loading,
         },
+        resetButtonProps: {
+          loading,
+        },
+        onReset: () => setInitialValues({}),
       }}
       onFinish={submitForm}
-      onValuesChange={(values) => {
-        if (values.evidencesBefore?.length === 5) {
+      onValuesChange={(_, values) => {
+        if (values.evidencesBefore?.length + item?.evidencesBefore?.length === 5) {
           setEvidencesBeforeLimitReached(true);
         }
 
-        if (values.evidencesAfter?.length === 5) {
+        if (values.evidencesAfter?.length + item?.evidencesAfter?.length === 5) {
           setEvidencesAfterLimitReached(true);
         }
 
@@ -111,6 +170,15 @@ function PriorityForm(props) {
         title="Upload"
         tooltip="You can upload upto 5 images"
       />
+      <Row style={{ marginBottom: '15px' }} gutter={[8, 8]}>
+        {item?.evidencesBefore?.length > 0
+          ? item?.evidencesBefore?.map((image) => (
+              <Col key={image} className={styles.issue_image_container}>
+                <Image src={URL + image} className={styles.issue_image} />
+              </Col>
+            ))
+          : null}
+      </Row>
       <ProFormUploadButton
         disabled={evidencesAfterLimitReached}
         extra="Support extension: .jpg .jpeg .png"
@@ -119,6 +187,15 @@ function PriorityForm(props) {
         title="Upload"
         tooltip="You can upload upto 5 images"
       />
+      <Row style={{ marginBottom: '15px' }} gutter={[8, 8]}>
+        {item?.evidencesAfter?.length > 0
+          ? item?.evidencesAfter?.map((image) => (
+              <Col key={image} className={styles.issue_image_container}>
+                <Image src={URL + image} className={styles.issue_image} />
+              </Col>
+            ))
+          : null}
+      </Row>
       <ProForm.Group>
         <ProFormTextArea
           width="l"
@@ -147,7 +224,6 @@ function PriorityForm(props) {
               label: 'Resolved',
             },
           ]}
-          initialValue="Pending"
           name="status"
           label="Status"
           placeholder="Select..."
@@ -162,8 +238,8 @@ function PriorityForm(props) {
           tooltip="If status is resolved, please enter days open"
         />
         <ProFormDatePicker
-          width="s"
           disabled={statusPending}
+          width="s"
           name="dateOfClosure"
           label="Date of Closure"
           placeholder="Select date"
@@ -175,4 +251,4 @@ function PriorityForm(props) {
   );
 }
 
-export default PriorityForm;
+export default IssueForm;

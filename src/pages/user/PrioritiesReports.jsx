@@ -31,7 +31,7 @@ const PrioritiesReports = () => {
       filter: { statusFilter: filter?.status },
     });
 
-    if (!result?.data?.success) {
+    if (!result) {
       message.error('Unable to fetch data, reload');
     }
 

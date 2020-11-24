@@ -23,11 +23,7 @@ const columns = [
     dataIndex: 'status',
     initialValue: 'Pending',
     valueType: 'select',
-    hideInSearch: true,
-    hideInForm: true,
-    formItemProps: {
-      noStyle: false,
-    },
+    search: false,
     valueEnum: {
       Resolved: { text: 'Resolved', status: 'Resolved' },
       Pending: { text: 'Pending', status: 'Pending' },
@@ -101,9 +97,10 @@ function PriorityTable(props) {
       options={{
         reload: false,
       }}
-      onCollapse={(value) => {
-        console.log(value);
-      }}
+      // postData={(value1, value2, value3) => {
+      //   console.log('POST data', value1, value2, value3);
+      //   return value1;
+      // }}
       // toolBarRender={() => [
       //   <ProForm.Group style={{ paddingTop: '12%' }}>
       //     <ProFormSelect

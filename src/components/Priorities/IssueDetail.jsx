@@ -2,6 +2,8 @@ import React from 'react';
 import { Row, Col, Typography, Image } from 'antd';
 import moment from 'moment';
 
+import styles from './IssueDetail.less';
+
 const URL =
   process.env.NODE_ENV === 'development'
     ? process.env.AUDITME_DEV_BE_URL
@@ -71,8 +73,8 @@ function IssueDetail({ item }) {
           <Row gutter={[2, 2]}>
             {item.evidencesBefore.length > 0 ? (
               item.evidencesBefore.map((image) => (
-                <Col span={12}>
-                  <Image width={200} src={URL + image} />
+                <Col key={image} span={12} className={styles.issue_image_container}>
+                  <Image src={URL + image} width="90%" className={styles.issue_image} />
                 </Col>
               ))
             ) : (
@@ -87,11 +89,11 @@ function IssueDetail({ item }) {
           <Row>
             <Col>Evidences After: </Col>
           </Row>
-          <Row gutter={[2, 2]}>
+          <Row gutter={[2, 2]} className={styles.issue_image_row}>
             {item.evidencesAfter.length > 0 ? (
               item.evidencesAfter.map((image) => (
-                <Col span={12}>
-                  <Image width={200} src={URL + image} />
+                <Col key={image} span={12} className={styles.issue_image_container}>
+                  <Image src={URL + image} width="90%" className={styles.issue_image} />
                 </Col>
               ))
             ) : (
@@ -112,6 +114,18 @@ function IssueDetail({ item }) {
         <Col col={24}>
           Feedback from Sales Operation:{' '}
           <Typography.Text strong>{item.feedback ? item.feedback : 'N/A'}</Typography.Text>
+        </Col>
+      </Row>
+      <Row style={{ marginTop: '15px' }}>
+        <Col col={8} style={{ marginRight: '15px' }}>
+          Days Open:{' '}
+          <Typography.Text strong>{item.daysOpen ? item.daysOpen : 'N/A'}</Typography.Text>
+        </Col>
+        <Col col={8}>
+          Date of Closure:{' '}
+          <Typography.Text strong>
+            {item.dateOfClosure ? moment(item.dateOfClosure).format('Do MMMM, YYYY') : 'N/A'}
+          </Typography.Text>
         </Col>
       </Row>
     </>
