@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Typography, Image } from 'antd';
+import { Row, Col, Typography, Tag, Image } from 'antd';
 import moment from 'moment';
 
 import styles from './IssueDetail.less';
@@ -12,7 +12,7 @@ const URL =
 function IssueDetail({ item }) {
   return (
     <>
-      <Row>
+      <Row style={{ marginTop: '15px' }}>
         <Col col={8} style={{ marginRight: '15px' }}>
           Date:{' '}
           <Typography.Text strong>{moment(item.date).format('Do MMMM, YYYY')}</Typography.Text>

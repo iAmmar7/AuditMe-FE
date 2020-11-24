@@ -45,7 +45,6 @@ const BasicLayout = (props) => {
       logo={logo}
       {...props}
       {...settings}
-      collapsed
       onCollapse={handleMenuCollapse}
       onMenuHeaderClick={() => {
         if (location.pathname !== '/user') history.push('/user');

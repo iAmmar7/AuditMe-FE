@@ -17,7 +17,7 @@ const URL =
     ? process.env.AUDITME_DEV_BE_URL
     : process.env.AUDITME_PROD_BE_URL;
 
-function IssueForm({ item }) {
+function IssueForm({ item, tableRef }) {
   const [loading, setLoading] = useState(false);
   const [initialValues, setInitialValues] = useState(item);
   const [statusPending, setStatusPending] = useState(true);
@@ -71,6 +71,7 @@ function IssueForm({ item }) {
       .post(`${URL}/api/user/priority-report/${item._id}`, formData)
       .then((res) => {
         setLoading(false);
+        tableRef.current.reload();
         if (res.data.success) message.success('Issue has been successfully updated!');
       })
       .catch(() => {

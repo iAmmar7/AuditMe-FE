@@ -78,12 +78,13 @@ const columns = [
 ];
 
 function PriorityTable(props) {
-  const { expandedRowRender, onRequest } = props;
+  const { expandedRowRender, onRequest, tableRef } = props;
 
   return (
     <ProTable
       columns={columns}
       request={onRequest}
+      actionRef={tableRef}
       rowKey="key"
       pagination={{
         showQuickJumper: true,
@@ -94,9 +95,7 @@ function PriorityTable(props) {
         labelWidth: 'auto',
       }}
       dateFormatter="string"
-      options={{
-        reload: false,
-      }}
+      options
       // postData={(value1, value2, value3) => {
       //   console.log('POST data', value1, value2, value3);
       //   return value1;

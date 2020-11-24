@@ -4,7 +4,7 @@ import { Card, Row, Col, Typography, Switch } from 'antd';
 import IssueDetail from './IssueDetail';
 import IssueForm from './IssueForm';
 
-function PriorityDetails({ item }) {
+function PriorityDetails({ item, tableRef }) {
   const [formDisabled, setFormDisabled] = useState(true);
 
   return (
@@ -23,7 +23,7 @@ function PriorityDetails({ item }) {
         </Col>
       </Row>
 
-      {formDisabled ? <IssueDetail item={item} /> : <IssueForm item={item} />}
+      {formDisabled ? <IssueDetail item={item} /> : <IssueForm item={item} tableRef={tableRef} />}
     </Card>
   );
 }

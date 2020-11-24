@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import { Card, message } from 'antd';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import moment from 'moment';
@@ -14,16 +14,12 @@ const URL =
     ? process.env.AUDITME_DEV_BE_URL
     : process.env.AUDITME_PROD_BE_URL;
 
+let allData = [];
 const PrioritiesReports = () => {
-  let allData = [];
-
-  const expandedRowRender = (item) => {
-    const filteredItem = allData.filter((data) => item.key === data._id);
-
-    return <PriorityDetails item={filteredItem[0]} />;
-  };
+  const tableRef = useRef(null);
 
   const onRequest = async (parameters, sorter, filter) => {
+    console.log('OnRequest run', parameters, sorter, filter);
     axios.defaults.headers.common.Authorization = localStorage.userToken;
     const result = await axios.post(`${URL}/api/user/priorities-reports`, {
       params: parameters,
@@ -62,31 +58,35 @@ const PrioritiesReports = () => {
 
     console.log(tableList);
 
-    // let tableList = [
-    //   {
-    //     actionTaken: 'None',
-    //     date: '22-Nov-20',
-    //     dateIdentified: '19-Nov-20',
-    //     issueDetails: 'Test details',
-    //     key: '5fbac28708c2ab23fccae4de',
-    //     status: { color: 'red', text: 'Pending' },
-    //     type: 'Housekeeping',
-    //     user: 'John Doe User',
-    //   },
-    // ];
-
     return {
       data: tableList,
       success: true,
       total: result.data.totalReports,
-      // total: 1,
     };
   };
+
+  const reRunOnRequest = (parameters, sorter, filter) => {
+    onRequest(parameters, sorter, filter);
+  };
+
+  const expandedRowRender = (item) => {
+    const filteredItem = allData.filter((data) => item.key === data._id);
+
+    return (
+      <PriorityDetails item={filteredItem[0]} reRunOnRequest={reRunOnRequest} tableRef={tableRef} />
+    );
+  };
+
+  console.log('Prioriries');
 
   return (
     <PageHeaderWrapper content="See all issues here">
       <Card>
-        <PriorityTable expandedRowRender={expandedRowRender} onRequest={onRequest} />
+        <PriorityTable
+          expandedRowRender={expandedRowRender}
+          onRequest={onRequest}
+          tableRef={tableRef}
+        />
       </Card>
     </PageHeaderWrapper>
   );
