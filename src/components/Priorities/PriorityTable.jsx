@@ -24,6 +24,7 @@ const columns = [
     initialValue: 'Pending',
     valueType: 'select',
     hideInSearch: true,
+    hideInForm: true,
     formItemProps: {
       noStyle: false,
     },
@@ -99,6 +100,9 @@ function PriorityTable(props) {
       dateFormatter="string"
       options={{
         reload: false,
+      }}
+      onCollapse={(value) => {
+        console.log(value);
       }}
       // toolBarRender={() => [
       //   <ProForm.Group style={{ paddingTop: '12%' }}>

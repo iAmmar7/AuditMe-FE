@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import useDeepCompareEffect from 'use-deep-compare-effect';
+import React from 'react';
 import { Card, message } from 'antd';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import moment from 'moment';
@@ -16,8 +15,12 @@ const URL =
     : process.env.AUDITME_PROD_BE_URL;
 
 const PrioritiesReports = () => {
+  let allData = [];
+
   const expandedRowRender = (item) => {
-    return <PriorityDetails item={item} />;
+    const filteredItem = allData.filter((data) => item.key === data._id);
+
+    return <PriorityDetails item={filteredItem[0]} />;
   };
 
   const onRequest = async (parameters, sorter, filter) => {
@@ -28,10 +31,16 @@ const PrioritiesReports = () => {
       filter: { statusFilter: filter?.status },
     });
 
+    if (!result?.data?.success) {
+      message.error('Unable to fetch data, reload');
+    }
+
+    allData = result.data.reports;
+
     const tableList = [];
     for (let i = 0; i < result.data.reports.length; i += 1) {
       tableList.push({
-        key: i,
+        key: result.data.reports[i]._id,
         date: moment(result.data.reports[i].date).format('DD-MMM-YY'),
         user: result.data.reports[i].user,
         status:
@@ -51,10 +60,26 @@ const PrioritiesReports = () => {
       });
     }
 
+    console.log(tableList);
+
+    // let tableList = [
+    //   {
+    //     actionTaken: 'None',
+    //     date: '22-Nov-20',
+    //     dateIdentified: '19-Nov-20',
+    //     issueDetails: 'Test details',
+    //     key: '5fbac28708c2ab23fccae4de',
+    //     status: { color: 'red', text: 'Pending' },
+    //     type: 'Housekeeping',
+    //     user: 'John Doe User',
+    //   },
+    // ];
+
     return {
       data: tableList,
       success: true,
       total: result.data.totalReports,
+      // total: 1,
     };
   };
 
