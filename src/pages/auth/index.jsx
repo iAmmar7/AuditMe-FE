@@ -18,7 +18,7 @@ const AuthMessage = ({ content }) => (
     style={{
       marginBottom: 24,
     }}
-    message={content}
+    message={content || 'Unknown error'}
     type="error"
     showIcon
   />

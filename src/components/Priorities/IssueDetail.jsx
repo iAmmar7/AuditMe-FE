@@ -67,7 +67,7 @@ function IssueDetail({ item }) {
       <Row style={{ marginTop: '15px' }}>
         {/* Evidences Before */}
         <Col span={12}>
-          <Row>
+          <Row style={{ marginBottom: '5px' }}>
             <Col>Evidences Before: </Col>
           </Row>
           <Row gutter={[2, 2]}>
@@ -86,7 +86,7 @@ function IssueDetail({ item }) {
         </Col>
         {/* Evidences After */}
         <Col span={12}>
-          <Row>
+          <Row style={{ marginBottom: '5px' }}>
             <Col>Evidences After: </Col>
           </Row>
           <Row gutter={[2, 2]} className={styles.issue_image_row}>

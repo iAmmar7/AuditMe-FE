@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, connect, Redirect } from 'umi';
 import jwt_decode from 'jwt-decode';
 
-import logo from '../assets/logo.svg';
+// import logo from '../assets/logo.svg';
 import styles from './AuthLayout.less';
 
 const AuthLayout = ({ children }) => {
@@ -24,7 +24,7 @@ const AuthLayout = ({ children }) => {
         <div className={styles.top}>
           <div className={styles.header}>
             <Link to="/">
-              <img alt="logo" className={styles.logo} src={logo} />
+              {/* <img alt="logo" className={styles.logo} src={logo} /> */}
               <span className={styles.title}>Petromin</span>
             </Link>
           </div>
@@ -33,7 +33,7 @@ const AuthLayout = ({ children }) => {
         {children}
       </div>
       <div className={styles.footer}>
-        Copyright &copy; {new Date().getFullYear()} AuditMe || Find me on{' '}
+        Copyright &copy; {new Date().getFullYear()} Petromin || Find me on{' '}
         <a href="https://github.com/iammar7" rel="noreferrer" target="_blank">
           GitHub{' '}
         </a>

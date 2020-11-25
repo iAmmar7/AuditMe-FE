@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
+import { history } from 'umi';
 import { Card, message } from 'antd';
 import moment from 'moment';
 import axios from 'axios';
@@ -60,7 +61,10 @@ const PrioritiesForm = () => {
       .post(`${URL}/api/user/priorities-report`, formData)
       .then((res) => {
         setLoading(false);
-        if (res.data.success) message.success('Issue has been successfully published!');
+        if (res.data.success) {
+          message.success('Issue has been successfully published!');
+          history.push('/user/priorities-reports');
+        }
       })
       .catch(() => {
         setLoading(false);

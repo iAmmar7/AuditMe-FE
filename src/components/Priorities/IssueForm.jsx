@@ -74,9 +74,10 @@ function IssueForm({ item, tableRef }) {
         tableRef.current.reload();
         if (res.data.success) message.success('Issue has been successfully updated!');
       })
-      .catch(() => {
+      .catch((error) => {
+        console.log(error.response);
         setLoading(false);
-        message.error('Unable to unable issue, please try later!', 10);
+        message.error('Unable to update issue, please try later!', 10);
       });
   };
 

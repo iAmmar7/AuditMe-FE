@@ -7,10 +7,12 @@ import ProLayout from '@ant-design/pro-layout';
 import React from 'react';
 import { Link, connect, history } from 'umi';
 import { UserOutlined } from '@ant-design/icons';
-import { Menu, Dropdown, message } from 'antd';
+import { Menu, Dropdown, message, Avatar, Typography, Row, Col } from 'antd';
 
-import logo from '../assets/logo.svg';
+// import logo from '../assets/logo.svg';
 import userAvatar from '../assets/user_avatar.png';
+
+const ColorList = ['#f56a00', '#7265e6', '#ffbf00', '#00a2ae'];
 
 const BasicLayout = (props) => {
   const {
@@ -42,7 +44,7 @@ const BasicLayout = (props) => {
 
   return (
     <ProLayout
-      logo={logo}
+      logo={userAvatar}
       {...props}
       {...settings}
       onCollapse={handleMenuCollapse}
@@ -72,9 +74,9 @@ const BasicLayout = (props) => {
         );
       }}
       footerRender={() => (
-        <p style={{ textAlign: 'center', color: 'grey' }}>
-          Coppyright &copy; {`${new Date().getFullYear()} Petrimon`}
-        </p>
+        <Typography.Text style={{ textAlign: 'center', color: 'grey', paddingBottom: '10px' }}>
+          Coppyright &copy; {`${new Date().getFullYear()} Petromin`}
+        </Typography.Text>
       )}
       rightContentRender={() => (
         <Dropdown
@@ -89,16 +91,27 @@ const BasicLayout = (props) => {
           placement="bottomRight"
           arrow
         >
-          <p style={{ paddingTop: '4px', cursor: 'pointer' }}>
-            <img
-              src={userAvatar}
-              alt="avatar"
-              style={{ width: '25px', height: 'auto', paddingBottom: '-4px', marginRight: '4px' }}
-            />
-            {user.name}
-          </p>
+          <Row align="center" gutter={[4, 4]} style={{ cursor: 'pointer' }}>
+            <Col>
+              <Avatar
+                shape="square"
+                size="small"
+                style={{ backgroundColor: ColorList[Math.floor(Math.random() * 4)] }}
+              >
+                {user.name.charAt(0)}
+              </Avatar>
+            </Col>
+            <Col>
+              <Typography.Text>{user.name}</Typography.Text>
+            </Col>
+          </Row>
         </Dropdown>
       )}
+      // rightContentRender={() => (
+      //   <div>
+      //     <Avatar shape="square" size="small" icon={<UserOutlined />} />
+      //   </div>
+      // )}
     >
       {children}
     </ProLayout>

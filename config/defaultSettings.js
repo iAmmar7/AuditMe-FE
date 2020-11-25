@@ -5,9 +5,10 @@ const proSettings = {
   contentWidth: 'Fluid',
   fixedHeader: false,
   fixSiderbar: true,
-  colorWeak: false,
   title: 'Petromin',
-  pwa: false,
+  colorWeak: false,
   iconfontUrl: '',
+  // pwa: true,
+  splitMenus: false,
 };
 export default proSettings;
