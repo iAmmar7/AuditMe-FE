@@ -92,6 +92,7 @@ function PriorityTable(props) {
       pagination={{
         showQuickJumper: true,
         pageSize: 10,
+        pageSizeOptions: [10, 20, 50],
       }}
       expandable={{ expandedRowRender }}
       search={{

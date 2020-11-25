@@ -20,6 +20,7 @@ const PrioritiesForm = () => {
 
   const submitForm = async (values) => {
     setLoading(true);
+    console.log(values);
 
     const formData = new FormData();
     Object.keys(values).forEach((item) => {

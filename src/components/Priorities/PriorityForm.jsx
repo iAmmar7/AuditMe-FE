@@ -8,6 +8,7 @@ import ProForm, {
   ProFormSelect,
 } from '@ant-design/pro-form';
 import { FooterToolbar } from '@ant-design/pro-layout';
+import moment from 'moment';
 
 function PriorityForm(props) {
   const {
@@ -24,7 +25,7 @@ function PriorityForm(props) {
   return (
     <ProForm
       initialValues={{
-        date: new Date(),
+        date: moment().format('YYYY-MM-DD'),
         type: 'Housekeeping',
         issueDetails: 'Test details',
         dateIdentified: '2020-11-19',
