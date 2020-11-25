@@ -20,6 +20,7 @@ const columns = [
   },
   {
     title: 'Status',
+    width: 80,
     dataIndex: 'status',
     initialValue: 'Pending',
     valueType: 'select',
@@ -42,13 +43,14 @@ const columns = [
   },
   {
     title: 'Type',
+    width: 100,
     dataIndex: 'type',
     render: (_) => <Typography.Text>{_}</Typography.Text>,
   },
   {
     title: 'Details',
+    width: 250,
     dataIndex: 'issueDetails',
-    width: 300,
     align: 'center',
     render: (_) => (
       <Typography.Paragraph ellipsis={{ rows: 2, expandable: true, symbol: 'more' }}>
@@ -58,6 +60,7 @@ const columns = [
   },
   {
     title: 'Date Identified',
+    width: 90,
     key: 'dateIdentified',
     dataIndex: 'dateIdentified',
     valueType: 'date',
@@ -66,8 +69,8 @@ const columns = [
   },
   {
     title: 'Action Taken',
+    width: 160,
     dataIndex: 'actionTaken',
-    width: 250,
     align: 'center',
     render: (_) => (
       <Typography.Paragraph ellipsis={{ rows: 2, expandable: true, symbol: 'more' }}>
@@ -96,6 +99,13 @@ function PriorityTable(props) {
       }}
       dateFormatter="string"
       options
+      scroll={{ x: '900px' }}
+      // tableClassName={styles.table}
+      // tableStyle={{
+      //   backgroundColor: 'red',
+      //   minWidth: '600px',
+      //   overflowX: 'scroll',
+      // }}
       // postData={(value1, value2, value3) => {
       //   console.log('POST data', value1, value2, value3);
       //   return value1;
