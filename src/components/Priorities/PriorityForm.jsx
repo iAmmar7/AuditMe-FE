@@ -7,6 +7,7 @@ import ProForm, {
   ProFormDatePicker,
   ProFormSelect,
 } from '@ant-design/pro-form';
+import { Row, Col } from 'antd';
 import { FooterToolbar } from '@ant-design/pro-layout';
 import moment from 'moment';
 
@@ -120,21 +121,25 @@ function PriorityForm(props) {
         title="Upload"
         tooltip="You can upload upto 5 images"
       />
-      <ProForm.Group>
-        <ProFormTextArea
-          width="l"
-          name="actionTaken"
-          label="Action Taken"
-          placeholder="Write taken action"
-          rules={[{ required: true, message: 'Please select date!' }]}
-        />
-        <ProFormTextArea
-          width="l"
-          name="feedback"
-          label="Feedback from Sales Operation"
-          placeholder="Write feedback"
-        />
-      </ProForm.Group>
+      <Row gutter={16}>
+        <Col>
+          <ProFormTextArea
+            width="l"
+            name="actionTaken"
+            label="Action Taken"
+            placeholder="Write taken action"
+            rules={[{ required: true, message: 'Please select date!' }]}
+          />
+        </Col>
+        <Col>
+          <ProFormTextArea
+            width="l"
+            name="feedback"
+            label="Feedback from Sales Operation"
+            placeholder="Write feedback"
+          />
+        </Col>
+      </Row>
       <ProForm.Group>
         <ProFormSelect
           width="s"
