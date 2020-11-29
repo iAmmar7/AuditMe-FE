@@ -84,6 +84,12 @@ function IssueForm({ item, tableRef, setFormDisabled }) {
       });
   };
 
+  const dummyRequest = ({ file, onSuccess }) => {
+    setTimeout(() => {
+      onSuccess('ok');
+    }, 0);
+  };
+
   return (
     <ProForm
       initialValues={{
@@ -169,6 +175,7 @@ function IssueForm({ item, tableRef, setFormDisabled }) {
       </ProForm.Group>
       <ProFormUploadButton
         disabled={evidencesBeforeLimitReached}
+        customRequest={dummyRequest}
         extra="Support extension: .jpg .jpeg .png"
         label="Evidences Before"
         name="evidencesBefore"
@@ -186,6 +193,7 @@ function IssueForm({ item, tableRef, setFormDisabled }) {
       </Row>
       <ProFormUploadButton
         disabled={evidencesAfterLimitReached}
+        customRequest={dummyRequest}
         extra="Support extension: .jpg .jpeg .png"
         label="Evidences After"
         name="evidencesAfter"

@@ -17,10 +17,11 @@ const PrioritiesForm = () => {
   const [statusPending, setStatusPending] = useState(true);
   const [evidencesBeforeLimitReached, setEvidencesBeforeLimitReached] = useState(false);
   const [evidencesAfterLimitReached, setEvidencesAfterLimitReached] = useState(false);
+  const [evidBeforeFileList, setEvidBeforeFileList] = useState([]);
+  const [evidAfterFileList, setEvidAfterFileList] = useState([]);
 
   const submitForm = async (values) => {
     setLoading(true);
-    console.log(values);
 
     const formData = new FormData();
     Object.keys(values).forEach((item) => {
@@ -35,25 +36,33 @@ const PrioritiesForm = () => {
     });
 
     // Append evidenc before images
-    if (values.evidencesBefore) {
-      for (let i = 0; i < values.evidencesBefore.length; i += 1) {
-        formData.append(
-          'evidencesBefore',
-          values.evidencesBefore[i].originFileObj,
-          values.evidencesBefore[i].originFileObj.name,
-        );
-      }
+    // if (values.evidencesBefore) {
+    //   for (let i = 0; i < values.evidencesBefore.length; i += 1) {
+    //     formData.append(
+    //       'evidencesBefore',
+    //       values.evidencesBefore[i].originFileObj,
+    //       values.evidencesBefore[i].originFileObj.name,
+    //     );
+    //   }
+    // }
+
+    for (let i = 0; i < evidBeforeFileList.length; i += 1) {
+      formData.append('evidencesBefore', evidBeforeFileList[i]);
     }
 
     // Append evidenc after images
-    if (values.evidencesAfter) {
-      for (let i = 0; i < values.evidencesAfter.length; i += 1) {
-        formData.append(
-          'evidencesAfter',
-          values.evidencesAfter[i].originFileObj,
-          values.evidencesAfter[i].originFileObj.name,
-        );
-      }
+    // if (values.evidencesAfter) {
+    //   for (let i = 0; i < values.evidencesAfter.length; i += 1) {
+    //     formData.append(
+    //       'evidencesAfter',
+    //       values.evidencesAfter[i].originFileObj,
+    //       values.evidencesAfter[i].originFileObj.name,
+    //     );
+    //   }
+    // }
+
+    for (let i = 0; i < evidAfterFileList.length; i += 1) {
+      formData.append('evidencesAfter', evidAfterFileList[i]);
     }
 
     // Set axios header with token
@@ -85,6 +94,10 @@ const PrioritiesForm = () => {
           setEvidencesBeforeLimitReached={setEvidencesBeforeLimitReached}
           evidencesAfterLimitReached={evidencesAfterLimitReached}
           setEvidencesAfterLimitReached={setEvidencesAfterLimitReached}
+          evidBeforeFileList={evidBeforeFileList}
+          setEvidBeforeFileList={setEvidBeforeFileList}
+          evidAfterFileList={evidAfterFileList}
+          setEvidAfterFileList={setEvidAfterFileList}
         />
       </Card>
     </PageHeaderWrapper>

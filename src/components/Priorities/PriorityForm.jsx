@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ProForm, {
   ProFormText,
-  ProFormUploadButton,
+  // ProFormUploadButton,
   ProFormDigit,
   ProFormTextArea,
   ProFormDatePicker,
   ProFormSelect,
 } from '@ant-design/pro-form';
-import { Row, Col } from 'antd';
+import { Row, Col, Upload, Button, Typography, Tooltip, message } from 'antd';
+import { UploadOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import { FooterToolbar } from '@ant-design/pro-layout';
 import moment from 'moment';
 
@@ -21,7 +22,63 @@ function PriorityForm(props) {
     setEvidencesBeforeLimitReached,
     evidencesAfterLimitReached,
     setEvidencesAfterLimitReached,
+    evidBeforeFileList,
+    setEvidBeforeFileList,
+    evidAfterFileList,
+    setEvidAfterFileList,
   } = props;
+
+  useEffect(() => {
+    if (evidBeforeFileList.length === 5) {
+      setEvidencesBeforeLimitReached(true);
+    }
+  }, [evidBeforeFileList]);
+
+  useEffect(() => {
+    if (evidAfterFileList.length === 5) {
+      setEvidencesAfterLimitReached(true);
+    }
+  }, [evidAfterFileList]);
+
+  const evidencesBeforeProps = {
+    name: 'evidencesBefore',
+    listType: 'picture',
+    onRemove: (file) => {
+      const index = evidBeforeFileList.indexOf(file);
+      const newFileList = evidBeforeFileList.slice();
+      newFileList.splice(index, 1);
+      setEvidBeforeFileList(newFileList);
+    },
+    beforeUpload: (file) => {
+      if (file.type !== 'image/png' && file.type !== 'image/jpg' && file.type !== 'image/jpeg') {
+        message.error(`Supported image formats are png, jpg and jpeg`);
+      } else {
+        setEvidBeforeFileList([...evidBeforeFileList, file]);
+        return false;
+      }
+    },
+    evidBeforeFileList,
+  };
+
+  const evidencesAfterProps = {
+    name: 'evidencesBefore',
+    listType: 'picture',
+    onRemove: (file) => {
+      const index = evidAfterFileList.indexOf(file);
+      const newFileList = evidAfterFileList.slice();
+      newFileList.splice(index, 1);
+      setEvidAfterFileList(newFileList);
+    },
+    beforeUpload: (file) => {
+      if (file.type !== 'image/png' && file.type !== 'image/jpg' && file.type !== 'image/jpeg') {
+        message.error(`Supported image formats are png, jpg and jpeg`);
+      } else {
+        setEvidAfterFileList([...evidAfterFileList, file]);
+        return false;
+      }
+    },
+    evidAfterFileList,
+  };
 
   return (
     <ProForm
@@ -105,22 +162,47 @@ function PriorityForm(props) {
           rules={[{ required: true, message: 'Please select date!' }]}
         />
       </ProForm.Group>
-      <ProFormUploadButton
+      {/* <ProFormUploadButton
+        onChange={(item) => {
+          console.log(item);
+        }}
         disabled={evidencesBeforeLimitReached}
         extra="Support extension: .jpg .jpeg .png"
         label="Evidences Before"
         name="evidencesBefore"
         title="Upload"
         tooltip="You can upload upto 5 images"
-      />
-      <ProFormUploadButton
+      /> */}
+      <div style={{ marginBottom: '20px' }}>
+        <Typography.Text>Evidences Before </Typography.Text>
+        <Tooltip title="You can upload upto 5 images, supported extensions are .jpg .jpeg .png">
+          <QuestionCircleOutlined style={{ color: '#959595' }} />
+        </Tooltip>{' '}
+        <Upload {...evidencesBeforeProps}>
+          <Button disabled={evidencesBeforeLimitReached} icon={<UploadOutlined />}>
+            Select Image
+          </Button>
+        </Upload>
+      </div>
+      {/* <ProFormUploadButton
         disabled={evidencesAfterLimitReached}
         extra="Support extension: .jpg .jpeg .png"
         label="Evidences After"
         name="evidencesAfter"
         title="Upload"
         tooltip="You can upload upto 5 images"
-      />
+      /> */}
+      <div style={{ marginBottom: '20px' }}>
+        <Typography.Text>Evidences After </Typography.Text>
+        <Tooltip title="You can upload upto 5 images, supported extensions are .jpg .jpeg .png">
+          <QuestionCircleOutlined style={{ color: '#959595' }} />
+        </Tooltip>{' '}
+        <Upload {...evidencesAfterProps}>
+          <Button disabled={evidencesAfterLimitReached} icon={<UploadOutlined />}>
+            Select Image
+          </Button>
+        </Upload>
+      </div>
       <Row gutter={16}>
         <Col>
           <ProFormTextArea
