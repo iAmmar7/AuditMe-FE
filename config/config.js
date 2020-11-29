@@ -4,6 +4,7 @@ import defaultSettings from './defaultSettings';
 import proxy from './proxy';
 import routes from './routes';
 const { REACT_APP_ENV } = process.env;
+
 export default defineConfig({
   hash: true,
   antd: {
@@ -13,7 +14,7 @@ export default defineConfig({
     hmr: true,
   },
   history: {
-    type: 'browser',
+    type: 'hash',
   },
   locale: {
     // default zh-CN
@@ -37,9 +38,8 @@ export default defineConfig({
   title: 'Petrimon',
   ignoreMomentLocale: true,
   proxy: proxy[REACT_APP_ENV || 'dev'],
-  manifest: {
-    basePath: '/',
-  },
+  base: 'D:/VSCode/Petromin/AuditMe-FE/dist/',
+  publicPath: 'D:/VSCode/Petromin/AuditMe-FE/dist/',
   exportStatic: {},
   esbuild: {},
   define: {
