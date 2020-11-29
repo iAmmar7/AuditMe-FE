@@ -8,6 +8,7 @@ import IssueForm from './IssueForm';
 function PriorityDetails({ item, tableRef }) {
   const [formDisabled, setFormDisabled] = useState(true);
 
+  console.log('Form disabled', formDisabled);
   return (
     <Card>
       <Row justify="center">
@@ -40,7 +41,7 @@ function PriorityDetails({ item, tableRef }) {
               <Switch
                 checkedChildren="Off"
                 unCheckedChildren="On"
-                defaultChecked={false}
+                checked={!formDisabled}
                 onClick={() => setFormDisabled(!formDisabled)}
               />
             </Col>
@@ -49,7 +50,11 @@ function PriorityDetails({ item, tableRef }) {
       </Row>
       <Divider />
 
-      {formDisabled ? <IssueDetail item={item} /> : <IssueForm item={item} tableRef={tableRef} />}
+      {formDisabled ? (
+        <IssueDetail item={item} />
+      ) : (
+        <IssueForm item={item} tableRef={tableRef} setFormDisabled={setFormDisabled} />
+      )}
     </Card>
   );
 }

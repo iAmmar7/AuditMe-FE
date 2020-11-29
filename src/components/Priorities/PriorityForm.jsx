@@ -27,10 +27,10 @@ function PriorityForm(props) {
     <ProForm
       initialValues={{
         date: moment().format('YYYY-MM-DD'),
-        type: 'Housekeeping',
-        issueDetails: 'Test details',
-        dateIdentified: '2020-11-19',
-        actionTaken: 'None',
+        // type: 'Housekeeping',
+        // issueDetails: 'Test details',
+        // dateIdentified: '2020-11-19',
+        // actionTaken: 'None',
       }}
       submitter={{
         render: (_, dom) => <FooterToolbar> {dom} </FooterToolbar>,
