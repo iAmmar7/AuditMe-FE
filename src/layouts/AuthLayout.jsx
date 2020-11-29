@@ -24,8 +24,11 @@ const AuthLayout = ({ children }) => {
         <div className={styles.top}>
           <div className={styles.header}>
             <Link to="/">
-              {/* <img alt="logo" className={styles.logo} src={logo} /> */}
-              <span className={styles.title}>Petromin</span>
+              <img
+                alt="logo"
+                className={styles.logo}
+                src="https://upload.wikimedia.org/wikipedia/en/7/7b/Petromin_Logo.png"
+              />
             </Link>
           </div>
           <div className={styles.desc}>An application for auditors and firms</div>
@@ -33,9 +36,9 @@ const AuthLayout = ({ children }) => {
         {children}
       </div>
       <div className={styles.footer}>
-        Copyright &copy; {new Date().getFullYear()} Petromin || Find me on{' '}
-        <a href="https://github.com/iammar7" rel="noreferrer" target="_blank">
-          GitHub{' '}
+        Copyright &copy; {new Date().getFullYear()} Petromin || Our{' '}
+        <a href="https://petromin.com/" rel="noreferrer" target="_blank">
+          website
         </a>
       </div>
     </div>

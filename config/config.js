@@ -14,7 +14,7 @@ export default defineConfig({
     hmr: true,
   },
   history: {
-    type: 'hash',
+    type: 'browser',
   },
   locale: {
     // default zh-CN
@@ -38,8 +38,8 @@ export default defineConfig({
   title: 'Petrimon',
   ignoreMomentLocale: true,
   proxy: proxy[REACT_APP_ENV || 'dev'],
-  base: 'D:/VSCode/Petromin/AuditMe-FE/dist/',
-  publicPath: 'D:/VSCode/Petromin/AuditMe-FE/dist/',
+  // base: 'D:/VSCode/Petromin/AuditMe-BE/dist/',
+  // publicPath: 'D:/VSCode/Petromin/AuditMe-BE/dist/',
   exportStatic: {},
   esbuild: {},
   define: {
