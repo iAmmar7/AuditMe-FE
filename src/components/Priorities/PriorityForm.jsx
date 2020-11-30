@@ -60,25 +60,25 @@ function PriorityForm(props) {
     evidBeforeFileList,
   };
 
-  const evidencesAfterProps = {
-    name: 'evidencesBefore',
-    listType: 'picture',
-    onRemove: (file) => {
-      const index = evidAfterFileList.indexOf(file);
-      const newFileList = evidAfterFileList.slice();
-      newFileList.splice(index, 1);
-      setEvidAfterFileList(newFileList);
-    },
-    beforeUpload: (file) => {
-      if (file.type !== 'image/png' && file.type !== 'image/jpg' && file.type !== 'image/jpeg') {
-        message.error(`Supported image formats are png, jpg and jpeg`);
-      } else {
-        setEvidAfterFileList([...evidAfterFileList, file]);
-        return false;
-      }
-    },
-    evidAfterFileList,
-  };
+  // const evidencesAfterProps = {
+  //   name: 'evidencesBefore',
+  //   listType: 'picture',
+  //   onRemove: (file) => {
+  //     const index = evidAfterFileList.indexOf(file);
+  //     const newFileList = evidAfterFileList.slice();
+  //     newFileList.splice(index, 1);
+  //     setEvidAfterFileList(newFileList);
+  //   },
+  //   beforeUpload: (file) => {
+  //     if (file.type !== 'image/png' && file.type !== 'image/jpg' && file.type !== 'image/jpeg') {
+  //       message.error(`Supported image formats are png, jpg and jpeg`);
+  //     } else {
+  //       setEvidAfterFileList([...evidAfterFileList, file]);
+  //       return false;
+  //     }
+  //   },
+  //   evidAfterFileList,
+  // };
 
   return (
     <ProForm
@@ -96,24 +96,8 @@ function PriorityForm(props) {
         },
       }}
       onFinish={submitForm}
-      onValuesChange={(values) => {
-        if (values.evidencesBefore?.length === 5) {
-          setEvidencesBeforeLimitReached(true);
-        }
-
-        if (values.evidencesAfter?.length === 5) {
-          setEvidencesAfterLimitReached(true);
-        }
-
-        // If status is resolved then date of closure is required
-        if (values.status === 'Resolved') {
-          setStatusPending(false);
-        } else {
-          setStatusPending(true);
-        }
-      }}
     >
-      <ProForm.Group>
+      {/* <ProForm.Group>
         <ProFormDatePicker
           width="s"
           name="date"
@@ -122,29 +106,66 @@ function PriorityForm(props) {
           rules={[{ required: true, message: 'Please select date!' }]}
         />
         <ProFormDatePicker.Week width="s" name="week" label="Week" placeholder="Select week" />
-      </ProForm.Group>
+      </ProForm.Group> */}
       <ProForm.Group>
-        <ProFormText name="region" label="Region" placeholder="Enter a region" />
-        <ProFormText name="areaManager" label="Area Manager" placeholder="Enter area manager" />
+        <ProFormSelect
+          name="region"
+          label="Region"
+          placeholder="Select region"
+          options={[
+            { value: 'Southern', label: 'Southern' },
+            { value: 'CR-East', label: 'CR-East' },
+            { value: 'CR-North', label: 'CR-North' },
+            { value: 'CR-South', label: 'CR-South' },
+            { value: 'ER-North', label: 'ER-North' },
+            { value: 'ER-South', label: 'ER-South' },
+            { value: 'WR-North', label: 'WR-North' },
+            { value: 'WR-South', label: 'WR-South' },
+          ]}
+          rules={[{ required: true, message: 'Please select region!' }]}
+        />
+        <ProFormText
+          name="areaManager"
+          label="Area Manager"
+          placeholder="Enter area manager"
+          rules={[{ required: true, message: 'Please write area manager name!' }]}
+        />
         <ProFormText
           name="regionalManager"
           label="Regional Manager"
           placeholder="Enter regional manager"
+          rules={[{ required: true, message: 'Please write regional manager name!' }]}
         />
         <ProFormText
           name="processSpecialist"
           label="Process Specialist"
           placeholder="Enter process specialist"
+          rules={[{ required: true, message: 'Please write process specialist name!' }]}
         />
       </ProForm.Group>
       <ProForm.Group>
-        <ProFormText
+        <ProFormSelect
           name="type"
           label="Type"
-          placeholder="Enter type"
-          rules={[{ required: true, message: 'Please enter type!' }]}
+          placeholder="Select issue type......"
+          options={[
+            { value: 'Customer Experience', label: 'Customer Experience' },
+            { value: 'Bay Violation', label: 'Bay Violation' },
+            { value: 'Housekeeping', label: 'Housekeeping' },
+            { value: 'Customer Mistreatment', label: 'Customer Mistreatment' },
+            { value: 'Initiative', label: 'Initiative' },
+            { value: 'Admin Issues', label: 'Admin Issues' },
+            { value: 'Safety', label: 'Safety' },
+            { value: 'Others', label: 'Others' },
+          ]}
+          rules={[{ required: true, message: 'Please select issue type!' }]}
         />
-        <ProFormText name="stationNumber" label="Station/BE#" placeholder="Enter station" />
+        <ProFormText
+          name="stationNumber"
+          label="Station/BE#"
+          placeholder="Enter station"
+          rules={[{ required: true, message: 'Please write station!' }]}
+        />
       </ProForm.Group>
       <ProFormTextArea
         width=" xl "
@@ -173,17 +194,15 @@ function PriorityForm(props) {
         title="Upload"
         tooltip="You can upload upto 5 images"
       /> */}
-      <div style={{ marginBottom: '20px' }}>
-        <Typography.Text>Evidences Before </Typography.Text>
-        <Tooltip title="You can upload upto 5 images, supported extensions are .jpg .jpeg .png">
-          <QuestionCircleOutlined style={{ color: '#959595' }} />
-        </Tooltip>{' '}
-        <Upload {...evidencesBeforeProps}>
-          <Button disabled={evidencesBeforeLimitReached} icon={<UploadOutlined />}>
-            Select Image
-          </Button>
-        </Upload>
-      </div>
+      <Typography.Text>Evidence </Typography.Text>
+      <Tooltip title="Supported extensions are .jpg .jpeg .png">
+        <QuestionCircleOutlined style={{ color: '#959595' }} />
+      </Tooltip>{' '}
+      <Upload {...evidencesBeforeProps}>
+        <Button disabled={evidencesBeforeLimitReached} icon={<UploadOutlined />}>
+          Select Image
+        </Button>
+      </Upload>
       {/* <ProFormUploadButton
         disabled={evidencesAfterLimitReached}
         extra="Support extension: .jpg .jpeg .png"
@@ -192,7 +211,7 @@ function PriorityForm(props) {
         title="Upload"
         tooltip="You can upload upto 5 images"
       /> */}
-      <div style={{ marginBottom: '20px' }}>
+      {/*<div style={{ marginBottom: '20px' }}>
         <Typography.Text>Evidences After </Typography.Text>
         <Tooltip title="You can upload upto 5 images, supported extensions are .jpg .jpeg .png">
           <QuestionCircleOutlined style={{ color: '#959595' }} />
@@ -203,7 +222,7 @@ function PriorityForm(props) {
           </Button>
         </Upload>
       </div>
-      <Row gutter={16}>
+       <Row gutter={16}>
         <Col>
           <ProFormTextArea
             width="l"
@@ -258,7 +277,7 @@ function PriorityForm(props) {
           rules={[{ required: !statusPending, message: 'Please select date!' }]}
           tooltip="If status is resolved, please enter the date of closure"
         />
-      </ProForm.Group>
+      </ProForm.Group> */}
     </ProForm>
   );
 }

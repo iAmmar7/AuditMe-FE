@@ -20,12 +20,19 @@ const PrioritiesReports = () => {
 
   const onRequest = async (parameters, sorter, filter) => {
     console.log('OnRequest run', parameters, sorter, filter);
-    axios.defaults.headers.common.Authorization = localStorage.userToken;
-    const result = await axios.post(`${URL}/api/user/priorities-reports`, {
-      params: parameters,
-      sorter: { dateSorter: sorter?.date, dateIdentifiedSorter: sorter?.dateIdentified },
-      filter: { statusFilter: filter?.status },
-    });
+    const result = await axios.post(
+      `${URL}/api/user/priorities-reports`,
+      {
+        params: parameters,
+        sorter: { dateSorter: sorter?.date, dateIdentifiedSorter: sorter?.dateIdentified },
+        filter: { statusFilter: filter?.status },
+      },
+      {
+        headers: {
+          Authorization: localStorage.userToken,
+        },
+      },
+    );
 
     if (!result) {
       message.error('Unable to fetch data, reload');
@@ -50,9 +57,13 @@ const PrioritiesReports = () => {
                 text: result.data.reports[i].status,
               },
         type: result.data.reports[i].type,
-        issueDetails: result.data.reports[i].issueDetails,
+        region: result.data.reports[i].region,
+        processSpecialist: result.data.reports[i].processSpecialist,
+        regionalManager: result.data.reports[i].regionalManager,
+        areaManager: result.data.reports[i].areaManager,
         dateIdentified: moment(result.data.reports[i].dateIdentified).format('DD-MMM-YY'),
-        actionTaken: result.data.reports[i].actionTaken,
+        stationNumber: result.data.reports[i].stationNumber,
+        daysOpen: moment().diff(moment(result.data.reports[i].dateIdentified), 'days'),
       });
     }
 
@@ -76,8 +87,6 @@ const PrioritiesReports = () => {
       <PriorityDetails item={filteredItem[0]} reRunOnRequest={reRunOnRequest} tableRef={tableRef} />
     );
   };
-
-  console.log('Prioriries');
 
   return (
     <PageHeaderWrapper content="See all issues here">

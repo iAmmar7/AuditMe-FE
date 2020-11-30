@@ -1,20 +1,20 @@
 import React from 'react';
 import { Typography, Tag } from 'antd';
 import ProTable from '@ant-design/pro-table';
+import moment from 'moment';
 
 const columns = [
   {
     title: 'Date',
     width: 90,
     dataIndex: 'date',
-    valueType: 'date',
+    valueType: 'dateRange',
     sorter: (a, b) => new Date(a.date) - new Date(b.date),
-    sortDirection: 'ascend',
     render: (_) => <Typography.Text>{_.props.text}</Typography.Text>,
   },
   {
     title: 'Added by',
-    width: 130,
+    width: 120,
     dataIndex: 'user',
     render: (_) => <Typography.Text strong>{_}</Typography.Text>,
   },
@@ -22,12 +22,11 @@ const columns = [
     title: 'Status',
     width: 80,
     dataIndex: 'status',
-    initialValue: 'Pending',
     valueType: 'select',
-    search: false,
     valueEnum: {
-      Resolved: { text: 'Resolved', status: 'Resolved' },
-      Pending: { text: 'Pending', status: 'Pending' },
+      resolved: { text: 'Resolved', status: 'Resolved' },
+      pending: { text: 'Pending', status: 'Pending' },
+      cancelled: { text: 'Cancelled', status: 'Cancelled' },
     },
     filters: [
       {
@@ -45,38 +44,144 @@ const columns = [
     title: 'Type',
     width: 100,
     dataIndex: 'type',
+    valueType: 'select',
+    valueEnum: {
+      customerExperience: { text: 'Customer Experience', type: 'Customer Experience' },
+      bayViolation: { text: 'Bay Violation', type: 'Bay Violation' },
+      housekeeping: { text: 'Housekeeping', type: 'Housekeeping' },
+      customerMistreatment: { text: 'Customer Mistreatment', type: 'Customer Mistreatment' },
+      initiative: { text: 'Initiative', type: 'Initiative' },
+      adminIssues: { text: 'Admin Issues', type: 'Admin Issues' },
+      safety: { text: 'Safety', type: 'Safety' },
+      others: { text: 'Others', type: 'Others' },
+    },
+    filters: [
+      {
+        text: 'Customer Experience',
+        value: 'Customer Experience',
+      },
+      {
+        text: 'Bay Violation',
+        value: 'Bay Violation',
+      },
+      {
+        text: 'Housekeeping',
+        value: 'Housekeeping',
+      },
+      {
+        text: 'Customer Mistreatment',
+        value: 'Customer Mistreatment',
+      },
+      {
+        text: 'Initiative',
+        value: 'Initiative',
+      },
+      {
+        text: 'Admin Issues',
+        value: 'Admin Issues',
+      },
+      {
+        text: 'Safety',
+        value: 'Safety',
+      },
+      {
+        text: 'Others',
+        value: 'Others',
+      },
+    ],
     render: (_) => <Typography.Text>{_}</Typography.Text>,
   },
   {
-    title: 'Details',
-    width: 250,
-    dataIndex: 'issueDetails',
-    align: 'center',
-    render: (_) => (
-      <Typography.Paragraph ellipsis={{ rows: 2, expandable: true, symbol: 'more' }}>
-        {_}
-      </Typography.Paragraph>
-    ),
+    title: 'Region',
+    width: 100,
+    dataIndex: 'region',
+    valueType: 'select',
+    valueEnum: {
+      southern: { text: 'Southern', type: 'Southern' },
+      cr_east: { text: 'CR-East', type: 'CR-East' },
+      cr_north: { text: 'CR-North', type: 'CR-North' },
+      cr_south: { text: 'CR-South', type: 'CR-South' },
+      er_north: { text: 'ER-North', type: 'ER-North' },
+      er_south: { text: 'ER-South', type: 'ER-South' },
+      wr_north: { text: 'WR-North', type: 'WR-North' },
+      wr_south: { text: 'WR-South', type: 'WR-South' },
+    },
+    filters: [
+      {
+        text: 'Southern',
+        value: 'Southern',
+      },
+      {
+        text: 'CR-East',
+        value: 'CR-East',
+      },
+      {
+        text: 'CR-North',
+        value: 'CR-North',
+      },
+      {
+        text: 'CR-South',
+        value: 'CR-South',
+      },
+      {
+        text: 'ER-North',
+        value: 'ER-North',
+      },
+      {
+        text: 'ER-South',
+        value: 'ER-South',
+      },
+      {
+        text: 'WR-North',
+        value: 'WR-North',
+      },
+      {
+        text: 'WR-South',
+        value: 'WR-South',
+      },
+    ],
+    render: (_) => <Typography.Text>{_}</Typography.Text>,
+  },
+  {
+    title: 'Process Specialist',
+    width: 120,
+    dataIndex: 'processSpecialist',
+    render: (_) => <Typography.Text>{_}</Typography.Text>,
+  },
+  {
+    title: 'Regional Manager',
+    width: 120,
+    dataIndex: 'regionalManager',
+    render: (_) => <Typography.Text>{_}</Typography.Text>,
+  },
+  {
+    title: 'Area Manager',
+    width: 120,
+    dataIndex: 'areaManager',
+    render: (_) => <Typography.Text>{_}</Typography.Text>,
   },
   {
     title: 'Date Identified',
     width: 90,
     key: 'dateIdentified',
     dataIndex: 'dateIdentified',
-    valueType: 'date',
+    valueType: 'dateRange',
     sorter: (a, b) => new Date(a.dateIdentified) - new Date(b.dateIdentified),
     render: (_) => <Typography.Text>{_.props.text}</Typography.Text>,
   },
   {
-    title: 'Action Taken',
-    width: 160,
-    dataIndex: 'actionTaken',
-    align: 'center',
-    render: (_) => (
-      <Typography.Paragraph ellipsis={{ rows: 2, expandable: true, symbol: 'more' }}>
-        {_}
-      </Typography.Paragraph>
-    ),
+    title: 'Station/BE',
+    width: 90,
+    dataIndex: 'stationNumber',
+    render: (_) => <Typography.Text>{_}</Typography.Text>,
+  },
+  {
+    title: 'Days Open',
+    dataIndex: 'daysOpen',
+    sorter: (a, b) =>
+      moment().diff(moment(a.dateIdentified), 'days') -
+      moment().diff(moment(b.dateIdentified), 'days'),
+    render: (_) => <Typography.Text>{_}</Typography.Text>,
   },
 ];
 
@@ -99,13 +204,13 @@ function PriorityTable(props) {
         labelWidth: 'auto',
       }}
       dateFormatter="string"
-      options
-      scroll={{ x: '900px' }}
+      options={{
+        density: false,
+      }}
+      scroll={{ x: '1000px' }}
       // tableClassName={styles.table}
       // tableStyle={{
-      //   backgroundColor: 'red',
-      //   minWidth: '600px',
-      //   overflowX: 'scroll',
+      //   zIndex: -10,
       // }}
       // postData={(value1, value2, value3) => {
       //   console.log('POST data', value1, value2, value3);
