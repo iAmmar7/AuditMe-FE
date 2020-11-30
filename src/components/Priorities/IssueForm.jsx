@@ -10,7 +10,8 @@ import ProForm, {
 } from '@ant-design/pro-form';
 import moment from 'moment';
 import axios from 'axios';
-import styles from './IssueDetail.less';
+
+import styles from './Priorities.less';
 
 const URL =
   process.env.NODE_ENV === 'development'

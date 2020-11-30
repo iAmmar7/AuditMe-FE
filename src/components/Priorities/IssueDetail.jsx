@@ -2,7 +2,7 @@ import React from 'react';
 import { Row, Col, Typography, Tag, Image } from 'antd';
 import moment from 'moment';
 
-import styles from './IssueDetail.less';
+import styles from './Priorities.less';
 
 const URL =
   process.env.NODE_ENV === 'development'

@@ -1,6 +1,18 @@
 import React, { useState } from 'react';
 import { DeleteOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
-import { Card, Row, Col, Typography, Switch, Divider, Button, Modal, Tooltip, message } from 'antd';
+import {
+  Card,
+  Row,
+  Col,
+  Typography,
+  Switch,
+  Divider,
+  Button,
+  Modal,
+  Tooltip,
+  Spin,
+  message,
+} from 'antd';
 import axios from 'axios';
 
 import IssueDetail from './IssueDetail';
@@ -13,9 +25,10 @@ const URL =
 
 function PriorityDetails({ item, tableRef }) {
   const [formDisabled, setFormDisabled] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const cancelIssue = () => {
-    console.log('Cancel');
+    setLoading(true);
     axios
       .get(`${URL}/api/auditor/cancel-issue/${item._id}`, {
         headers: {
@@ -23,14 +36,14 @@ function PriorityDetails({ item, tableRef }) {
         },
       })
       .then((res) => {
-        console.log(res);
         if (res.data.success) {
+          setLoading(false);
           tableRef.current.reload();
         }
       })
       .catch((error) => {
-        console.log(error.response);
         message.error('Unable to cancel the issue');
+        setLoading(false);
       });
   };
 
@@ -69,6 +82,19 @@ function PriorityDetails({ item, tableRef }) {
     );
   }
 
+  let content = formDisabled ? (
+    <IssueDetail item={item} />
+  ) : (
+    <IssueForm item={item} tableRef={tableRef} setFormDisabled={setFormDisabled} />
+  );
+
+  if (!loading)
+    content = (
+      <div style={{ textAlign: 'center', paddingTop: '20px', paddingBottom: '20px' }}>
+        <Spin />
+      </div>
+    );
+
   return (
     <Card>
       <Row justify="center">
@@ -91,11 +117,7 @@ function PriorityDetails({ item, tableRef }) {
       </Row>
       <Divider />
 
-      {formDisabled ? (
-        <IssueDetail item={item} />
-      ) : (
-        <IssueForm item={item} tableRef={tableRef} setFormDisabled={setFormDisabled} />
-      )}
+      {content}
     </Card>
   );
 }

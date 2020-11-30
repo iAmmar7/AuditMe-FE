@@ -1,7 +1,7 @@
 import React from 'react';
 import { Typography, Tag } from 'antd';
 import ProTable from '@ant-design/pro-table';
-import styles from './IssueDetail.less';
+import styles from './Priorities.less';
 
 const columns = [
   {
@@ -10,7 +10,7 @@ const columns = [
     dataIndex: 'date',
     valueType: 'dateRange',
     sorter: () => null,
-    render: (_, record) => <Typography.Text>{_.props.text}</Typography.Text>,
+    render: (_) => <Typography.Text>{_.props.text}</Typography.Text>,
   },
   {
     title: 'Added by',
