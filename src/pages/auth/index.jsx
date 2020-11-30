@@ -38,24 +38,19 @@ const Auth = () => {
       loading: true,
     });
 
-    const userType = 'user';
-
     if (tab === 'login') {
       axios
-        .post(`${URL}/api/auth/${userType}/login`, {
+        .post(`${URL}/api/auth/user/login`, {
           email: values.email,
           password: values.password,
         })
         .then((res) => {
           if (res.data.success) {
-            localStorage.setItem('userType', userType);
+            localStorage.setItem('userType', res.data.user.role);
             localStorage.setItem('userToken', res.data.token);
             localStorage.setItem('user', JSON.stringify(res.data.user));
             message.success('Login successfull');
-
-            if (userType === 'user') history.push('/user/');
-
-            if (userType === 'admin') history.push('/admin/');
+            history.push('/user/');
           }
         })
         .catch((err) => {
@@ -69,14 +64,15 @@ const Auth = () => {
 
     if (tab === 'signup') {
       axios
-        .post(`${URL}/api/auth/${userType}/signup`, {
+        .post(`${URL}/api/auth/user/signup`, {
           name: values.name,
           email: values.email,
           password: values.password,
+          role: values.userType,
         })
         .then((res) => {
           if (res.data.success) {
-            localStorage.setItem('userType', userType);
+            localStorage.setItem('userType', values.userType);
             message.success('SignUp successfull');
             setResponse({
               ...response,
@@ -98,10 +94,6 @@ const Auth = () => {
   return (
     <div className={styles.main}>
       <ProForm
-        initialValues={{
-          // userType: localStorage.getItem('userType') ? localStorage.getItem('userType') : null,
-          userType: 'user',
-        }}
         submitter={{
           render: (_, dom) => dom.pop(),
           submitButtonProps: {

@@ -1,6 +1,6 @@
 import React from 'react';
-import { LockTwoTone, UserOutlined, MailOutlined } from '@ant-design/icons';
-import { ProFormText } from '@ant-design/pro-form';
+import { LockTwoTone, UserOutlined, MailOutlined, SecurityScanOutlined } from '@ant-design/icons';
+import { ProFormText, ProFormSelect } from '@ant-design/pro-form';
 
 export default function SingUp({ styles }) {
   return (
@@ -47,16 +47,19 @@ export default function SingUp({ styles }) {
           },
         ]}
       />
-      {/* <ProFormSelect
+      <ProFormSelect
         name="userType"
+        fieldProps={{
+          size: 'large',
+        }}
         hasFeedback
         valueEnum={{
-          admin: 'Admin',
-          user: 'User',
+          auditor: 'Auditor',
+          rm: 'Regional Manager',
         }}
         placeholder="Signup as"
         rules={[{ required: true, message: 'Please select signup as' }]}
-      /> */}
+      />
     </>
   );
 }

@@ -31,7 +31,7 @@ const SecurityLayout = ({ children }) => {
     return <PageLoading />;
   }
 
-  if (!isLoggedIn || userRole !== 'user') {
+  if (!isLoggedIn && userRole !== 'auditor' && userRole !== 'rm') {
     localStorage.removeItem('user');
     localStorage.removeItem('userToken');
     return <Redirect to="/auth" />;
