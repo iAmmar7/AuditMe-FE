@@ -50,20 +50,29 @@ const PrioritiesReports = () => {
 
     const tableList = [];
     for (let i = 0; i < result.data.reports.length; i += 1) {
+      let status;
+      if (result.data.reports[i].status === 'Pending') {
+        status = {
+          color: 'red',
+          text: result.data.reports[i].status,
+        };
+      } else if (result.data.reports[i].status === 'Resolved') {
+        status = {
+          color: 'green',
+          text: result.data.reports[i].status,
+        };
+      } else {
+        status = {
+          color: 'red',
+          text: result.data.reports[i].status,
+        };
+      }
+
       tableList.push({
         key: result.data.reports[i]._id,
         date: moment(result.data.reports[i].date).format('DD-MMM-YY'),
-        user: result.data.reports[i].user,
-        status:
-          result.data.reports[i].status === 'Pending'
-            ? {
-                color: 'red',
-                text: result.data.reports[i].status,
-              }
-            : {
-                color: 'green',
-                text: result.data.reports[i].status,
-              },
+        user: result.data.reports[i].userName,
+        status,
         type: result.data.reports[i].type,
         region: result.data.reports[i].region,
         processSpecialist: result.data.reports[i].processSpecialist,
@@ -75,8 +84,6 @@ const PrioritiesReports = () => {
       });
     }
 
-    console.log(tableList);
-
     return {
       data: tableList,
       success: true,
@@ -84,16 +91,10 @@ const PrioritiesReports = () => {
     };
   };
 
-  const reRunOnRequest = (parameters, sorter, filter) => {
-    onRequest(parameters, sorter, filter);
-  };
-
   const expandedRowRender = (item) => {
     const filteredItem = allData.filter((data) => item.key === data._id);
 
-    return (
-      <PriorityDetails item={filteredItem[0]} reRunOnRequest={reRunOnRequest} tableRef={tableRef} />
-    );
+    return <PriorityDetails item={filteredItem[0]} tableRef={tableRef} />;
   };
 
   return (

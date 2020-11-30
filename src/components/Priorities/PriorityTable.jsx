@@ -1,6 +1,7 @@
 import React from 'react';
 import { Typography, Tag } from 'antd';
 import ProTable from '@ant-design/pro-table';
+import styles from './IssueDetail.less';
 
 const columns = [
   {
@@ -9,7 +10,7 @@ const columns = [
     dataIndex: 'date',
     valueType: 'dateRange',
     sorter: () => null,
-    render: (_) => <Typography.Text>{_.props.text}</Typography.Text>,
+    render: (_, record) => <Typography.Text>{_.props.text}</Typography.Text>,
   },
   {
     title: 'Added by',
@@ -36,8 +37,17 @@ const columns = [
         text: 'Resolved',
         value: 'Resolved',
       },
+      {
+        text: 'Cancelled',
+        value: 'Cancelled',
+      },
     ],
-    render: (_, record) => <Tag color={record.status.color}>{record.status.text}</Tag>,
+    render: (_) =>
+      _.text === 'Cancelled' ? (
+        <Typography.Text>{_.text}</Typography.Text>
+      ) : (
+        <Tag color={_.color}>{_.text}</Tag>
+      ),
   },
   {
     title: 'Type',
@@ -197,7 +207,11 @@ function PriorityTable(props) {
         pageSize: 10,
         pageSizeOptions: [10, 20, 50],
       }}
-      expandable={{ expandedRowRender }}
+      expandable={{
+        expandedRowRender,
+        rowExpandable: (record) => record.status.text !== 'Cancelled',
+        disabled: (record) => record.status.text !== 'Cancelled',
+      }}
       search={{
         labelWidth: 'auto',
       }}
@@ -206,7 +220,9 @@ function PriorityTable(props) {
         density: false,
       }}
       scroll={{ x: '1000px' }}
-      // tableClassName={styles.table}
+      rowClassName={(record) => (record.status.text === 'Cancelled' ? styles.cancelledRow : '')}
+      className={styles.issueTable}
+      // tableClassName={styles.issueTable}
       // tableStyle={{
       //   zIndex: -10,
       // }}
