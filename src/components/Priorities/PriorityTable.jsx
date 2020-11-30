@@ -1,7 +1,6 @@
 import React from 'react';
 import { Typography, Tag } from 'antd';
 import ProTable from '@ant-design/pro-table';
-import moment from 'moment';
 
 const columns = [
   {
@@ -9,7 +8,7 @@ const columns = [
     width: 90,
     dataIndex: 'date',
     valueType: 'dateRange',
-    sorter: (a, b) => new Date(a.date) - new Date(b.date),
+    sorter: () => null,
     render: (_) => <Typography.Text>{_.props.text}</Typography.Text>,
   },
   {
@@ -22,12 +21,12 @@ const columns = [
     title: 'Status',
     width: 80,
     dataIndex: 'status',
-    valueType: 'select',
-    valueEnum: {
-      resolved: { text: 'Resolved', status: 'Resolved' },
-      pending: { text: 'Pending', status: 'Pending' },
-      cancelled: { text: 'Cancelled', status: 'Cancelled' },
-    },
+    // valueType: 'select',
+    // valueEnum: {
+    //   resolved: { text: 'Resolved', status: 'Resolved' },
+    //   pending: { text: 'Pending', status: 'Pending' },
+    //   cancelled: { text: 'Cancelled', status: 'Cancelled' },
+    // },
     filters: [
       {
         text: 'Pending',
@@ -44,17 +43,17 @@ const columns = [
     title: 'Type',
     width: 100,
     dataIndex: 'type',
-    valueType: 'select',
-    valueEnum: {
-      customerExperience: { text: 'Customer Experience', type: 'Customer Experience' },
-      bayViolation: { text: 'Bay Violation', type: 'Bay Violation' },
-      housekeeping: { text: 'Housekeeping', type: 'Housekeeping' },
-      customerMistreatment: { text: 'Customer Mistreatment', type: 'Customer Mistreatment' },
-      initiative: { text: 'Initiative', type: 'Initiative' },
-      adminIssues: { text: 'Admin Issues', type: 'Admin Issues' },
-      safety: { text: 'Safety', type: 'Safety' },
-      others: { text: 'Others', type: 'Others' },
-    },
+    // valueType: 'select',
+    // valueEnum: {
+    //   customerExperience: { text: 'Customer Experience', type: 'Customer Experience' },
+    //   bayViolation: { text: 'Bay Violation', type: 'Bay Violation' },
+    //   housekeeping: { text: 'Housekeeping', type: 'Housekeeping' },
+    //   customerMistreatment: { text: 'Customer Mistreatment', type: 'Customer Mistreatment' },
+    //   initiative: { text: 'Initiative', type: 'Initiative' },
+    //   adminIssues: { text: 'Admin Issues', type: 'Admin Issues' },
+    //   safety: { text: 'Safety', type: 'Safety' },
+    //   others: { text: 'Others', type: 'Others' },
+    // },
     filters: [
       {
         text: 'Customer Experience',
@@ -95,17 +94,17 @@ const columns = [
     title: 'Region',
     width: 100,
     dataIndex: 'region',
-    valueType: 'select',
-    valueEnum: {
-      southern: { text: 'Southern', type: 'Southern' },
-      cr_east: { text: 'CR-East', type: 'CR-East' },
-      cr_north: { text: 'CR-North', type: 'CR-North' },
-      cr_south: { text: 'CR-South', type: 'CR-South' },
-      er_north: { text: 'ER-North', type: 'ER-North' },
-      er_south: { text: 'ER-South', type: 'ER-South' },
-      wr_north: { text: 'WR-North', type: 'WR-North' },
-      wr_south: { text: 'WR-South', type: 'WR-South' },
-    },
+    // valueType: 'select',
+    // valueEnum: {
+    //   southern: { text: 'Southern', type: 'Southern' },
+    //   cr_east: { text: 'CR-East', type: 'CR-East' },
+    //   cr_north: { text: 'CR-North', type: 'CR-North' },
+    //   cr_south: { text: 'CR-South', type: 'CR-South' },
+    //   er_north: { text: 'ER-North', type: 'ER-North' },
+    //   er_south: { text: 'ER-South', type: 'ER-South' },
+    //   wr_north: { text: 'WR-North', type: 'WR-North' },
+    //   wr_south: { text: 'WR-South', type: 'WR-South' },
+    // },
     filters: [
       {
         text: 'Southern',
@@ -166,7 +165,7 @@ const columns = [
     key: 'dateIdentified',
     dataIndex: 'dateIdentified',
     valueType: 'dateRange',
-    sorter: (a, b) => new Date(a.dateIdentified) - new Date(b.dateIdentified),
+    sorter: () => null,
     render: (_) => <Typography.Text>{_.props.text}</Typography.Text>,
   },
   {
@@ -178,9 +177,8 @@ const columns = [
   {
     title: 'Days Open',
     dataIndex: 'daysOpen',
-    sorter: (a, b) =>
-      moment().diff(moment(a.dateIdentified), 'days') -
-      moment().diff(moment(b.dateIdentified), 'days'),
+    search: false,
+    sorter: () => null,
     render: (_) => <Typography.Text>{_}</Typography.Text>,
   },
 ];

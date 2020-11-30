@@ -24,8 +24,16 @@ const PrioritiesReports = () => {
       `${URL}/api/user/priorities-reports`,
       {
         params: parameters,
-        sorter: { dateSorter: sorter?.date, dateIdentifiedSorter: sorter?.dateIdentified },
-        filter: { statusFilter: filter?.status },
+        sorter: {
+          dateSorter: sorter?.date,
+          dateIdentifiedSorter: sorter?.dateIdentified,
+          daysOpenSorter: sorter?.daysOpen,
+        },
+        filter: {
+          statusFilter: filter?.status,
+          typeFilter: filter?.type,
+          regionFilter: filter?.region,
+        },
       },
       {
         headers: {
@@ -63,7 +71,7 @@ const PrioritiesReports = () => {
         areaManager: result.data.reports[i].areaManager,
         dateIdentified: moment(result.data.reports[i].dateIdentified).format('DD-MMM-YY'),
         stationNumber: result.data.reports[i].stationNumber,
-        daysOpen: moment().diff(moment(result.data.reports[i].dateIdentified), 'days'),
+        daysOpen: result.data.reports[i].daysOpen,
       });
     }
 
