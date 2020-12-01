@@ -3,7 +3,6 @@
   "version": "4.3.0",
   "private": true,
   "description": "An out-of-box UI solution for enterprise applications",
-  "proxy": "http://localhost:4000/",
   "scripts": {
     "analyze": "cross-env ANALYZE=1 umi build",
     "build": "umi build",
