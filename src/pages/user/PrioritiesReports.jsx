@@ -19,7 +19,6 @@ const PrioritiesReports = () => {
   const tableRef = useRef(null);
 
   const onRequest = async (parameters, sorter, filter) => {
-    console.log('OnRequest run', parameters, sorter, filter);
     const result = await axios.post(
       `${URL}/api/user/priorities-reports`,
       {
@@ -83,8 +82,6 @@ const PrioritiesReports = () => {
         daysOpen: result.data.reports[i].daysOpen,
       });
     }
-
-    console.log(tableList);
 
     return {
       data: tableList,
