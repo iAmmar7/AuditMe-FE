@@ -83,7 +83,7 @@ const Landing = () => {
       <Card>
         <Row justify="space-between">
           <Col>
-            <Typography.Title level={3}>Issues count</Typography.Title>
+            <Typography.Title level={3}>Report count</Typography.Title>
           </Col>
           <Col align="right">
             <Select
