@@ -27,6 +27,8 @@ function PriorityDetails({ item, tableRef }) {
   const [formDisabled, setFormDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
 
+  console.log(item);
+
   const cancelIssue = () => {
     setLoading(true);
     axios
@@ -47,39 +49,202 @@ function PriorityDetails({ item, tableRef }) {
       });
   };
 
-  const openModal = () => {
+  const openModal = (type = 'cancel') => {
     Modal.confirm({
       title: 'Confirm',
       icon: <ExclamationCircleOutlined />,
       maskClosable: true,
-      content: (
-        <Typography.Text>Are you sure you want to permanently cancel this issue?</Typography.Text>
-      ),
+      content:
+        type === 'uncancel' ? (
+          <Typography.Text>Are you sure you want to uncancel this issue?</Typography.Text>
+        ) : (
+          <Typography.Text>Are you sure you want to permanently cancel this issue?</Typography.Text>
+        ),
       okText: 'Yes',
       cancelText: 'No',
       onOk: cancelIssue,
     });
   };
 
-  let cancelButton = (
-    <Button
-      danger
-      icon={<DeleteOutlined />}
-      onClick={openModal}
-      disabled={item.status === 'Resolved' || item.status === 'Cancelled'}
-    >
-      Cancel issue
-    </Button>
-  );
+  let cancelButton = null;
+  let editButton = null;
 
-  if (item.userId.toString() !== JSON.parse(localStorage.user).id.toString()) {
+  // If issue has resolved
+  if (item.status === 'Resolved') {
     cancelButton = (
-      <Tooltip title={`Only ${item.userName} can cancel this issue`}>
-        <Button danger icon={<DeleteOutlined />} disabled>
+      <Typography.Text>
+        Resolved by:{' '}
+        <Typography.Text type="warning" strong>
+          {item.resolvedByName}
+        </Typography.Text>
+      </Typography.Text>
+    );
+
+    if (JSON.parse(localStorage.user).id.toString() === item.resolvedById.toString()) {
+      editButton = (
+        <Row justify="center" align="end">
+          <Col offset={1} style={{ paddingTop: '2px', marginRight: '4px' }}>
+            <Typography.Text>Update Response </Typography.Text>
+          </Col>
+          <Col>
+            <Switch
+              checkedChildren="Off"
+              unCheckedChildren="On"
+              checked={!formDisabled}
+              onClick={() => setFormDisabled(!formDisabled)}
+            />
+          </Col>
+        </Row>
+      );
+    } else {
+      editButton = (
+        <Row justify="center" align="end">
+          <Col offset={1} style={{ paddingTop: '2px', marginRight: '4px' }}>
+            <Typography.Text>Update Response </Typography.Text>
+          </Col>
+          <Col>
+            <Tooltip title={`Only ${item.resolvedByName} can update this issue now`}>
+              <Switch checkedChildren="Off" unCheckedChildren="On" checked={false} disabled />
+            </Tooltip>
+          </Col>
+        </Row>
+      );
+    }
+  }
+
+  // if issue is pending
+  if (item.status === 'Pending') {
+    if (JSON.parse(localStorage.user).role === 'rm') {
+      cancelButton = (
+        <Tooltip title="Regional Mangers can not cancel the issue">
+          <Button danger icon={<DeleteOutlined />} disabled>
+            Cancel issue
+          </Button>
+        </Tooltip>
+      );
+      editButton = (
+        <Row justify="center" align="end">
+          <Col offset={1} style={{ paddingTop: '2px', marginRight: '4px' }}>
+            <Typography.Text>Update Status </Typography.Text>
+          </Col>
+          <Col>
+            <Switch
+              checkedChildren="Off"
+              unCheckedChildren="On"
+              checked={!formDisabled}
+              onClick={() => setFormDisabled(!formDisabled)}
+            />
+          </Col>
+        </Row>
+      );
+    } else if (item.userId.toString() === JSON.parse(localStorage.user).id.toString()) {
+      cancelButton = (
+        <Button danger icon={<DeleteOutlined />} onClick={openModal}>
           Cancel issue
         </Button>
-      </Tooltip>
-    );
+      );
+      editButton = (
+        <Row justify="center" align="end">
+          <Col offset={1} style={{ paddingTop: '2px', marginRight: '4px' }}>
+            <Typography.Text>Edit issue </Typography.Text>
+          </Col>
+          <Col>
+            <Switch
+              checkedChildren="Off"
+              unCheckedChildren="On"
+              checked={!formDisabled}
+              onClick={() => setFormDisabled(!formDisabled)}
+            />
+          </Col>
+        </Row>
+      );
+    } else {
+      cancelButton = (
+        <Tooltip title={`Only ${item.userName} can cancel this issue`}>
+          <Button danger icon={<DeleteOutlined />} disabled>
+            Cancel issue
+          </Button>
+        </Tooltip>
+      );
+      editButton = (
+        <Row justify="center" align="end">
+          <Col offset={1} style={{ paddingTop: '2px', marginRight: '4px' }}>
+            <Typography.Text>Edit issue </Typography.Text>
+          </Col>
+          <Col>
+            <Tooltip title={`Only ${item.userName} can edit this issue`}>
+              <Switch checkedChildren="Off" unCheckedChildren="On" checked={false} disabled />
+            </Tooltip>
+          </Col>
+        </Row>
+      );
+    }
+  }
+
+  // if issue is cancelled
+  if (item.status === 'Cancelled') {
+    if (JSON.parse(localStorage.user).role === 'rm') {
+      cancelButton = (
+        <Tooltip title="Regional Managers can not uncancel the issue">
+          <Button danger icon={<DeleteOutlined />} disabled>
+            Uncancel issue
+          </Button>
+        </Tooltip>
+      );
+      editButton = (
+        <Row justify="center" align="end">
+          <Col offset={1} style={{ paddingTop: '2px', marginRight: '4px' }}>
+            <Typography.Text>Update status </Typography.Text>
+          </Col>
+          <Col>
+            <Tooltip title="A regional manager can not update cancelled issue">
+              <Switch checkedChildren="Off" unCheckedChildren="On" checked={false} disabled />
+            </Tooltip>
+          </Col>
+        </Row>
+      );
+    } else if (JSON.parse(localStorage.user).id.toString() === item.userId.toString()) {
+      cancelButton = (
+        <Button danger icon={<DeleteOutlined />} onClick={() => openModal('uncancel')}>
+          Uncancel issue
+        </Button>
+      );
+      editButton = (
+        <Row justify="center" align="end">
+          <Col offset={1} style={{ paddingTop: '2px', marginRight: '4px' }}>
+            <Typography.Text>Edit issue </Typography.Text>
+          </Col>
+          <Col>
+            <Switch
+              checkedChildren="Off"
+              unCheckedChildren="On"
+              checked={!formDisabled}
+              onClick={() => setFormDisabled(!formDisabled)}
+            />
+          </Col>
+        </Row>
+      );
+    } else {
+      cancelButton = (
+        <Tooltip title={`Only ${item.userName} can uncancel this issue`}>
+          <Button danger icon={<DeleteOutlined />} disabled>
+            Uncancel issue
+          </Button>
+        </Tooltip>
+      );
+      editButton = (
+        <Row justify="center" align="end">
+          <Col offset={1} style={{ paddingTop: '2px', marginRight: '4px' }}>
+            <Typography.Text>Edit issue </Typography.Text>
+          </Col>
+          <Col>
+            <Tooltip title={`Only ${item.userName} can edit this issue`}>
+              <Switch checkedChildren="Off" unCheckedChildren="On" checked={false} disabled />
+            </Tooltip>
+          </Col>
+        </Row>
+      );
+    }
   }
 
   let content = formDisabled ? (
@@ -88,7 +253,7 @@ function PriorityDetails({ item, tableRef }) {
     <IssueForm item={item} tableRef={tableRef} setFormDisabled={setFormDisabled} />
   );
 
-  if (!loading)
+  if (loading)
     content = (
       <div style={{ textAlign: 'center', paddingTop: '20px', paddingBottom: '20px' }}>
         <Spin />
@@ -99,24 +264,9 @@ function PriorityDetails({ item, tableRef }) {
     <Card>
       <Row justify="center">
         <Col span={12}>{cancelButton}</Col>
-        <Col span={12}>
-          <Row justify="center" align="end">
-            <Col offset={1} style={{ paddingTop: '2px', marginRight: '4px' }}>
-              <Typography.Text>Edit Mode</Typography.Text>
-            </Col>
-            <Col>
-              <Switch
-                checkedChildren="Off"
-                unCheckedChildren="On"
-                checked={!formDisabled}
-                onClick={() => setFormDisabled(!formDisabled)}
-              />
-            </Col>
-          </Row>
-        </Col>
+        <Col span={12}>{editButton}</Col>
       </Row>
       <Divider />
-
       {content}
     </Card>
   );

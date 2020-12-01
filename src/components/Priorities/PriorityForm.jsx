@@ -50,6 +50,7 @@ function PriorityForm(props) {
         render: (_, dom) => <FooterToolbar> {dom} </FooterToolbar>,
         submitButtonProps: {
           loading,
+          disabled: JSON.parse(localStorage.user).role === 'rm',
         },
       }}
       onFinish={submitForm}

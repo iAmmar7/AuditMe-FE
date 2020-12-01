@@ -84,6 +84,8 @@ const PrioritiesReports = () => {
       });
     }
 
+    console.log(tableList);
+
     return {
       data: tableList,
       success: true,

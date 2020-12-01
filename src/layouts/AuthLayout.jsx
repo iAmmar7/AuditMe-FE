@@ -14,7 +14,7 @@ const AuthLayout = ({ children }) => {
     const currentTime = Date.now() / 1000;
     if (decoded.exp > currentTime) {
       // Redirect to respective page if token has not expired
-      return <Redirect to={`/${decoded.role}/`} />;
+      return <Redirect to={`/user/`} />;
     }
   }
 

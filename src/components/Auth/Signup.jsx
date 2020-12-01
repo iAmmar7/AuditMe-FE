@@ -6,6 +6,7 @@ export default function SingUp({ styles }) {
   return (
     <>
       <ProFormText
+        type="text"
         name="name"
         fieldProps={{
           size: 'large',
@@ -20,6 +21,7 @@ export default function SingUp({ styles }) {
         ]}
       />
       <ProFormText
+        type="email"
         name="email"
         fieldProps={{
           size: 'large',
@@ -34,6 +36,7 @@ export default function SingUp({ styles }) {
         ]}
       />
       <ProFormText.Password
+        type="password"
         name="password"
         fieldProps={{
           size: 'large',

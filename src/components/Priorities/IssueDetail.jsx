@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Typography, Tag, Image } from 'antd';
+import { Row, Col, Typography, Image } from 'antd';
 import moment from 'moment';
 
 import styles from './Priorities.less';

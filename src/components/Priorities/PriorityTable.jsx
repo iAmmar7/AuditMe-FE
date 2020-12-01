@@ -209,8 +209,7 @@ function PriorityTable(props) {
       }}
       expandable={{
         expandedRowRender,
-        rowExpandable: (record) => record.status.text !== 'Cancelled',
-        disabled: (record) => record.status.text !== 'Cancelled',
+        // rowExpandable: (record) => record.status.text !== 'Cancelled',
       }}
       search={{
         labelWidth: 'auto',
