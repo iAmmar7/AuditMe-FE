@@ -25,6 +25,7 @@ const Landing = () => {
         headers: { Authorization: localStorage.userToken },
       })
       .then((res) => {
+        console.log(res);
         if (res.data.success) {
           setData({
             stats: res.data.stats,
@@ -32,7 +33,8 @@ const Landing = () => {
           });
         }
       })
-      .catch(() => {
+      .catch((error) => {
+        console.log(error);
         setData({
           stats: [],
           count: 0,
