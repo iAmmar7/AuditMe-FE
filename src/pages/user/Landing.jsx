@@ -21,9 +21,13 @@ const Landing = () => {
 
   const getStats = (query) => {
     axios
-      .get(`${URL}/api/user/report-chart?filter=${query}`, {
-        headers: { Authorization: localStorage.userToken },
-      })
+      .post(
+        `${URL}/api/user/report-chart`,
+        { filter: query },
+        {
+          headers: { Authorization: localStorage.userToken },
+        },
+      )
       .then((res) => {
         console.log(res);
         if (res.data.success) {
