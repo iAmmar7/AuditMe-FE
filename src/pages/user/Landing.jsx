@@ -77,7 +77,7 @@ const Landing = () => {
       let color;
       let icon;
       if (item.status === 'Pending') {
-        color = '#fa8c16';
+        color = '#f5222d';
         icon = <PauseCircleOutlined />;
       }
       if (item.status === 'Resolved') {
@@ -85,7 +85,7 @@ const Landing = () => {
         icon = <CheckCircleOutlined />;
       }
       if (item.status === 'Cancelled') {
-        color = '#f5222d';
+        color = '#fa8c16';
         icon = <CloseCircleOutlined />;
       }
       return (
@@ -108,7 +108,7 @@ const Landing = () => {
       <Card>
         <Row justify="space-between">
           <Col>
-            <Typography.Title level={3}>Report stats</Typography.Title>
+            <Typography.Title level={3}>Report Statistics</Typography.Title>
           </Col>
           <Col align="right">
             <Select
