@@ -1,82 +1,152 @@
 import React, { useEffect, useState } from 'react';
-import { FormOutlined, TabletOutlined } from '@ant-design/icons';
-import { Card, Typography, Alert, Button, Select, Row, Col } from 'antd';
+import {
+  CheckCircleOutlined,
+  StockOutlined,
+  CloseCircleOutlined,
+  PauseCircleOutlined,
+} from '@ant-design/icons';
+import { Card, Typography, Select, Row, Col, Spin, Statistic } from 'antd';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import { Link } from 'umi';
+import moment from 'moment';
 import axios from 'axios';
 
-import PieChart from '../../components/Charts/PieChart';
+import BarChart from '../../components/Charts/BarChart';
 
 const URL =
   process.env.NODE_ENV === 'development'
     ? process.env.AUDITME_DEV_BE_URL
     : process.env.AUDITME_PROD_BE_URL;
 
+moment.locale('en');
+const monthsList = [
+  { value: 'allTime', text: 'All Time' },
+  { value: moment().format('YYYY-MM-DD'), text: moment().format('MMMM Y') },
+];
+for (let i = 1; i <= 11; i++) {
+  monthsList.push({
+    value: moment().subtract(i, 'month').format('YYYY-MM-DD'),
+    text: moment().subtract(i, 'month').format('MMMM Y'),
+  });
+}
+
 const Landing = () => {
-  const user = JSON.parse(localStorage.getItem('user'));
   const [data, setData] = useState({
-    stats: [],
+    loading: true,
+    regionStats: [],
+    overallStats: [],
     count: 0,
   });
 
   const getStats = (query) => {
     axios
-      .post(
-        `${URL}/api/user/report-chart`,
-        { filter: query },
-        {
-          headers: { Authorization: localStorage.userToken },
-        },
-      )
+      .get(`${URL}/api/user/report-chart?month=${query}`, {
+        headers: { Authorization: localStorage.userToken },
+      })
       .then((res) => {
-        console.log(res);
         if (res.data.success) {
           setData({
-            stats: res.data.stats,
-            count: res.data.count,
+            loading: false,
+            regionStats: res.data.regionStats,
+            overallStats: res.data.overallStats,
+            total: res.data.total,
+          });
+        } else {
+          setData({
+            ...data,
+            loading: false,
           });
         }
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
         setData({
-          stats: [],
-          count: 0,
+          loading: false,
+          regionStats: [],
+          overallStats: [],
+          total: 0,
         });
       });
   };
 
   useEffect(() => {
-    getStats('overall');
+    getStats('allTime');
   }, []);
+
+  let statCards = null;
+  if (!data.loading && data.overallStats.length > 0) {
+    statCards = data.overallStats.map((item) => {
+      let color;
+      let icon;
+      if (item.status === 'Pending') {
+        color = '#fa8c16';
+        icon = <PauseCircleOutlined />;
+      }
+      if (item.status === 'Resolved') {
+        color = '#a0d911';
+        icon = <CheckCircleOutlined />;
+      }
+      if (item.status === 'Cancelled') {
+        color = '#f5222d';
+        icon = <CloseCircleOutlined />;
+      }
+      return (
+        <Col span={6} key={item.status}>
+          <Card>
+            <Statistic
+              title={item.status}
+              value={item.count}
+              valueStyle={{ color }}
+              prefix={icon}
+            />
+          </Card>
+        </Col>
+      );
+    });
+  }
 
   return (
     <PageHeaderWrapper content="Summary of your dashboard">
       <Card>
         <Row justify="space-between">
           <Col>
-            <Typography.Title level={3}>Report count</Typography.Title>
+            <Typography.Title level={3}>Report stats</Typography.Title>
           </Col>
           <Col align="right">
             <Select
-              defaultValue="overall"
-              style={{ width: 120 }}
+              defaultValue="allTime"
+              style={{ width: 150 }}
               align="left"
               onChange={(value) => getStats(value)}
             >
-              <Select.Option value="Southern">Southern</Select.Option>
-              <Select.Option value="CR-East">CR-East</Select.Option>
-              <Select.Option value="CR-North">CR-North</Select.Option>
-              <Select.Option value="CR-South">CR-South</Select.Option>
-              <Select.Option value="ER-North">ER-North</Select.Option>
-              <Select.Option value="ER-South">ER-South</Select.Option>
-              <Select.Option value="WR-North">WR-North</Select.Option>
-              <Select.Option value="WR-South">WR-South</Select.Option>
-              <Select.Option value="overall">Overall</Select.Option>
+              {monthsList.map((item) => (
+                <Select.Option value={item.value} key={item.value}>
+                  {item.text}
+                </Select.Option>
+              ))}
             </Select>
           </Col>
         </Row>
-        <PieChart stats={data.stats} total={data.count} />
+        {data.loading ? (
+          <div style={{ textAlign: 'center', paddingTop: '30px', paddingBottom: '30px' }}>
+            <Spin size="large" />
+          </div>
+        ) : (
+          <>
+            <BarChart stats={data.regionStats} total={data.total} />
+            <Row gutter={16} style={{ paddingTop: '30px' }}>
+              <Col span={6}>
+                <Card>
+                  <Statistic
+                    title="All"
+                    value={data.total}
+                    valueStyle={{ color: '#262626' }}
+                    prefix={<StockOutlined />}
+                  />
+                </Card>
+              </Col>
+              {statCards}
+            </Row>
+          </>
+        )}
       </Card>
     </PageHeaderWrapper>
   );
