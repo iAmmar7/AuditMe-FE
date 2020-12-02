@@ -35,7 +35,7 @@ export default defineConfig({
   theme: {
     'primary-color': defaultSettings.primaryColor,
   },
-  title: 'Petrimon',
+  title: 'Petrimon Express',
   ignoreMomentLocale: true,
   proxy: proxy[REACT_APP_ENV || 'dev'],
   // base: 'D:/VSCode/Petromin/AuditMe-BE/dist/',

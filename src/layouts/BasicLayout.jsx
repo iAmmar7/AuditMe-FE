@@ -10,7 +10,7 @@ import { UserOutlined } from '@ant-design/icons';
 import { Menu, Dropdown, message, Avatar, Typography, Row, Col } from 'antd';
 
 // import logo from '../assets/logo.svg';
-import userAvatar from '../assets/user_avatar.png';
+// import userAvatar from '../assets/user_avatar.png';
 
 const ColorList = ['#f56a00', '#7265e6', '#ffbf00', '#00a2ae'];
 
@@ -44,7 +44,7 @@ const BasicLayout = (props) => {
 
   return (
     <ProLayout
-      logo={userAvatar}
+      logo={false}
       {...props}
       {...settings}
       onCollapse={handleMenuCollapse}
@@ -75,7 +75,7 @@ const BasicLayout = (props) => {
       }}
       footerRender={() => (
         <Typography.Text style={{ textAlign: 'center', color: 'grey', paddingBottom: '10px' }}>
-          Coppyright &copy; {`${new Date().getFullYear()} Petromin`}
+          Coppyright &copy; {new Date().getFullYear()} Business Excellence Team || Saad Khan
         </Typography.Text>
       )}
       rightContentRender={() => (

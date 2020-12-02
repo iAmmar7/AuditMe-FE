@@ -1,8 +1,8 @@
 {
-  "name": "ant-design-pro",
+  "name": "petromin-express",
   "version": "4.3.0",
   "private": true,
-  "description": "An out-of-box UI solution for enterprise applications",
+  "description": "Business Excellence Automation",
   "scripts": {
     "analyze": "cross-env ANALYZE=1 umi build",
     "build": "umi build",
@@ -53,6 +53,7 @@
     "@ant-design/pro-layout": "^6.5.0",
     "@ant-design/pro-table": "^2.9.16",
     "@umijs/route-utils": "^1.0.33",
+    "ant-design-pro": "^2.3.2",
     "antd": "^4.8.0",
     "axios": "^0.21.0",
     "classnames": "^2.2.6",

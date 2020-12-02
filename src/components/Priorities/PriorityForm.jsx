@@ -95,7 +95,7 @@ function PriorityForm(props) {
         <ProFormSelect
           name="type"
           label="Type"
-          placeholder="Select issue type......"
+          placeholder="Select issue type....      ...."
           options={[
             { value: 'Customer Experience', label: 'Customer Experience' },
             { value: 'Bay Violation', label: 'Bay Violation' },
@@ -136,7 +136,7 @@ function PriorityForm(props) {
         <QuestionCircleOutlined style={{ color: '#959595' }} />
       </Tooltip>{' '}
       <Upload {...evidencesProps}>
-        <Button icon={<UploadOutlined />}>Select Image</Button>
+        <Button icon={<UploadOutlined />}>Select multiple images</Button>
       </Upload>
     </ProForm>
   );

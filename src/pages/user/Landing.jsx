@@ -51,41 +51,7 @@ const Landing = () => {
   }, []);
 
   return (
-    <PageHeaderWrapper content="Summary of your account">
-      <Card>
-        <Alert
-          message={`Welcome back ${user.name}`}
-          type="success"
-          showIcon
-          banner
-          style={{
-            margin: -12,
-            marginBottom: 48,
-          }}
-        />
-        <Typography.Title
-          level={2}
-          style={{
-            textAlign: 'center',
-          }}
-        >
-          Handle your audit reports with ease
-        </Typography.Title>
-        <div
-          style={{
-            textAlign: 'center',
-          }}
-        >
-          <Link to="/user/priorities-reports">
-            <Button type="primary" icon={<TabletOutlined />} style={{ margin: '4px' }}>
-              See reports
-            </Button>
-          </Link>
-          <Link to="/user/priorities-form">
-            <Button icon={<FormOutlined />}>Raise an issue</Button>
-          </Link>
-        </div>
-      </Card>
+    <PageHeaderWrapper content="Summary of your dashboard">
       <Card>
         <Row justify="space-between">
           <Col>

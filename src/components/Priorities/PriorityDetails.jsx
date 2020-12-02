@@ -116,7 +116,9 @@ function PriorityDetails({ item, tableRef }) {
   if (item.status === 'Pending') {
     if (JSON.parse(localStorage.user).role === 'rm') {
       cancelButton = (
-        <Tooltip title="Regional Mangers can not cancel the issue">
+        <Tooltip
+          title={`Regional Mangers can not cancel the issue, please ask auditor ${item.userName} to cancel this issue`}
+        >
           <Button danger icon={<DeleteOutlined />} disabled>
             Cancel issue
           </Button>
@@ -185,7 +187,9 @@ function PriorityDetails({ item, tableRef }) {
   if (item.status === 'Cancelled') {
     if (JSON.parse(localStorage.user).role === 'rm') {
       cancelButton = (
-        <Tooltip title="Regional Managers can not uncancel the issue">
+        <Tooltip
+          title={`Regional Mangers can not uncancel the issue, please ask auditor ${item.userName} to uncancel this issue`}
+        >
           <Button danger icon={<DeleteOutlined />} disabled>
             Uncancel issue
           </Button>

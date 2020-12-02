@@ -19,7 +19,7 @@ const URL =
 function IssueForm({ item, tableRef, setFormDisabled }) {
   const [loading, setLoading] = useState(false);
   const [initialValues, setInitialValues] = useState(item);
-  // const [statusPending, setStatusPending] = useState(true);
+  const [statusPending, setStatusPending] = useState(true);
   const [evidenceBeforeFileList, setEvidenceBeforeFileList] = useState([]);
   const [evidenceAfterFileList, setEvidenceAfterFileList] = useState([]);
 
@@ -204,7 +204,7 @@ function IssueForm({ item, tableRef, setFormDisabled }) {
           <QuestionCircleOutlined style={{ color: '#959595' }} />
         </Tooltip>{' '}
         <Upload {...evidencesProps}>
-          <Button icon={<UploadOutlined />}>Select Image</Button>
+          <Button icon={<UploadOutlined />}>Select multiple images</Button>
         </Upload>
         <Row style={{ margin: '15px 0px' }} gutter={[8, 8]}>
           {item?.evidencesBefore?.length > 0
@@ -243,7 +243,6 @@ function IssueForm({ item, tableRef, setFormDisabled }) {
       <ProForm
         initialValues={{
           ...initialValues,
-          status: 'Resolved',
         }}
         submitter={{
           submitButtonProps: {
@@ -255,6 +254,14 @@ function IssueForm({ item, tableRef, setFormDisabled }) {
           onReset: () => setInitialValues({}),
         }}
         onFinish={updateFormByRM}
+        onValuesChange={(_, values) => {
+          // If status is resolved then date of closure is required
+          if (values.status === 'Resolved') {
+            setStatusPending(false);
+          } else {
+            setStatusPending(true);
+          }
+        }}
       >
         <ProForm.Group>
           <ProFormTextArea
@@ -267,7 +274,7 @@ function IssueForm({ item, tableRef, setFormDisabled }) {
           <ProFormTextArea
             width="l"
             name="feedback"
-            label="Feedback from Sales Operation"
+            label="Feedback from Sales Operation / Comment"
             placeholder="Write feedback"
             rules={[{ required: true, message: 'Please write feedback!' }]}
           />
@@ -277,7 +284,7 @@ function IssueForm({ item, tableRef, setFormDisabled }) {
           <QuestionCircleOutlined style={{ color: '#959595' }} />
         </Tooltip>{' '}
         <Upload {...evidencesProps}>
-          <Button icon={<UploadOutlined />}>Select Image</Button>
+          <Button icon={<UploadOutlined />}>Select multiple images</Button>
         </Upload>
         <Row style={{ margin: '15px 0px' }} gutter={[8, 8]}>
           {item?.evidencesAfter?.length > 0
@@ -290,7 +297,6 @@ function IssueForm({ item, tableRef, setFormDisabled }) {
         </Row>
         <ProForm.Group>
           <ProFormSelect
-            disabled
             width="s"
             options={[
               {
@@ -308,12 +314,13 @@ function IssueForm({ item, tableRef, setFormDisabled }) {
             rules={[{ required: true, message: 'Status is required!' }]}
           />
           <ProFormDatePicker
+            disabled={statusPending}
             width="s"
             name="dateOfClosure"
             label="Date of Closure"
             placeholder="Select date"
             tooltip="If status is resolved, date of closure is required"
-            rules={[{ required: true, message: 'Please select date!' }]}
+            rules={[{ required: !statusPending, message: 'Please select date!' }]}
           />
         </ProForm.Group>
       </ProForm>

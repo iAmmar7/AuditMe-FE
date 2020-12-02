@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Typography, Tag, Image, Divider } from 'antd';
+import { Row, Col, Typography, Tag, Image, Divider, Alert } from 'antd';
 import moment from 'moment';
 
 import styles from './Priorities.less';
@@ -141,6 +141,51 @@ function IssueDetail({ item }) {
             <Typography.Text strong>No image available</Typography.Text>
           </Col>
         )}
+      </Row>
+
+      <Divider />
+
+      <Row gutter={[8, 8]}>
+        <Col span={12}>
+          <Alert
+            message={
+              <Typography.Text>
+                Date Identified:{' '}
+                <Typography.Text strong>
+                  {moment(item.dateIdentified).format('Do MMMM, YYYY')}
+                </Typography.Text>
+              </Typography.Text>
+            }
+            type="info"
+            showIcon
+          />
+        </Col>
+        <Col span={12}>
+          {item.dateOfClosure ? (
+            <Alert
+              message={
+                <Typography.Text>
+                  Date of Closure:{' '}
+                  <Typography.Text strong>
+                    {moment(item.dateOfClosure).format('Do MMMM, YYYY')}
+                  </Typography.Text>
+                </Typography.Text>
+              }
+              type="success"
+              showIcon
+            />
+          ) : (
+            <Alert
+              message={
+                <Typography.Text>
+                  Date of Closure: <Typography.Text strong>Not resolved</Typography.Text>
+                </Typography.Text>
+              }
+              type="error"
+              showIcon
+            />
+          )}
+        </Col>
       </Row>
     </>
   );

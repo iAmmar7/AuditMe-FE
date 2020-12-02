@@ -45,8 +45,8 @@ export default [
         routes: [
           {
             path: '/user/',
-            name: 'Welcome',
-            icon: 'smile',
+            name: 'Dashboard',
+            icon: 'dashboard',
             component: './user/Landing',
           },
           // {
@@ -57,13 +57,13 @@ export default [
           // },
           {
             path: '/user/priorities-form',
-            name: 'Raise an issue',
+            name: 'Priorities issues',
             icon: 'form',
             component: './user/PrioritiesForm',
           },
           {
             path: '/user/priorities-reports',
-            name: 'Priorities Reports',
+            name: 'Reports',
             icon: 'tablet',
             component: './user/PrioritiesReports',
           },

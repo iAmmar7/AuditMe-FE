@@ -31,15 +31,12 @@ const AuthLayout = ({ children }) => {
               />
             </Link>
           </div>
-          <div className={styles.desc}>An application for auditors and firms</div>
+          <div className={styles.desc}>Business Excellence Automation</div>
         </div>
         {children}
       </div>
       <div className={styles.footer}>
-        Copyright &copy; {new Date().getFullYear()} Petromin || Our{' '}
-        <a href="https://petromin.com/" rel="noreferrer" target="_blank">
-          website
-        </a>
+        Copyright &copy; {new Date().getFullYear()} Business Excellence Team || Saad Khan
       </div>
     </div>
   );
