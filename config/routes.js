@@ -79,7 +79,7 @@ export default [
               {
                 path: '/user/initiative-reports',
                 name: 'Initiatives',
-                component: './user/PrioritiesReports',
+                component: './user/InitiativesReports',
               },
             ],
           },
