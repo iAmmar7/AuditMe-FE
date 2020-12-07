@@ -5,47 +5,74 @@ import ProForm, {
   ProFormDatePicker,
   ProFormSelect,
 } from '@ant-design/pro-form';
-import { Upload, Button, Typography, Tooltip, message } from 'antd';
+import { Upload, Button, Typography, Tooltip, Row, message } from 'antd';
 import { UploadOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import { FooterToolbar } from '@ant-design/pro-layout';
+import moment from 'moment';
 
-function PriorityForm(props) {
-  const { loading, submitForm, evidenceFileList, setEvidenceFileList } = props;
+function InitiativeForm(props) {
+  const {
+    loading,
+    submitForm,
+    evidenceBeforeFileList,
+    setEvidenceBeforeFileList,
+    evidenceAfterFileList,
+    setEvidenceAfterFileList,
+  } = props;
 
-  const evidencesProps = {
-    name: 'evidences',
+  const evidencesBeforeProps = {
+    name: 'evidencesBefore',
     listType: 'picture',
     onRemove: (file) => {
-      const index = evidenceFileList.indexOf(file);
-      const newFileList = evidenceFileList.slice();
+      const index = evidenceBeforeFileList.indexOf(file);
+      const newFileList = evidenceBeforeFileList.slice();
       newFileList.splice(index, 1);
-      setEvidenceFileList(newFileList);
+      setEvidenceBeforeFileList(newFileList);
     },
     beforeUpload: (file) => {
       if (file.type !== 'image/png' && file.type !== 'image/jpg' && file.type !== 'image/jpeg') {
         message.error(`Supported image formats are png, jpg and jpeg`);
         return;
       }
-      setEvidenceFileList([...evidenceFileList, file]);
+      setEvidenceBeforeFileList([...evidenceBeforeFileList, file]);
       return false;
     },
-    evidenceFileList,
+    evidenceBeforeFileList,
+  };
+
+  const evidencesAfterProps = {
+    name: 'evidencesAfter',
+    listType: 'picture',
+    onRemove: (file) => {
+      const index = evidenceAfterFileList.indexOf(file);
+      const newFileList = evidenceAfterFileList.slice();
+      newFileList.splice(index, 1);
+      setEvidenceAfterFileList(newFileList);
+    },
+    beforeUpload: (file) => {
+      if (file.type !== 'image/png' && file.type !== 'image/jpg' && file.type !== 'image/jpeg') {
+        message.error(`Supported image formats are png, jpg and jpeg`);
+        return;
+      }
+      setEvidenceAfterFileList([...evidenceAfterFileList, file]);
+      return false;
+    },
+    evidenceAfterFileList,
   };
 
   return (
     <ProForm
-      initialValues={
-        {
-          // region: 'CR-North',
-          // areaManager: 'John Doe AM',
-          // regionalManager: 'John Doe RM',
-          // processSpecialist: 'John Doe PS',
-          // stationNumber: 'Test123',
-          // issueDetails: 'Test details',
-          // type: 'Initiative',
-          // dateIdentified: '2020-11-19',
-        }
-      }
+      initialValues={{
+        date: moment().format('YYYY-MM-DD'),
+        region: 'CR-North',
+        areaManager: 'John Doe AM',
+        regionalManager: 'John Doe RM',
+        stationNumber: 'Test123',
+        details: 'Test initiative details',
+        type: 'Initiative',
+        dateIdentified: '2020-11-19',
+        actionTaken: 'Test action',
+      }}
       submitter={{
         render: (_, dom) => <FooterToolbar> {dom} </FooterToolbar>,
         submitButtonProps: {
@@ -55,6 +82,15 @@ function PriorityForm(props) {
       }}
       onFinish={submitForm}
     >
+      <ProForm.Group>
+        <ProFormDatePicker
+          width="s"
+          name="date"
+          label="Date"
+          placeholder="Select date"
+          rules={[{ required: true, message: 'Please select date!' }]}
+        />
+      </ProForm.Group>
       <ProForm.Group>
         <ProFormSelect
           name="region"
@@ -84,12 +120,6 @@ function PriorityForm(props) {
           placeholder="Enter regional manager"
           rules={[{ required: true, message: 'Please write regional manager name!' }]}
         />
-        <ProFormText
-          name="processSpecialist"
-          label="Process Specialist"
-          placeholder="Enter process specialist"
-          rules={[{ required: true, message: 'Please write process specialist name!' }]}
-        />
       </ProForm.Group>
       <ProForm.Group>
         <ProFormSelect
@@ -117,29 +147,49 @@ function PriorityForm(props) {
       </ProForm.Group>
       <ProFormTextArea
         width=" xl "
-        name="issueDetails"
-        label="Priority Issue Details"
-        placeholder="Add issue details"
-        rules={[{ required: true, message: 'Please write issue details!' }]}
+        name="details"
+        label="Initiatives / Improvements"
+        placeholder="Add initiative details"
+        rules={[{ required: true, message: 'Please write initiative details!' }]}
       />
       <ProForm.Group>
         <ProFormDatePicker
           width="s"
           name="dateIdentified"
-          label="Date Identified/Listed"
+          label="Date Identified"
           placeholder="Select date"
           rules={[{ required: true, message: 'Please select date!' }]}
         />
       </ProForm.Group>
-      <Typography.Text>Evidence </Typography.Text>
-      <Tooltip title="Supported extensions are .jpg .jpeg .png">
-        <QuestionCircleOutlined style={{ color: '#959595' }} />
-      </Tooltip>{' '}
-      <Upload {...evidencesProps}>
-        <Button icon={<UploadOutlined />}>Select multiple images</Button>
-      </Upload>
+      <div style={{ marginBottom: '20px' }}>
+        <Typography.Text>Evidence Before </Typography.Text>
+        <Tooltip title="Supported extensions are .jpg .jpeg .png">
+          <QuestionCircleOutlined style={{ color: '#959595' }} />
+        </Tooltip>{' '}
+        <Upload {...evidencesBeforeProps}>
+          <Button icon={<UploadOutlined />}>Select multiple images</Button>
+        </Upload>
+      </div>
+
+      <div style={{ marginBottom: '20px' }}>
+        <Typography.Text>Evidence After </Typography.Text>
+        <Tooltip title="Supported extensions are .jpg .jpeg .png">
+          <QuestionCircleOutlined style={{ color: '#959595' }} />
+        </Tooltip>{' '}
+        <Upload {...evidencesAfterProps}>
+          <Button icon={<UploadOutlined />}>Select multiple images</Button>
+        </Upload>
+      </div>
+
+      <ProFormTextArea
+        width=" xl "
+        name="actionTaken"
+        label="Action Taken"
+        placeholder="Add action taken details"
+        rules={[{ required: true, message: 'Please write action details!' }]}
+      />
     </ProForm>
   );
 }
 
-export default PriorityForm;
+export default InitiativeForm;

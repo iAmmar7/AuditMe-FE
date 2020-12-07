@@ -62,10 +62,26 @@ export default [
             component: './user/PrioritiesForm',
           },
           {
-            path: '/user/priorities-reports',
+            path: '/user/initiative-form',
+            name: 'Initiative form',
+            icon: 'edit',
+            component: './user/InitiativesForm',
+          },
+          {
             name: 'Reports',
             icon: 'tablet',
-            component: './user/PrioritiesReports',
+            routes: [
+              {
+                path: '/user/priorities-reports',
+                name: 'Priorities',
+                component: './user/PrioritiesReports',
+              },
+              {
+                path: '/user/initiative-reports',
+                name: 'Initiatives',
+                component: './user/PrioritiesReports',
+              },
+            ],
           },
           {
             component: './404',
