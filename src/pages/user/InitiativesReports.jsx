@@ -5,7 +5,7 @@ import moment from 'moment';
 import axios from 'axios';
 
 import InitiativeTable from '../../components/Initiatives/InitiativeTable';
-import PriorityDetails from '../../components/Priorities/PriorityDetails';
+import InitiativeDetails from '../../components/Initiatives/InitiativeDetails';
 
 moment.locale('en');
 
@@ -72,11 +72,11 @@ const InitiativesReports = () => {
   const expandedRowRender = (item) => {
     const filteredItem = allData.filter((data) => item.key === data._id);
 
-    return <PriorityDetails item={filteredItem[0]} tableRef={tableRef} />;
+    return <InitiativeDetails item={filteredItem[0]} tableRef={tableRef} />;
   };
 
   return (
-    <PageHeaderWrapper content="See all issues here">
+    <PageHeaderWrapper content="See all initiatives here">
       <Card>
         <InitiativeTable
           expandedRowRender={expandedRowRender}

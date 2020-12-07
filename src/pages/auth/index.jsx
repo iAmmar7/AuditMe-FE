@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Alert, Tabs, message } from 'antd';
+import { Alert, Tabs, Button, message } from 'antd';
 import ProForm from '@ant-design/pro-form';
 import { history } from 'umi';
 import axios from 'axios';
@@ -95,13 +95,25 @@ const Auth = () => {
     <div className={styles.main}>
       <ProForm
         submitter={{
-          render: (_, dom) => dom.pop(),
           submitButtonProps: {
             loading: response.loading,
             size: 'large',
             style: {
               width: '100%',
             },
+          },
+          render: (props, _) => {
+            return (
+              <Button
+                type="primary"
+                loading={response.loading}
+                size="large"
+                style={{ width: '100%' }}
+                onClick={() => props.form.submit()}
+              >
+                Submit
+              </Button>
+            );
           },
         }}
         onFinish={async (values) => {
