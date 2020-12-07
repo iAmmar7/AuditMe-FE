@@ -41,7 +41,7 @@ const Auth = () => {
     if (tab === 'login') {
       axios
         .post(`${URL}/api/auth/user/login`, {
-          email: values.email,
+          batchNumber: values.batchNumber,
           password: values.password,
         })
         .then((res) => {
@@ -66,7 +66,7 @@ const Auth = () => {
       axios
         .post(`${URL}/api/auth/user/signup`, {
           name: values.name,
-          email: values.email,
+          batchNumber: values.batchNumber,
           password: values.password,
           role: values.userType,
         })
@@ -102,7 +102,7 @@ const Auth = () => {
               width: '100%',
             },
           },
-          render: (props, _) => {
+          render: (props) => {
             return (
               <Button
                 type="primary"

@@ -103,13 +103,16 @@ function InitiativeEdit({ item, tableRef, setFormDisabled }) {
         ...initialValues,
       }}
       submitter={{
-        submitButtonProps: {
-          loading,
-        },
-        resetButtonProps: {
-          loading,
-        },
-        onReset: () => setInitialValues({}),
+        render: (props) => (
+          <Button
+            type="primary"
+            loading={loading}
+            disabled={JSON.parse(localStorage.user).role === 'rm'}
+            onClick={() => props.form.submit()}
+          >
+            Submit
+          </Button>
+        ),
       }}
       onFinish={updateInitiative}
     >

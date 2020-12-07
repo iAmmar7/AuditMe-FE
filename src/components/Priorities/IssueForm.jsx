@@ -113,13 +113,16 @@ function IssueForm({ item, tableRef, setFormDisabled }) {
           ...initialValues,
         }}
         submitter={{
-          submitButtonProps: {
-            loading,
-          },
-          resetButtonProps: {
-            loading,
-          },
-          onReset: () => setInitialValues({}),
+          render: (props) => (
+            <Button
+              type="primary"
+              loading={loading}
+              disabled={JSON.parse(localStorage.user).role === 'rm'}
+              onClick={() => props.form.submit()}
+            >
+              Submit
+            </Button>
+          ),
         }}
         onFinish={updateFormByAuditor}
       >
@@ -245,13 +248,18 @@ function IssueForm({ item, tableRef, setFormDisabled }) {
           ...initialValues,
         }}
         submitter={{
-          submitButtonProps: {
-            loading,
-          },
-          resetButtonProps: {
-            loading,
-          },
-          onReset: () => setInitialValues({}),
+          render: (props) => (
+            <Row>
+              <Button
+                type="primary"
+                loading={loading}
+                disabled={JSON.parse(localStorage.user).role === 'rm'}
+                onClick={() => props.form.submit()}
+              >
+                Submit
+              </Button>
+            </Row>
+          ),
         }}
         onFinish={updateFormByRM}
         onValuesChange={(_, values) => {

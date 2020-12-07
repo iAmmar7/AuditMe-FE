@@ -74,10 +74,27 @@ function InitiativeForm(props) {
         actionTaken: 'Test action',
       }}
       submitter={{
-        render: (_, dom) => <FooterToolbar> {dom} </FooterToolbar>,
-        submitButtonProps: {
-          loading,
-          disabled: JSON.parse(localStorage.user).role === 'rm',
+        render: (props) => {
+          return (
+            <FooterToolbar>
+              <Button
+                type="secondary"
+                loading={loading}
+                disabled={JSON.parse(localStorage.user).role === 'rm'}
+                onClick={() => props?.form?.resetFields()}
+              >
+                Reset
+              </Button>
+              <Button
+                type="primary"
+                loading={loading}
+                disabled={JSON.parse(localStorage.user).role === 'rm'}
+                onClick={() => props.form.submit()}
+              >
+                Submit
+              </Button>
+            </FooterToolbar>
+          );
         },
       }}
       onFinish={submitForm}

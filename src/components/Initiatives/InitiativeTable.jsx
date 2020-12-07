@@ -1,5 +1,6 @@
 import React from 'react';
-import { Typography } from 'antd';
+import { ConfigProvider, Typography } from 'antd';
+import enUS from 'antd/lib/locale/en_US';
 import ProTable from '@ant-design/pro-table';
 
 const columns = [
@@ -130,28 +131,30 @@ function InitiativeTable(props) {
   const { expandedRowRender, onRequest, tableRef } = props;
 
   return (
-    <ProTable
-      columns={columns}
-      request={onRequest}
-      actionRef={tableRef}
-      rowKey="key"
-      pagination={{
-        showQuickJumper: true,
-        pageSize: 10,
-        pageSizeOptions: [10, 20, 50],
-      }}
-      expandable={{
-        expandedRowRender,
-      }}
-      search={{
-        labelWidth: 'auto',
-      }}
-      dateFormatter="string"
-      options={{
-        density: false,
-      }}
-      scroll={{ x: '1000px' }}
-    />
+    <ConfigProvider locale={enUS}>
+      <ProTable
+        columns={columns}
+        request={onRequest}
+        actionRef={tableRef}
+        rowKey="key"
+        pagination={{
+          showQuickJumper: true,
+          pageSize: 10,
+          pageSizeOptions: [10, 20, 50],
+        }}
+        expandable={{
+          expandedRowRender,
+        }}
+        search={{
+          labelWidth: 'auto',
+        }}
+        dateFormatter="string"
+        options={{
+          density: false,
+        }}
+        scroll={{ x: '1000px' }}
+      />
+    </ConfigProvider>
   );
 }
 

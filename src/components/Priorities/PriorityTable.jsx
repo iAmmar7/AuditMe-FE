@@ -1,6 +1,8 @@
 import React from 'react';
-import { Typography, Tag } from 'antd';
+import { ConfigProvider, Typography, Tag } from 'antd';
+import enUS from 'antd/lib/locale/en_US';
 import ProTable from '@ant-design/pro-table';
+
 import styles from './Priorities.less';
 
 const columns = [
@@ -197,61 +199,63 @@ function PriorityTable(props) {
   const { expandedRowRender, onRequest, tableRef } = props;
 
   return (
-    <ProTable
-      columns={columns}
-      request={onRequest}
-      actionRef={tableRef}
-      rowKey="key"
-      pagination={{
-        showQuickJumper: true,
-        pageSize: 10,
-        pageSizeOptions: [10, 20, 50],
-      }}
-      expandable={{
-        expandedRowRender,
-        // rowExpandable: (record) => record.status.text !== 'Cancelled',
-      }}
-      search={{
-        labelWidth: 'auto',
-      }}
-      dateFormatter="string"
-      options={{
-        density: false,
-      }}
-      scroll={{ x: '1000px' }}
-      rowClassName={(record) => (record.status.text === 'Cancelled' ? styles.cancelledRow : '')}
-      className={styles.issueTable}
-      // tableClassName={styles.issueTable}
-      // tableStyle={{
-      //   zIndex: -10,
-      // }}
-      // postData={(value1, value2, value3) => {
-      //   console.log('POST data', value1, value2, value3);
-      //   return value1;
-      // }}
-      // toolBarRender={() => [
-      //   <ProForm.Group style={{ paddingTop: '12%' }}>
-      //     <ProFormSelect
-      //       name="status"
-      //       hasFeedback
-      //       valueEnum={{
-      //         pending: 'Pending',
-      //         resolved: 'Resolved',
-      //       }}
-      //       placeholder="Status"
-      //     />
-      //     <ProFormSelect
-      //       name="region"
-      //       hasFeedback
-      //       valueEnum={{
-      //         region1: 'Region1',
-      //         region2: 'Region2',
-      //       }}
-      //       placeholder="Region"
-      //     />
-      //   </ProForm.Group>,
-      // ]}
-    />
+    <ConfigProvider locale={enUS}>
+      <ProTable
+        columns={columns}
+        request={onRequest}
+        actionRef={tableRef}
+        rowKey="key"
+        pagination={{
+          showQuickJumper: true,
+          pageSize: 10,
+          pageSizeOptions: [10, 20, 50],
+        }}
+        expandable={{
+          expandedRowRender,
+          // rowExpandable: (record) => record.status.text !== 'Cancelled',
+        }}
+        search={{
+          labelWidth: 'auto',
+        }}
+        dateFormatter="string"
+        options={{
+          density: false,
+        }}
+        scroll={{ x: '1000px' }}
+        rowClassName={(record) => (record.status.text === 'Cancelled' ? styles.cancelledRow : '')}
+        className={styles.issueTable}
+        // tableClassName={styles.issueTable}
+        // tableStyle={{
+        //   zIndex: -10,
+        // }}
+        // postData={(value1, value2, value3) => {
+        //   console.log('POST data', value1, value2, value3);
+        //   return value1;
+        // }}
+        // toolBarRender={() => [
+        //   <ProForm.Group style={{ paddingTop: '12%' }}>
+        //     <ProFormSelect
+        //       name="status"
+        //       hasFeedback
+        //       valueEnum={{
+        //         pending: 'Pending',
+        //         resolved: 'Resolved',
+        //       }}
+        //       placeholder="Status"
+        //     />
+        //     <ProFormSelect
+        //       name="region"
+        //       hasFeedback
+        //       valueEnum={{
+        //         region1: 'Region1',
+        //         region2: 'Region2',
+        //       }}
+        //       placeholder="Region"
+        //     />
+        //   </ProForm.Group>,
+        // ]}
+      />
+    </ConfigProvider>
   );
 }
 
