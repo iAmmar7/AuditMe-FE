@@ -38,37 +38,29 @@ function InitiativeInfo({ item }) {
         </Col>
       </Row>
       <Row style={{ marginTop: '15px' }}>
-        <Col col={12}>
+        <Col col={8}>
           Type:{' '}
           <Tag>
             <Typography.Text strong>{item.type}</Typography.Text>
           </Tag>
         </Col>
-        <Col col={12}>
+        <Col col={8}>
           Region:{' '}
           <Tag>
             <Typography.Text strong>{item.region ? item.region : 'N/A'}</Typography.Text>
           </Tag>
         </Col>
-      </Row>
-      <Row style={{ marginTop: '15px' }}>
-        <Col col={24}>
-          Issue Details:{' '}
-          <Typography.Text strong>{item.details ? item.details : 'N/A'}</Typography.Text>
-        </Col>
-      </Row>
-      <Row style={{ marginTop: '15px' }}>
-        <Col col={12} style={{ marginRight: '15px' }}>
-          Date Identified:{' '}
-          <Typography.Text strong>
-            {moment(item.dateIdentified).format('Do MMMM, YYYY')}
-          </Typography.Text>
-        </Col>
-        <Col col={12}>
+        <Col col={8}>
           Station/BE#:{' '}
           <Typography.Text strong>
             {item.stationNumber ? item.stationNumber : 'N/A'}
           </Typography.Text>
+        </Col>
+      </Row>
+      <Row style={{ marginTop: '15px' }}>
+        <Col col={24}>
+          Initiative Details:{' '}
+          <Typography.Text strong>{item.details ? item.details : 'N/A'}</Typography.Text>
         </Col>
       </Row>
 
@@ -106,13 +98,6 @@ function InitiativeInfo({ item }) {
             <Typography.Text strong>No image available</Typography.Text>
           </Col>
         )}
-      </Row>
-
-      <Row style={{ marginTop: '15px' }}>
-        <Col col={24}>
-          Action Taken:{' '}
-          <Typography.Text strong>{item.actionTaken ? item.actionTaken : 'N/A'}</Typography.Text>
-        </Col>
       </Row>
     </>
   );

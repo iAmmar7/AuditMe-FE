@@ -57,7 +57,6 @@ const InitiativesReports = () => {
         region: result.data.reports[i].region,
         regionalManager: result.data.reports[i].regionalManager,
         areaManager: result.data.reports[i].areaManager,
-        dateIdentified: moment(result.data.reports[i].dateIdentified).format('DD-MMM-YY'),
         stationNumber: result.data.reports[i].stationNumber,
       });
     }

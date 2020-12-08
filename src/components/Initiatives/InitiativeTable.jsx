@@ -111,15 +111,6 @@ const columns = [
     render: (_) => <Typography.Text>{_}</Typography.Text>,
   },
   {
-    title: 'Date Identified',
-    width: 90,
-    key: 'dateIdentified',
-    dataIndex: 'dateIdentified',
-    valueType: 'dateRange',
-    sorter: () => null,
-    render: (_) => <Typography.Text>{_.props.text}</Typography.Text>,
-  },
-  {
     title: 'Station/BE',
     width: 90,
     dataIndex: 'stationNumber',

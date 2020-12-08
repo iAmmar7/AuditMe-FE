@@ -63,7 +63,7 @@ export default [
           },
           {
             path: '/user/initiative-form',
-            name: 'Initiative form',
+            name: 'Initiatives',
             icon: 'edit',
             component: './user/InitiativesForm',
           },

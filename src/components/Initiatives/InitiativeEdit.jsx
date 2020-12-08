@@ -18,7 +18,6 @@ const URL =
 
 function InitiativeEdit({ item, tableRef, setFormDisabled }) {
   const [loading, setLoading] = useState(false);
-  const [initialValues, setInitialValues] = useState(item);
   const [evidenceBeforeFileList, setEvidenceBeforeFileList] = useState([]);
   const [evidenceAfterFileList, setEvidenceAfterFileList] = useState([]);
 
@@ -100,7 +99,7 @@ function InitiativeEdit({ item, tableRef, setFormDisabled }) {
   return (
     <ProForm
       initialValues={{
-        ...initialValues,
+        ...item,
       }}
       submitter={{
         render: (props) => (
@@ -182,19 +181,10 @@ function InitiativeEdit({ item, tableRef, setFormDisabled }) {
       <ProFormTextArea
         width=" xl "
         name="details"
-        label="Initiatives / Improvements"
+        label="Initiatives / Improvements / Action Taken"
         placeholder="Add initiative details"
         rules={[{ required: true, message: 'Please write initiative detail!' }]}
       />
-      <ProForm.Group>
-        <ProFormDatePicker
-          width="s"
-          name="dateIdentified"
-          label="Date Identified/Listed"
-          placeholder="Select date"
-          rules={[{ required: true, message: 'Please select date!' }]}
-        />
-      </ProForm.Group>
       <Typography.Text>Evidence Before </Typography.Text>
       <Tooltip title="Supported extensions are .jpg .jpeg .png">
         <QuestionCircleOutlined style={{ color: '#959595' }} />
@@ -227,13 +217,6 @@ function InitiativeEdit({ item, tableRef, setFormDisabled }) {
             ))
           : null}
       </Row>
-      <ProFormTextArea
-        width=" xl "
-        name="actionTaken"
-        label="Action Taken"
-        placeholder="Add action taken details"
-        rules={[{ required: true, message: 'Please write action details!' }]}
-      />
     </ProForm>
   );
 }

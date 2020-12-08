@@ -165,19 +165,11 @@ function InitiativeForm(props) {
       <ProFormTextArea
         width=" xl "
         name="details"
-        label="Initiatives / Improvements"
+        label="Initiatives / Improvements / Action Taken"
         placeholder="Add initiative details"
         rules={[{ required: true, message: 'Please write initiative details!' }]}
       />
-      <ProForm.Group>
-        <ProFormDatePicker
-          width="s"
-          name="dateIdentified"
-          label="Date Identified"
-          placeholder="Select date"
-          rules={[{ required: true, message: 'Please select date!' }]}
-        />
-      </ProForm.Group>
+
       <div style={{ marginBottom: '20px' }}>
         <Typography.Text>Evidence Before </Typography.Text>
         <Tooltip title="Supported extensions are .jpg .jpeg .png">
@@ -197,14 +189,6 @@ function InitiativeForm(props) {
           <Button icon={<UploadOutlined />}>Select multiple images</Button>
         </Upload>
       </div>
-
-      <ProFormTextArea
-        width=" xl "
-        name="actionTaken"
-        label="Action Taken"
-        placeholder="Add action taken details"
-        rules={[{ required: true, message: 'Please write action details!' }]}
-      />
     </ProForm>
   );
 }
