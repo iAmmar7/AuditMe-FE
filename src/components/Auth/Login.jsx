@@ -6,16 +6,16 @@ export default function LogIn({ styles }) {
   return (
     <>
       <ProFormText
-        name="batchNumber"
+        name="badgeNumber"
         fieldProps={{
           size: 'large',
           prefix: <MailOutlined className={styles.prefixIcon} />,
         }}
-        placeholder="Enter your Batch number"
+        placeholder="Enter your Badge number"
         rules={[
           {
             required: true,
-            message: 'Batch number is required',
+            message: 'Badge number is required',
           },
         ]}
       />

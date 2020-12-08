@@ -89,7 +89,7 @@ const Landing = () => {
         icon = <CloseCircleOutlined />;
       }
       return (
-        <Col span={6} key={item.status}>
+        <Col col={6} key={item.status}>
           <Card>
             <Statistic
               title={item.status}
@@ -132,8 +132,8 @@ const Landing = () => {
         ) : (
           <>
             <BarChart stats={data.regionStats} total={data.total} />
-            <Row gutter={16} style={{ paddingTop: '30px' }}>
-              <Col span={6}>
+            <Row align="space-between" style={{ paddingTop: '30px' }}>
+              <Col col={6}>
                 <Card>
                   <Statistic
                     title="All"

@@ -22,16 +22,16 @@ export default function SingUp({ styles }) {
       />
       <ProFormText
         type="text"
-        name="batchNumber"
+        name="badgeNumber"
         fieldProps={{
           size: 'large',
           prefix: <MailOutlined className={styles.prefixIcon} />,
         }}
-        placeholder="Enter your batch number"
+        placeholder="Enter your badge number"
         rules={[
           {
             required: true,
-            message: 'Batch number is required',
+            message: 'Badge number is required',
           },
         ]}
       />
