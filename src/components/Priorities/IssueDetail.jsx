@@ -33,19 +33,17 @@ function IssueDetail({ item }) {
       </Row>
       <Row style={{ marginTop: '15px' }}>
         <Col col={8} style={{ marginRight: '15px' }}>
+          Process Specialist:{' '}
+          <Typography.Text strong>{item.userName ? item.userName : 'N/A'}</Typography.Text>
+        </Col>
+        <Col col={8} style={{ marginRight: '15px' }}>
           Area Manager:{' '}
           <Typography.Text strong>{item.areaManager ? item.areaManager : 'N/A'}</Typography.Text>
         </Col>
-        <Col col={8} style={{ marginRight: '15px' }}>
+        <Col col={8}>
           Regional Manager:{' '}
           <Typography.Text strong>
             {item.regionalManager ? item.regionalManager : 'N/A'}
-          </Typography.Text>
-        </Col>
-        <Col col={8}>
-          Process Specialist:{' '}
-          <Typography.Text strong>
-            {item.processSpecialist ? item.processSpecialist : 'N/A'}
           </Typography.Text>
         </Col>
       </Row>
@@ -115,8 +113,7 @@ function IssueDetail({ item }) {
       </Row>
       <Row style={{ marginTop: '15px' }}>
         <Col col={8} style={{ marginRight: '15px' }}>
-          Days Open:{' '}
-          <Typography.Text strong>{item.daysOpen ? item.daysOpen : 'N/A'}</Typography.Text>
+          Days Open: <Typography.Text strong>{item.daysOpen}</Typography.Text>
         </Col>
         <Col col={8}>
           Date of Closure:{' '}

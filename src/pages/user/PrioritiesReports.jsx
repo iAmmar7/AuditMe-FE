@@ -74,12 +74,12 @@ const PrioritiesReports = () => {
         status,
         type: result.data.reports[i].type,
         region: result.data.reports[i].region,
-        processSpecialist: result.data.reports[i].processSpecialist,
         regionalManager: result.data.reports[i].regionalManager,
         areaManager: result.data.reports[i].areaManager,
         dateIdentified: moment(result.data.reports[i].dateIdentified).format('DD-MMM-YY'),
         stationNumber: result.data.reports[i].stationNumber,
-        daysOpen: result.data.reports[i].daysOpen,
+        daysOpen:
+          result.data.reports[i].status === 'Pending' ? result.data.reports[i].daysOpen : null,
       });
     }
 

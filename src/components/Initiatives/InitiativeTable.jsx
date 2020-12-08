@@ -22,6 +22,7 @@ const columns = [
     title: 'Type',
     width: 100,
     dataIndex: 'type',
+    search: false,
     filters: [
       {
         text: 'Customer Experience',
@@ -62,6 +63,7 @@ const columns = [
     title: 'Region',
     width: 100,
     dataIndex: 'region',
+    search: false,
     filters: [
       {
         text: 'Southern',
@@ -130,7 +132,7 @@ function InitiativeTable(props) {
         rowKey="key"
         pagination={{
           showQuickJumper: true,
-          pageSize: 10,
+          pageSize: 20,
           pageSizeOptions: [10, 20, 50],
         }}
         expandable={{

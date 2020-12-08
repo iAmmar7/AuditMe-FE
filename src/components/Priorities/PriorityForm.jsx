@@ -73,6 +73,15 @@ function PriorityForm(props) {
       onFinish={submitForm}
     >
       <ProForm.Group>
+        <ProFormDatePicker
+          width="s"
+          name="date"
+          label="Date"
+          placeholder="Select date"
+          rules={[{ required: true, message: 'Please select date!' }]}
+        />
+      </ProForm.Group>
+      <ProForm.Group>
         <ProFormSelect
           name="region"
           label="Region"
@@ -100,12 +109,6 @@ function PriorityForm(props) {
           label="Regional Manager"
           placeholder="Enter regional manager"
           rules={[{ required: true, message: 'Please write regional manager name!' }]}
-        />
-        <ProFormText
-          name="processSpecialist"
-          label="Process Specialist"
-          placeholder="Enter process specialist"
-          rules={[{ required: true, message: 'Please write process specialist name!' }]}
         />
       </ProForm.Group>
       <ProForm.Group>

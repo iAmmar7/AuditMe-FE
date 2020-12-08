@@ -62,17 +62,19 @@ function InitiativeForm(props) {
 
   return (
     <ProForm
-      initialValues={{
-        date: moment().format('YYYY-MM-DD'),
-        region: 'CR-North',
-        areaManager: 'John Doe AM',
-        regionalManager: 'John Doe RM',
-        stationNumber: 'Test123',
-        details: 'Test initiative details',
-        type: 'Initiative',
-        dateIdentified: '2020-11-19',
-        actionTaken: 'Test action',
-      }}
+      initialValues={
+        {
+          // date: moment().format('YYYY-MM-DD'),
+          // region: 'CR-North',
+          // areaManager: 'John Doe AM',
+          // regionalManager: 'John Doe RM',
+          // stationNumber: 'Test123',
+          // details: 'Test initiative details',
+          // type: 'Initiative',
+          // dateIdentified: '2020-11-19',
+          // actionTaken: 'Test action',
+        }
+      }
       submitter={{
         render: (props) => {
           return (

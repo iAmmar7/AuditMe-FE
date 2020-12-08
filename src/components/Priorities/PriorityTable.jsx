@@ -15,7 +15,7 @@ const columns = [
     render: (_) => <Typography.Text>{_.props.text}</Typography.Text>,
   },
   {
-    title: 'Added by',
+    title: 'Process Specialist',
     width: 120,
     dataIndex: 'user',
     render: (_) => <Typography.Text strong>{_}</Typography.Text>,
@@ -24,6 +24,7 @@ const columns = [
     title: 'Status',
     width: 80,
     dataIndex: 'status',
+    search: false,
     // valueType: 'select',
     // valueEnum: {
     //   resolved: { text: 'Resolved', status: 'Resolved' },
@@ -55,6 +56,7 @@ const columns = [
     title: 'Type',
     width: 100,
     dataIndex: 'type',
+    search: false,
     // valueType: 'select',
     // valueEnum: {
     //   customerExperience: { text: 'Customer Experience', type: 'Customer Experience' },
@@ -106,6 +108,7 @@ const columns = [
     title: 'Region',
     width: 100,
     dataIndex: 'region',
+    search: false,
     // valueType: 'select',
     // valueEnum: {
     //   southern: { text: 'Southern', type: 'Southern' },
@@ -154,12 +157,6 @@ const columns = [
     render: (_) => <Typography.Text>{_}</Typography.Text>,
   },
   {
-    title: 'Process Specialist',
-    width: 120,
-    dataIndex: 'processSpecialist',
-    render: (_) => <Typography.Text>{_}</Typography.Text>,
-  },
-  {
     title: 'Regional Manager',
     width: 120,
     dataIndex: 'regionalManager',
@@ -190,7 +187,6 @@ const columns = [
     title: 'Days Open',
     dataIndex: 'daysOpen',
     search: false,
-    sorter: () => null,
     render: (_) => <Typography.Text>{_}</Typography.Text>,
   },
 ];
@@ -207,7 +203,7 @@ function PriorityTable(props) {
         rowKey="key"
         pagination={{
           showQuickJumper: true,
-          pageSize: 10,
+          pageSize: 20,
           pageSizeOptions: [10, 20, 50],
         }}
         expandable={{
