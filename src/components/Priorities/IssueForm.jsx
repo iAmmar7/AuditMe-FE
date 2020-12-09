@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Row, Col, Image, Typography, Tooltip, Upload, Button, message } from 'antd';
-import { UploadOutlined, QuestionCircleOutlined } from '@ant-design/icons';
+import { UploadOutlined, QuestionCircleOutlined, DeleteTwoTone } from '@ant-design/icons';
 import ProForm, {
   ProFormText,
   ProFormTextArea,
@@ -81,9 +81,35 @@ function IssueForm({ item, tableRef, setFormDisabled }) {
           message.success('Issue has been successfully updated!');
         }
       })
-      .catch((error) => {
+      .catch(() => {
         setLoading(false);
         message.error('Unable to update issue, please try later!', 10);
+      });
+  };
+
+  const deleteImage = async (requestType, imageType, image) => {
+    setLoading(true);
+    axios
+      .post(
+        `${URL}/api/user/delete-image`,
+        {
+          id: item._id,
+          requestType,
+          imageType,
+          url: image,
+        },
+        {
+          headers: { Authorization: localStorage.userToken },
+        },
+      )
+      .then(() => {
+        setLoading(false);
+        tableRef.current.reload();
+        message.success('Image deleted successfully');
+      })
+      .catch(() => {
+        setLoading(false);
+        message.error('Unable to delete image');
       });
   };
 
@@ -117,7 +143,7 @@ function IssueForm({ item, tableRef, setFormDisabled }) {
             <Button
               type="primary"
               loading={loading}
-              disabled={JSON.parse(localStorage.user).role === 'rm'}
+              disabled={JSON.parse(localStorage.user).role !== 'auditor'}
               onClick={() => props.form.submit()}
             >
               Submit
@@ -216,6 +242,11 @@ function IssueForm({ item, tableRef, setFormDisabled }) {
           {item?.evidencesBefore?.length > 0
             ? item?.evidencesBefore?.map((image) => (
                 <Col key={image} className={styles.issue_image_container}>
+                  <DeleteTwoTone
+                    className={styles.issue_delete_btn}
+                    twoToneColor="red"
+                    onClick={() => deleteImage('issues', 'evidenceBefore', image)}
+                  />
                   <Image src={URL + image} className={styles.issue_image} />
                 </Col>
               ))
@@ -256,7 +287,7 @@ function IssueForm({ item, tableRef, setFormDisabled }) {
               <Button
                 type="primary"
                 loading={loading}
-                disabled={JSON.parse(localStorage.user).role === 'rm'}
+                disabled={JSON.parse(localStorage.user).role !== 'rm'}
                 onClick={() => props.form.submit()}
               >
                 Submit
@@ -301,6 +332,11 @@ function IssueForm({ item, tableRef, setFormDisabled }) {
           {item?.evidencesAfter?.length > 0
             ? item?.evidencesAfter?.map((image) => (
                 <Col key={image} className={styles.issue_image_container}>
+                  <DeleteTwoTone
+                    className={styles.issue_delete_btn}
+                    twoToneColor="red"
+                    onClick={() => deleteImage('issues', 'evidenceAfter', image)}
+                  />
                   <Image src={URL + image} className={styles.issue_image} />
                 </Col>
               ))

@@ -27,8 +27,6 @@ function PriorityDetails({ item, tableRef }) {
   const [formDisabled, setFormDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
 
-  console.log(item);
-
   const cancelIssue = () => {
     setLoading(true);
     axios
