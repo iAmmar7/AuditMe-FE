@@ -75,7 +75,7 @@ const InitiativesReports = () => {
   };
 
   return (
-    <PageHeaderWrapper content="Initiative / Imrpovement / Action Taken">
+    <PageHeaderWrapper content="Initiative / Improvement / Action Taken">
       <Card>
         <InitiativeTable
           expandedRowRender={expandedRowRender}

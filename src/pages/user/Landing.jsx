@@ -10,7 +10,7 @@ import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import moment from 'moment';
 import axios from 'axios';
 
-import BarChart from '../../components/Charts/BarChart';
+import RegionChart from '../../components/Charts/RegionChart';
 
 const URL =
   process.env.NODE_ENV === 'development'
@@ -22,7 +22,7 @@ const monthsList = [
   { value: 'allTime', text: 'All Time' },
   { value: moment().format('YYYY-MM-DD'), text: moment().format('MMMM Y') },
 ];
-for (let i = 1; i <= 11; i = i + 1) {
+for (let i = 1; i <= 11; i += 1) {
   monthsList.push({
     value: moment().subtract(i, 'month').format('YYYY-MM-DD'),
     text: moment().subtract(i, 'month').format('MMMM Y'),
@@ -104,7 +104,7 @@ const Landing = () => {
   }
 
   return (
-    <PageHeaderWrapper content="Business Excellence - EDER (Early Detection Early Resolution">
+    <PageHeaderWrapper content="Business Excellence - EDER (Early Detection Early Resolution)">
       <Card>
         <Row justify="space-between">
           <Col>
@@ -131,7 +131,7 @@ const Landing = () => {
           </div>
         ) : (
           <>
-            <BarChart stats={data.regionStats} total={data.total} />
+            <RegionChart stats={data.regionStats} total={data.total} />
             <Row gutter={[24, 24]} justify="center" style={{ paddingTop: '30px' }}>
               <Col col={6} style={{ width: '150px' }}>
                 <Card>

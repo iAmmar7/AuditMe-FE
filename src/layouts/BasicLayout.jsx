@@ -55,7 +55,6 @@ const BasicLayout = (props) => {
         if (menuItemProps.isUrl || !menuItemProps.path) {
           return defaultDom;
         }
-
         return <Link to={menuItemProps.path}>{defaultDom}</Link>;
       }}
       breadcrumbRender={(routers = []) => [
@@ -72,6 +71,9 @@ const BasicLayout = (props) => {
         ) : (
           <span>{route.breadcrumbName}</span>
         );
+      }}
+      menuProps={{
+        onClick: handleMenuCollapse,
       }}
       footerRender={() => (
         <Typography.Text style={{ textAlign: 'center', color: 'grey', padding: '10px' }}>

@@ -2,7 +2,7 @@ import React from 'react';
 import { Row, Typography, Badge } from 'antd';
 import { Bar } from '@ant-design/charts';
 
-const BarChart = ({ stats }) => {
+const RegionChart = ({ stats }) => {
   const data = [
     {
       region: 'Southern',
@@ -87,6 +87,7 @@ const BarChart = ({ stats }) => {
     },
     tooltip: {
       customContent: (title, values) => {
+        console.log(title, values);
         return (
           <div style={{ padding: '2px 6px' }}>
             <Row style={{ margin: '8px 0px' }}>
@@ -142,4 +143,4 @@ const BarChart = ({ stats }) => {
 
   return <Bar {...config} />;
 };
-export default BarChart;
+export default RegionChart;
