@@ -225,11 +225,14 @@ function PriorityTable(props) {
         }}
         scroll={{ x: '1000px' }}
         rowClassName={(record) => (record.status.text === 'Cancelled' ? styles.cancelledRow : '')}
-        className={styles.issueTable}
+        // className={styles.issueTable}
         // tableClassName={styles.issueTable}
-        // tableStyle={{
-        //   zIndex: -10,
-        // }}
+        tableStyle={{
+          zIndex: -1000000,
+        }}
+        dropdownStyle={{
+          zIndex: 1000000,
+        }}
         // postData={(value1, value2, value3) => {
         //   console.log('POST data', value1, value2, value3);
         //   return value1;

@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Card, message } from 'antd';
+import { message } from 'antd';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import moment from 'moment';
 import axios from 'axios';
@@ -103,13 +103,11 @@ const PrioritiesReports = () => {
 
   return (
     <PageHeaderWrapper content="EDER - Early Detection Early Resolution">
-      <Card>
-        <PriorityTable
-          expandedRowRender={expandedRowRender}
-          onRequest={onRequest}
-          tableRef={tableRef}
-        />
-      </Card>
+      <PriorityTable
+        expandedRowRender={expandedRowRender}
+        onRequest={onRequest}
+        tableRef={tableRef}
+      />
     </PageHeaderWrapper>
   );
 };
