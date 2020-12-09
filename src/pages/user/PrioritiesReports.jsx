@@ -80,6 +80,11 @@ const PrioritiesReports = () => {
         stationNumber: result.data.reports[i].stationNumber,
         daysOpen:
           result.data.reports[i].status === 'Pending' ? result.data.reports[i].daysOpen : null,
+        daysResolved:
+          result.data.reports[i].status === 'Pending' ||
+          result.data.reports[i].status === 'Cancelled'
+            ? null
+            : result.data.reports[i].daysOpen,
       });
     }
 
@@ -97,7 +102,7 @@ const PrioritiesReports = () => {
   };
 
   return (
-    <PageHeaderWrapper content="See all issues here">
+    <PageHeaderWrapper content="EDER - Early Detection Early Resolution">
       <Card>
         <PriorityTable
           expandedRowRender={expandedRowRender}

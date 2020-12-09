@@ -75,7 +75,7 @@ const BasicLayout = (props) => {
       }}
       footerRender={() => (
         <Typography.Text style={{ textAlign: 'center', color: 'grey', padding: '10px' }}>
-          Coppyright &copy; {new Date().getFullYear()} Business Excellence Team || Saad Khan
+          Copyright &copy; {new Date().getFullYear()} Business Excellence Team || Saad Khan
         </Typography.Text>
       )}
       rightContentRender={() => (

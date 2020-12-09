@@ -139,6 +139,7 @@ const BarChart = ({ stats }) => {
       },
     },
   };
+
   return <Bar {...config} />;
 };
 export default BarChart;

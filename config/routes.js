@@ -57,7 +57,7 @@ export default [
           // },
           {
             path: '/user/priorities-form',
-            name: 'Priorities issues',
+            name: 'Priorities Issues',
             icon: 'form',
             component: './user/PrioritiesForm',
           },
@@ -73,7 +73,7 @@ export default [
             routes: [
               {
                 path: '/user/priorities-reports',
-                name: 'Priorities',
+                name: 'Priorities Issues',
                 component: './user/PrioritiesReports',
               },
               {

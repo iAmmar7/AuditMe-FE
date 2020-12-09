@@ -22,7 +22,7 @@ const monthsList = [
   { value: 'allTime', text: 'All Time' },
   { value: moment().format('YYYY-MM-DD'), text: moment().format('MMMM Y') },
 ];
-for (let i = 1; i <= 11; i++) {
+for (let i = 1; i <= 11; i = i + 1) {
   monthsList.push({
     value: moment().subtract(i, 'month').format('YYYY-MM-DD'),
     text: moment().subtract(i, 'month').format('MMMM Y'),
@@ -104,7 +104,7 @@ const Landing = () => {
   }
 
   return (
-    <PageHeaderWrapper content="Summary of your dashboard">
+    <PageHeaderWrapper content="Business Excellence - EDER (Early Detection Early Resolution">
       <Card>
         <Row justify="space-between">
           <Col>
