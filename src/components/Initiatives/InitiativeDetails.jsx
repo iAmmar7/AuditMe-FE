@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { DeleteOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
+import { DeleteOutlined } from '@ant-design/icons';
 import {
   Card,
   Row,
@@ -8,9 +8,9 @@ import {
   Switch,
   Divider,
   Button,
-  Modal,
   Tooltip,
   Spin,
+  Popconfirm,
   message,
 } from 'antd';
 import axios from 'axios';
@@ -27,8 +27,28 @@ function InitiativeDetails({ item, tableRef }) {
   const [formDisabled, setFormDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
 
-  let cancelButton = null;
   let editButton = null;
+
+  const deleteItem = () => {
+    setLoading(true);
+    axios
+      .delete(`${URL}/api/user/delete-initiative/${item._id}`, {
+        headers: {
+          Authorization: localStorage.userToken,
+        },
+      })
+      .then((res) => {
+        if (res.data.success) {
+          setLoading(false);
+          message.success('Issue deleted successfully');
+          tableRef.current.reload();
+        }
+      })
+      .catch(() => {
+        message.error('Unable to delete the issue');
+        setLoading(false);
+      });
+  };
 
   // If the current user is regional manager
   if (JSON.parse(localStorage.user).role === 'rm') {
@@ -96,7 +116,22 @@ function InitiativeDetails({ item, tableRef }) {
   return (
     <Card>
       <Row justify="center">
-        <Col span={24}>{editButton}</Col>
+        <Col span={12}>
+          {JSON.parse(localStorage.user).isAdmin ? (
+            <Popconfirm
+              title="Are you sure to delete this?"
+              onConfirm={deleteItem}
+              // onCancel={cancel}
+              okText="Yes"
+              cancelText="No"
+            >
+              <Button danger icon={<DeleteOutlined />}>
+                Delete
+              </Button>
+            </Popconfirm>
+          ) : null}
+        </Col>
+        <Col span={12}>{editButton}</Col>
       </Row>
       <Divider />
       {content}

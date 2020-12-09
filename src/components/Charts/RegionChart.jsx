@@ -184,7 +184,7 @@ const RegionChart = ({ stats }) => {
         footer={null}
         width={600}
         bodyStyle={{
-          height: '300px',
+          height: '320px',
         }}
       >
         <TypeChart stats={selectedData} />
