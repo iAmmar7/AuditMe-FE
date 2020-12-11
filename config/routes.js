@@ -39,7 +39,7 @@ export default [
     component: '../layouts/UserSecuredLayout',
     routes: [
       {
-        path: '/user',
+        path: '/',
         component: '../layouts/BasicLayout',
         authority: ['user'],
         routes: [
@@ -49,12 +49,6 @@ export default [
             icon: 'dashboard',
             component: './user/Landing',
           },
-          // {
-          //   path: '/user/audit-report',
-          //   name: 'Audit Report',
-          //   icon: 'crown',
-          //   component: './user/AuditReport',
-          // },
           {
             path: '/user/priorities-form',
             name: 'Priorities Issues',
@@ -68,20 +62,28 @@ export default [
             component: './user/InitiativesForm',
           },
           {
+            path: '/user/reports',
             name: 'Reports',
             icon: 'tablet',
             routes: [
               {
-                path: '/user/priorities-reports',
+                path: '/user/reports/priorities-reports',
                 name: 'Priorities Issues',
                 component: './user/PrioritiesReports',
               },
               {
-                path: '/user/initiative-reports',
+                path: '/user/reports/initiative-reports',
                 name: 'Initiatives',
                 component: './user/InitiativesReports',
               },
             ],
+          },
+          {
+            path: '/user/settings',
+            name: 'Settings',
+            icon: 'setting',
+            hideInMenu: true,
+            component: './user/Settings',
           },
           {
             component: './404',

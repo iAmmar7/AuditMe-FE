@@ -51,6 +51,12 @@ const BasicLayout = (props) => {
       onMenuHeaderClick={() => {
         if (location.pathname !== '/user') history.push('/user');
       }}
+      menuDataRender={(routes) => {
+        const newRoutes = [...routes];
+        if (JSON.parse(localStorage.user).isAdmin) newRoutes[4].hideInMenu = false;
+
+        return newRoutes;
+      }}
       menuItemRender={(menuItemProps, defaultDom) => {
         if (menuItemProps.isUrl || !menuItemProps.path) {
           return defaultDom;
