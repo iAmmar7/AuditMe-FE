@@ -16,7 +16,7 @@ const URL =
     : process.env.AUDITME_PROD_BE_URL;
 
 const Settings = () => {
-  const tableRef = useRef(null);
+  const tableRef = useRef();
 
   const onRequest = async (parameters, sorter, filter) => {
     const result = await axios.post(
@@ -24,14 +24,10 @@ const Settings = () => {
       {
         params: parameters,
         sorter: {
-          dateSorter: sorter?.date,
-          dateIdentifiedSorter: sorter?.dateIdentified,
-          daysOpenSorter: sorter?.daysOpen,
+          nameSorter: sorter?.name,
         },
         filter: {
-          statusFilter: filter?.status,
-          typeFilter: filter?.type,
-          regionFilter: filter?.region,
+          roleFilter: filter?.role,
         },
       },
       {
@@ -41,8 +37,6 @@ const Settings = () => {
       },
     );
 
-    console.log(result.data);
-
     if (!result) {
       message.error('Unable to fetch users, reload');
     }
@@ -51,14 +45,16 @@ const Settings = () => {
     for (let i = 0; i < result.data.users.length; i += 1) {
       tableList.push({
         id: result.data.users[i]._id,
-        badgeNumber: result.data.users[i].badgeNumber,
         name: result.data.users[i].name,
+        badgeNumber: result.data.users[i].badgeNumber,
+        role: result.data.users[i].role,
         password: result.data.users[i].password,
       });
     }
 
     return {
       data: tableList,
+      total: result?.data?.total,
       success: true,
     };
   };

@@ -47,6 +47,7 @@ const BasicLayout = (props) => {
       logo={false}
       {...props}
       {...settings}
+      locale="en-US"
       onCollapse={handleMenuCollapse}
       onMenuHeaderClick={() => {
         if (location.pathname !== '/user') history.push('/user');
@@ -78,9 +79,13 @@ const BasicLayout = (props) => {
           <span>{route.breadcrumbName}</span>
         );
       }}
-      menuProps={{
-        onClick: handleMenuCollapse,
-      }}
+      menuProps={
+        window.innerWidth < 765
+          ? {
+              onClick: handleMenuCollapse,
+            }
+          : {}
+      }
       footerRender={() => (
         <Typography.Text style={{ textAlign: 'center', color: 'grey', padding: '10px' }}>
           Copyright &copy; {new Date().getFullYear()} Business Excellence Team || Saad Khan

@@ -132,7 +132,7 @@ const Landing = () => {
         ) : (
           <>
             <RegionChart stats={data.regionStats} total={data.total} />
-            <Row gutter={[24, 24]} justify="center" style={{ paddingTop: '30px' }}>
+            <Row gutter={[8, 8]} justify="center" style={{ paddingTop: '30px' }}>
               <Col col={6} style={{ width: '150px' }}>
                 <Card>
                   <Statistic
