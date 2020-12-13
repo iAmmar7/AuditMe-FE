@@ -62,7 +62,7 @@ function PriorityForm(props) {
               <Button
                 type="primary"
                 loading={loading}
-                disabled={JSON.parse(localStorage.user).role !== 'rm'}
+                disabled={JSON.parse(localStorage.user).role !== 'auditor'}
                 onClick={() => submitProps.form.submit()}
               >
                 Submit

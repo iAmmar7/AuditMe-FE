@@ -92,7 +92,7 @@ function InitiativeTable(props) {
         toolBarRender={() => [<GenerateInitiativesCSV key="csv" />]}
         pagination={{
           showQuickJumper: true,
-          pageSize: 20,
+          pageSize: 10,
           pageSizeOptions: [10, 20, 50],
         }}
         expandable={{
