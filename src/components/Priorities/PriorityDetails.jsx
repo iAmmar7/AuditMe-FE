@@ -271,6 +271,43 @@ function PriorityDetails({ item, tableRef }) {
     }
   }
 
+  // if issue is maitenance
+  if (item.status === 'Maintenance') {
+    if (
+      JSON.parse(localStorage.user).role === 'rm' &&
+      JSON.parse(localStorage.user).id.toString() === item.resolvedById.toString()
+    ) {
+      editButton = (
+        <Row justify="center" align="end">
+          <Col offset={1} style={{ paddingTop: '2px', marginRight: '4px' }}>
+            <Typography.Text>Update Status </Typography.Text>
+          </Col>
+          <Col>
+            <Switch
+              checkedChildren="Off"
+              unCheckedChildren="On"
+              checked={!formDisabled}
+              onClick={() => setFormDisabled(!formDisabled)}
+            />
+          </Col>
+        </Row>
+      );
+    } else {
+      editButton = (
+        <Row justify="center" align="end">
+          <Col offset={1} style={{ paddingTop: '2px', marginRight: '4px' }}>
+            <Typography.Text>Update issue </Typography.Text>
+          </Col>
+          <Col>
+            <Tooltip title={`Only ${item.resolvedByName} can update this issue now`}>
+              <Switch checkedChildren="Off" unCheckedChildren="On" checked={false} disabled />
+            </Tooltip>
+          </Col>
+        </Row>
+      );
+    }
+  }
+
   let content = formDisabled ? (
     <IssueDetail item={item} />
   ) : (

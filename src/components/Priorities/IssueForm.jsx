@@ -344,7 +344,6 @@ function IssueForm({ item, tableRef, setFormDisabled }) {
         </Row>
         <ProForm.Group>
           <ProFormSelect
-            width="s"
             options={[
               {
                 value: 'Pending',
@@ -353,6 +352,10 @@ function IssueForm({ item, tableRef, setFormDisabled }) {
               {
                 value: 'Resolved',
                 label: 'Resolved',
+              },
+              {
+                value: 'Maintenance',
+                label: 'Maintenance',
               },
             ]}
             name="status"

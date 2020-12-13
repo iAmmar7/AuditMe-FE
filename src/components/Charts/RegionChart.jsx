@@ -89,7 +89,7 @@ const RegionChart = ({ stats }) => {
     color: (_ref) => {
       if (_ref.status === 'Pending') return '#f5222d';
       if (_ref.status === 'Resolved') return '#a0d911';
-      if (_ref.status === 'Cancelled') return '#fa8c16';
+      if (_ref.status === 'Maintenance') return '#FFD700';
     },
     label: {
       position: 'middle',

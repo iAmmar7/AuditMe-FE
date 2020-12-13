@@ -13,6 +13,7 @@ function IssueDetail({ item }) {
   let color = null;
   if (item.status === 'Pending') color = 'red';
   if (item.status === 'Resolved') color = 'green';
+  if (item.status === 'Maintenance') color = 'gold';
 
   return (
     <>

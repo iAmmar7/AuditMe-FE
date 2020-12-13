@@ -36,7 +36,7 @@ const PrioritiesForm = () => {
         setLoading(false);
         if (res.data.success) {
           message.success('Issue has been successfully published!');
-          history.push('/user/priorities-reports');
+          history.push('/user/reports/priorities-reports');
         }
       })
       .catch(() => {

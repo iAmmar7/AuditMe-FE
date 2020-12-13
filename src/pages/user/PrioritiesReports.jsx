@@ -63,7 +63,7 @@ const PrioritiesReports = () => {
         };
       } else {
         status = {
-          color: 'red',
+          color: 'gold',
           text: result.data.reports[i].status,
         };
       }
@@ -80,12 +80,9 @@ const PrioritiesReports = () => {
         dateIdentified: moment(result.data.reports[i].dateIdentified).format('DD-MMM-YY'),
         stationNumber: result.data.reports[i].stationNumber,
         daysOpen:
-          result.data.reports[i].status === 'Pending' ? result.data.reports[i].daysOpen : null,
+          result.data.reports[i].status === 'Resolved' ? null : result.data.reports[i].daysOpen,
         daysResolved:
-          result.data.reports[i].status === 'Pending' ||
-          result.data.reports[i].status === 'Cancelled'
-            ? null
-            : result.data.reports[i].daysOpen,
+          result.data.reports[i].status === 'Resolved' ? result.data.reports[i].daysOpen : null,
       });
     }
 

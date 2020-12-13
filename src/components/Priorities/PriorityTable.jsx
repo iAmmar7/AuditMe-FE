@@ -8,7 +8,8 @@ import styles from './Priorities.less';
 const columns = [
   {
     title: 'Date',
-    width: 90,
+    width: '9%',
+    minWidth: 100,
     dataIndex: 'date',
     valueType: 'dateRange',
     sorter: () => null,
@@ -16,13 +17,11 @@ const columns = [
   },
   {
     title: 'Process Specialist',
-    width: 120,
     dataIndex: 'user',
     render: (_) => <Typography.Text strong>{_}</Typography.Text>,
   },
   {
     title: 'Status',
-    width: 80,
     dataIndex: 'status',
     search: false,
     // valueType: 'select',
@@ -41,8 +40,8 @@ const columns = [
         value: 'Resolved',
       },
       {
-        text: 'Cancelled',
-        value: 'Cancelled',
+        text: 'Maintenance',
+        value: 'Maintenance',
       },
     ],
     render: (_) =>
@@ -54,7 +53,6 @@ const columns = [
   },
   {
     title: 'Type',
-    width: 100,
     dataIndex: 'type',
     search: false,
     // valueType: 'select',
@@ -106,7 +104,8 @@ const columns = [
   },
   {
     title: 'Region',
-    width: 100,
+    width: '9%',
+    minWidth: 100,
     dataIndex: 'region',
     search: false,
     // valueType: 'select',
@@ -154,23 +153,22 @@ const columns = [
         value: 'WR-South',
       },
     ],
-    render: (_) => <Typography.Text>{_}</Typography.Text>,
+    render: (_) => <Tag>{_}</Tag>,
   },
   {
     title: 'Regional Manager',
-    width: 120,
     dataIndex: 'regionalManager',
     render: (_) => <Typography.Text>{_}</Typography.Text>,
   },
   {
     title: 'Area Manager',
-    width: 120,
     dataIndex: 'areaManager',
     render: (_) => <Typography.Text>{_}</Typography.Text>,
   },
   {
     title: 'Date Identified',
-    width: 90,
+    width: '9%',
+    minWidth: 100,
     key: 'dateIdentified',
     dataIndex: 'dateIdentified',
     valueType: 'dateRange',
@@ -179,7 +177,6 @@ const columns = [
   },
   {
     title: 'Station/BE',
-    width: 90,
     dataIndex: 'stationNumber',
     render: (_) => <Typography.Text>{_}</Typography.Text>,
   },
