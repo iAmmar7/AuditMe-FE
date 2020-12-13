@@ -32,6 +32,7 @@ function InitiativeDetails({ item, tableRef }) {
   const deleteItem = () => {
     setLoading(true);
     axios
+      // eslint-disable-next-line no-underscore-dangle
       .delete(`${URL}/api/user/delete-initiative/${item._id}`, {
         headers: {
           Authorization: localStorage.userToken,
@@ -84,6 +85,7 @@ function InitiativeDetails({ item, tableRef }) {
       </Row>
     );
   }
+
   // If the current user is auditor but not the one who added this initiative
   else {
     editButton = (
@@ -93,6 +95,22 @@ function InitiativeDetails({ item, tableRef }) {
         </Col>
         <Col>
           <Tooltip title={`Only ${item.userName} can edit this issue`}>
+            <Switch checkedChildren="Off" unCheckedChildren="On" checked={false} disabled />
+          </Tooltip>
+        </Col>
+      </Row>
+    );
+  }
+
+  // If the current user is viewer
+  if (JSON.parse(localStorage.user).role === 'viewer') {
+    editButton = (
+      <Row justify="center" align="end">
+        <Col offset={1} style={{ paddingTop: '2px', marginRight: '4px' }}>
+          <Typography.Text>Edit status </Typography.Text>
+        </Col>
+        <Col>
+          <Tooltip title="A viewer can not edit issues">
             <Switch checkedChildren="Off" unCheckedChildren="On" checked={false} disabled />
           </Tooltip>
         </Col>

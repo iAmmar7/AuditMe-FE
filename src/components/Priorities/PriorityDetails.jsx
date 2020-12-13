@@ -221,7 +221,7 @@ function PriorityDetails({ item, tableRef }) {
             <Typography.Text>Update status </Typography.Text>
           </Col>
           <Col>
-            <Tooltip title="A regional manager can not update cancelled issue">
+            <Tooltip title="A regional manager can not update issue">
               <Switch checkedChildren="Off" unCheckedChildren="On" checked={false} disabled />
             </Tooltip>
           </Col>
@@ -306,6 +306,22 @@ function PriorityDetails({ item, tableRef }) {
         </Row>
       );
     }
+  }
+
+  // For viewer account
+  if (JSON.parse(localStorage.user).role === 'viewer') {
+    editButton = (
+      <Row justify="center" align="end">
+        <Col offset={1} style={{ paddingTop: '2px', marginRight: '4px' }}>
+          <Typography.Text>Edit status </Typography.Text>
+        </Col>
+        <Col>
+          <Tooltip title="A viewer can not edit issues">
+            <Switch checkedChildren="Off" unCheckedChildren="On" checked={false} disabled />
+          </Tooltip>
+        </Col>
+      </Row>
+    );
   }
 
   let content = formDisabled ? (

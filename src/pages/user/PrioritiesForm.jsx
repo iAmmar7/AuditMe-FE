@@ -57,6 +57,16 @@ const PrioritiesForm = () => {
           showIcon
         />
       ) : null}
+      {JSON.parse(localStorage.getItem('user')).role === 'viewer' ? (
+        <Alert
+          style={{
+            marginBottom: 24,
+          }}
+          message="You have signed up as viewer, you can not submit an issue. Please signup as auditor in order to raise an issue"
+          type="error"
+          showIcon
+        />
+      ) : null}
       <Card>
         <PriorityForm
           loading={loading}
