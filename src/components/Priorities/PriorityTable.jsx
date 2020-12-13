@@ -3,6 +3,7 @@ import { ConfigProvider, Typography, Tag } from 'antd';
 import enUS from 'antd/lib/locale/en_US';
 import ProTable from '@ant-design/pro-table';
 
+import GeneratePrioritiesCSV from '../common/GeneratePrioritiesCSV';
 import styles from './Priorities.less';
 
 const columns = [
@@ -160,6 +161,7 @@ function PriorityTable(props) {
         request={onRequest}
         actionRef={tableRef}
         rowKey="key"
+        toolBarRender={() => [<GeneratePrioritiesCSV key="csv" />]}
         pagination={{
           showQuickJumper: true,
           pageSize: 20,

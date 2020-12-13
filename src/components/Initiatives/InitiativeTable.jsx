@@ -3,6 +3,8 @@ import { ConfigProvider, Typography } from 'antd';
 import enUS from 'antd/lib/locale/en_US';
 import ProTable from '@ant-design/pro-table';
 
+import GenerateInitiativesCSV from '../common/GenerateInitiativesCSV';
+
 const columns = [
   {
     title: 'Date',
@@ -87,6 +89,7 @@ function InitiativeTable(props) {
         request={onRequest}
         actionRef={tableRef}
         rowKey="key"
+        toolBarRender={() => [<GenerateInitiativesCSV key="csv" />]}
         pagination={{
           showQuickJumper: true,
           pageSize: 20,
