@@ -5,10 +5,9 @@ import ProForm, {
   ProFormDatePicker,
   ProFormSelect,
 } from '@ant-design/pro-form';
-import { Upload, Button, Typography, Tooltip, Row, message } from 'antd';
+import { Upload, Button, Typography, Tooltip, message } from 'antd';
 import { UploadOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import { FooterToolbar } from '@ant-design/pro-layout';
-import moment from 'moment';
 
 function InitiativeForm(props) {
   const {
@@ -55,6 +54,7 @@ function InitiativeForm(props) {
         return;
       }
       setEvidenceAfterFileList([...evidenceAfterFileList, file]);
+      // eslint-disable-next-line consistent-return
       return false;
     },
     evidenceAfterFileList,
@@ -76,14 +76,14 @@ function InitiativeForm(props) {
         }
       }
       submitter={{
-        render: (props) => {
+        render: (submitProps) => {
           return (
             <FooterToolbar>
               <Button
                 type="secondary"
                 loading={loading}
                 disabled={JSON.parse(localStorage.user).role === 'rm'}
-                onClick={() => props?.form?.resetFields()}
+                onClick={() => submitProps?.form?.resetFields()}
               >
                 Reset
               </Button>
@@ -91,7 +91,7 @@ function InitiativeForm(props) {
                 type="primary"
                 loading={loading}
                 disabled={JSON.parse(localStorage.user).role === 'rm'}
-                onClick={() => props.form.submit()}
+                onClick={() => submitProps.form.submit()}
               >
                 Submit
               </Button>

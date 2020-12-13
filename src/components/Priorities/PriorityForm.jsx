@@ -27,6 +27,7 @@ function PriorityForm(props) {
         return;
       }
       setEvidenceFileList([...evidenceFileList, file]);
+      // eslint-disable-next-line consistent-return
       return false;
     },
     evidenceFileList,
@@ -47,14 +48,14 @@ function PriorityForm(props) {
         }
       }
       submitter={{
-        render: (props) => {
+        render: (submitProps) => {
           return (
             <FooterToolbar>
               <Button
                 type="secondary"
                 loading={loading}
                 disabled={JSON.parse(localStorage.user).role === 'rm'}
-                onClick={() => props?.form?.resetFields()}
+                onClick={() => submitProps?.form?.resetFields()}
               >
                 Reset
               </Button>
@@ -62,7 +63,7 @@ function PriorityForm(props) {
                 type="primary"
                 loading={loading}
                 disabled={JSON.parse(localStorage.user).role === 'rm'}
-                onClick={() => props.form.submit()}
+                onClick={() => submitProps.form.submit()}
               >
                 Submit
               </Button>

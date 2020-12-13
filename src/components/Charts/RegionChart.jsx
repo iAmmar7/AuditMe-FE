@@ -86,6 +86,7 @@ const RegionChart = ({ stats }) => {
     seriesField: 'status',
     isPercent: false,
     isStack: true,
+    // eslint-disable-next-line consistent-return
     color: (_ref) => {
       if (_ref.status === 'Pending') return '#f5222d';
       if (_ref.status === 'Resolved') return '#a0d911';

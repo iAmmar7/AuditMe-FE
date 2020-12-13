@@ -84,8 +84,8 @@ const Landing = () => {
         color = '#a0d911';
         icon = <CheckCircleOutlined />;
       }
-      if (item.status === 'Cancelled') {
-        color = '#fa8c16';
+      if (item.status === 'Maintenance') {
+        color = '#FFD700';
         icon = <CloseCircleOutlined />;
       }
       return (
