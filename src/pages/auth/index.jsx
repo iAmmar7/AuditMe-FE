@@ -122,7 +122,7 @@ const Auth = () => {
       >
         <Tabs activeKey={tab} onChange={setTab}>
           <Tabs.TabPane key="login" tab="Login" />
-          <Tabs.TabPane key="signup" tab="Signup" />
+          {/* <Tabs.TabPane key="signup" tab="Signup" /> */}
         </Tabs>
 
         {response.success === false && tab === 'login' && !response.loading && (

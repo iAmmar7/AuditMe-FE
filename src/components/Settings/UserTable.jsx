@@ -1,9 +1,20 @@
 import React, { useState } from 'react';
-import { ConfigProvider, Typography, Modal, Popconfirm, message, Avatar, Form, Tag } from 'antd';
+import {
+  ConfigProvider,
+  Typography,
+  Modal,
+  Popconfirm,
+  message,
+  Avatar,
+  Form,
+  Tag,
+  Button,
+} from 'antd';
 import ProTable from '@ant-design/pro-table';
 import enUS from 'antd/lib/locale/en_US';
 import axios from 'axios';
 
+import AddForm from './AddForm';
 import EditForm from './EditForm';
 
 const URL =
@@ -14,6 +25,7 @@ const URL =
 function UserTable({ onRequest, tableRef }) {
   const [form] = Form.useForm();
   const [editModeOn, setEditModeOn] = useState(false);
+  const [addModeOn, setAddModeOn] = useState(false);
 
   const editOk = () => {
     setEditModeOn(false);
@@ -21,6 +33,14 @@ function UserTable({ onRequest, tableRef }) {
 
   const editCancel = () => {
     setEditModeOn(false);
+  };
+
+  const addOk = () => {
+    setAddModeOn(false);
+  };
+
+  const addCancel = () => {
+    setAddModeOn(false);
   };
 
   const deleteUser = (record) => {
@@ -83,7 +103,8 @@ function UserTable({ onRequest, tableRef }) {
       ],
       render: (role) => {
         if (role === 'auditor') return <Tag color="purple">Auditor</Tag>;
-        return <Tag color="orange">RM</Tag>;
+        if (role === 'rm') return <Tag color="orange">RM</Tag>;
+        return <Tag color="pink">Viewer</Tag>;
       },
     },
     {
@@ -143,6 +164,11 @@ function UserTable({ onRequest, tableRef }) {
         options={{
           density: false,
         }}
+        toolBarRender={() => [
+          <Button key="add-user" type="primary" onClick={() => setAddModeOn(true)}>
+            Add New User
+          </Button>,
+        ]}
       />
       <Modal
         title="Edit User Info"
@@ -152,6 +178,15 @@ function UserTable({ onRequest, tableRef }) {
         footer={null}
       >
         <EditForm form={form} modalClose={editCancel} tableRef={tableRef} />
+      </Modal>
+      <Modal
+        title="Add New User"
+        visible={addModeOn}
+        onOk={addOk}
+        onCancel={addCancel}
+        footer={null}
+      >
+        <AddForm modalClose={addCancel} tableRef={tableRef} />
       </Modal>
     </ConfigProvider>
   );

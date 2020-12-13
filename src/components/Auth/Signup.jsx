@@ -1,5 +1,5 @@
 import React from 'react';
-import { LockTwoTone, UserOutlined, MailOutlined, SecurityScanOutlined } from '@ant-design/icons';
+import { LockTwoTone, UserOutlined, MailOutlined } from '@ant-design/icons';
 import { ProFormText, ProFormSelect } from '@ant-design/pro-form';
 
 export default function SingUp({ styles }) {
