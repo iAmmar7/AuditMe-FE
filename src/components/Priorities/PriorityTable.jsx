@@ -67,38 +67,18 @@ const columns = [
     //   others: { text: 'Others', type: 'Others' },
     // },
     filters: [
-      {
-        text: 'Customer Experience',
-        value: 'Customer Experience',
-      },
-      {
-        text: 'Bay Violation',
-        value: 'Bay Violation',
-      },
-      {
-        text: 'Housekeeping',
-        value: 'Housekeeping',
-      },
-      {
-        text: 'Customer Mistreatment',
-        value: 'Customer Mistreatment',
-      },
-      {
-        text: 'Initiative',
-        value: 'Initiative',
-      },
-      {
-        text: 'Admin Issues',
-        value: 'Admin Issues',
-      },
-      {
-        text: 'Safety',
-        value: 'Safety',
-      },
-      {
-        text: 'Others',
-        value: 'Others',
-      },
+      { text: 'Customer Experience', value: 'Customer Experience' },
+      { text: 'Bay Violation', value: 'Bay Violation' },
+      { text: 'Housekeeping', value: 'Housekeeping' },
+      { text: 'Customer Mistreatment', value: 'Customer Mistreatment' },
+      { text: 'Initiative', value: 'Initiative' },
+      { text: 'Admin Issues', value: 'Admin Issues' },
+      { text: 'Maintenance Issues', value: 'Maintenance Issues' },
+      { text: 'IT Issues', value: 'IT Issues' },
+      { text: 'Inventory Issues', value: 'Inventory Issues' },
+      { text: 'Violation', value: 'Violation' },
+      { text: 'Safety', value: 'Safety' },
+      { text: 'Others', value: 'Others' },
     ],
     render: (_) => <Typography.Text>{_}</Typography.Text>,
   },
@@ -120,38 +100,14 @@ const columns = [
     //   wr_south: { text: 'WR-South', type: 'WR-South' },
     // },
     filters: [
-      {
-        text: 'Southern',
-        value: 'Southern',
-      },
-      {
-        text: 'CR-East',
-        value: 'CR-East',
-      },
-      {
-        text: 'CR-North',
-        value: 'CR-North',
-      },
-      {
-        text: 'CR-South',
-        value: 'CR-South',
-      },
-      {
-        text: 'ER-North',
-        value: 'ER-North',
-      },
-      {
-        text: 'ER-South',
-        value: 'ER-South',
-      },
-      {
-        text: 'WR-North',
-        value: 'WR-North',
-      },
-      {
-        text: 'WR-South',
-        value: 'WR-South',
-      },
+      { text: 'Southern', value: 'Southern' },
+      { text: 'CR-East', value: 'CR-East' },
+      { text: 'CR-North', value: 'CR-North' },
+      { text: 'CR-South', value: 'CR-South' },
+      { text: 'ER-North', value: 'ER-North' },
+      { text: 'ER-South', value: 'ER-South' },
+      { text: 'WR-North', value: 'WR-North' },
+      { text: 'WR-South', value: 'WR-South' },
     ],
     render: (_) => <Tag>{_}</Tag>,
   },

@@ -6,7 +6,8 @@ import ProTable from '@ant-design/pro-table';
 const columns = [
   {
     title: 'Date',
-    width: 90,
+    width: '14%',
+    minWidth: 100,
     dataIndex: 'date',
     valueType: 'dateRange',
     sorter: () => null,
@@ -14,107 +15,63 @@ const columns = [
   },
   {
     title: 'Process Specialist',
-    width: 120,
+    width: '14%',
     dataIndex: 'user',
     render: (_) => <Typography.Text strong>{_}</Typography.Text>,
   },
   {
     title: 'Type',
-    width: 100,
+    width: '14%',
     dataIndex: 'type',
     search: false,
     filters: [
-      {
-        text: 'Customer Experience',
-        value: 'Customer Experience',
-      },
-      {
-        text: 'Bay Violation',
-        value: 'Bay Violation',
-      },
-      {
-        text: 'Housekeeping',
-        value: 'Housekeeping',
-      },
-      {
-        text: 'Customer Mistreatment',
-        value: 'Customer Mistreatment',
-      },
-      {
-        text: 'Initiative',
-        value: 'Initiative',
-      },
-      {
-        text: 'Admin Issues',
-        value: 'Admin Issues',
-      },
-      {
-        text: 'Safety',
-        value: 'Safety',
-      },
-      {
-        text: 'Others',
-        value: 'Others',
-      },
+      { text: 'Customer Experience', value: 'Customer Experience' },
+      { text: 'Bay Violation', value: 'Bay Violation' },
+      { text: 'Housekeeping', value: 'Housekeeping' },
+      { text: 'Customer Mistreatment', value: 'Customer Mistreatment' },
+      { text: 'Initiative', value: 'Initiative' },
+      { text: 'Admin Issues', value: 'Admin Issues' },
+      { text: 'Maintenance Issues', value: 'Maintenance Issues' },
+      { text: 'IT Issues', value: 'IT Issues' },
+      { text: 'Inventory Issues', value: 'Inventory Issues' },
+      { text: 'Violation', value: 'Violation' },
+      { text: 'Safety', value: 'Safety' },
+      { text: 'Others', value: 'Others' },
     ],
     render: (_) => <Typography.Text>{_}</Typography.Text>,
   },
   {
     title: 'Region',
-    width: 100,
+    width: '14%',
     dataIndex: 'region',
     search: false,
     filters: [
-      {
-        text: 'Southern',
-        value: 'Southern',
-      },
-      {
-        text: 'CR-East',
-        value: 'CR-East',
-      },
-      {
-        text: 'CR-North',
-        value: 'CR-North',
-      },
-      {
-        text: 'CR-South',
-        value: 'CR-South',
-      },
-      {
-        text: 'ER-North',
-        value: 'ER-North',
-      },
-      {
-        text: 'ER-South',
-        value: 'ER-South',
-      },
-      {
-        text: 'WR-North',
-        value: 'WR-North',
-      },
-      {
-        text: 'WR-South',
-        value: 'WR-South',
-      },
+      { text: 'Southern', value: 'Southern' },
+      { text: 'CR-East', value: 'CR-East' },
+      { text: 'CR-North', value: 'CR-North' },
+      { text: 'CR-South', value: 'CR-South' },
+      { text: 'ER-North', value: 'ER-North' },
+      { text: 'ER-South', value: 'ER-South' },
+      { text: 'WR-North', value: 'WR-North' },
+      { text: 'WR-South', value: 'WR-South' },
     ],
     render: (_) => <Typography.Text>{_}</Typography.Text>,
   },
   {
     title: 'Regional Manager',
-    width: 120,
+    width: '14%',
     dataIndex: 'regionalManager',
     render: (_) => <Typography.Text>{_}</Typography.Text>,
   },
   {
     title: 'Area Manager',
-    width: 120,
+    width: '14%',
     dataIndex: 'areaManager',
     render: (_) => <Typography.Text>{_}</Typography.Text>,
   },
   {
     title: 'Station/BE',
-    width: 90,
+    width: '14%',
     dataIndex: 'stationNumber',
     render: (_) => <Typography.Text>{_}</Typography.Text>,
   },

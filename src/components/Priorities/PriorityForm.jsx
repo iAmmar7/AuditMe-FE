@@ -123,6 +123,10 @@ function PriorityForm(props) {
             { value: 'Customer Mistreatment', label: 'Customer Mistreatment' },
             { value: 'Initiative', label: 'Initiative' },
             { value: 'Admin Issues', label: 'Admin Issues' },
+            { value: 'Maintenance Issues', label: 'Maintenance Issues' },
+            { value: 'IT Issues', label: 'IT Issues' },
+            { value: 'Inventory Issues', label: 'Inventory Issues' },
+            { value: 'Violation', label: 'Violation' },
             { value: 'Safety', label: 'Safety' },
             { value: 'Others', label: 'Others' },
           ]}
