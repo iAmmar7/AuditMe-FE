@@ -29,6 +29,22 @@ const TypeChart = ({ stats }) => {
       count: stats.data['Admin Issues'] ?? null,
     },
     {
+      type: 'Maintenance Issues',
+      count: stats.data['Maintenance Issues'] ?? null,
+    },
+    {
+      type: 'IT Issues',
+      count: stats.data['IT Issues'] ?? null,
+    },
+    {
+      type: 'Inventory Issues',
+      count: stats.data['Inventory Issues'] ?? null,
+    },
+    {
+      type: 'Violation',
+      count: stats.data['Violation'] ?? null,
+    },
+    {
       type: 'Safety',
       count: stats.data['Safety'] ?? null,
     },
@@ -49,13 +65,16 @@ const TypeChart = ({ stats }) => {
       type: 'inner',
       offset: '-30%',
       style: {
-        fontSize: 16,
+        fontSize: 20,
         textAlign: 'center',
+        fill: 'grey',
       },
     },
     legend: {
       flipPage: false,
-      itemHeight: 20,
+      itemHeight: 10,
+      layout: 'horizontal',
+      position: 'right',
     },
     interactions: [{ type: 'element-active' }],
   };

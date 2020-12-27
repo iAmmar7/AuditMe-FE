@@ -77,18 +77,18 @@ function UserTable({ onRequest, tableRef }) {
     {
       title: 'Name',
       dataIndex: 'name',
+      width: 250,
+      ellipsis: true,
       sorter: () => null,
       render: (_) => <Typography.Text strong>{_}</Typography.Text>,
     },
     {
       title: 'Badge Number',
       dataIndex: 'badgeNumber',
-      width: 130,
       render: (_) => <Typography.Text>{_}</Typography.Text>,
     },
     {
       title: 'Role',
-      width: 100,
       dataIndex: 'role',
       search: false,
       filters: [
@@ -99,6 +99,10 @@ function UserTable({ onRequest, tableRef }) {
         {
           text: 'RM',
           value: 'rm',
+        },
+        {
+          text: 'Viewer',
+          value: 'viewer',
         },
       ],
       render: (role) => {
