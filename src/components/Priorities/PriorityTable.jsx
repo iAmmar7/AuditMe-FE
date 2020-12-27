@@ -149,6 +149,11 @@ const columns = [
     search: false,
     render: (_) => <Typography.Text>{_}</Typography.Text>,
   },
+  {
+    title: 'Log Number',
+    dataIndex: 'logNumber',
+    render: (_) => <Typography.Text>{_}</Typography.Text>,
+  },
 ];
 
 function PriorityTable(props) {

@@ -19,7 +19,7 @@ const URL =
 function IssueForm({ item, tableRef, setFormDisabled }) {
   const [loading, setLoading] = useState(false);
   const [initialValues, setInitialValues] = useState(item);
-  const [statusPending, setStatusPending] = useState(true);
+  const [status, setStatus] = useState(item.status);
   const [evidenceBeforeFileList, setEvidenceBeforeFileList] = useState([]);
   const [evidenceAfterFileList, setEvidenceAfterFileList] = useState([]);
 
@@ -297,11 +297,8 @@ function IssueForm({ item, tableRef, setFormDisabled }) {
         }}
         onFinish={updateFormByRM}
         onValuesChange={(_, values) => {
-          // If status is resolved then date of closure is required
-          if (values.status === 'Resolved') {
-            setStatusPending(false);
-          } else {
-            setStatusPending(true);
+          if (values.status) {
+            setStatus(values.status);
           }
         }}
       >
@@ -342,6 +339,12 @@ function IssueForm({ item, tableRef, setFormDisabled }) {
               ))
             : null}
         </Row>
+        <ProFormTextArea
+          width="l"
+          name="maintenanceComment"
+          label="Maintenance Team's Comment"
+          placeholder="Write comment"
+        />
         <ProForm.Group>
           <ProFormSelect
             options={[
@@ -364,13 +367,21 @@ function IssueForm({ item, tableRef, setFormDisabled }) {
             rules={[{ required: true, message: 'Status is required!' }]}
           />
           <ProFormDatePicker
-            disabled={statusPending}
+            disabled={status !== 'Resolved'}
             width="s"
             name="dateOfClosure"
             label="Date of Closure"
             placeholder="Select date"
             tooltip="If status is resolved, date of closure is required"
-            rules={[{ required: !statusPending, message: 'Please select date!' }]}
+            rules={[{ required: status === 'Resolved', message: 'Please select date!' }]}
+          />
+          <ProFormText
+            disabled={status !== 'Maintenance'}
+            name="logNumber"
+            label="Log Number"
+            placeholder="Enter log number"
+            tooltip="If status is maintenance, log number is required"
+            rules={[{ required: status === 'Maintenance', message: 'Please write log number!' }]}
           />
         </ProForm.Group>
       </ProForm>

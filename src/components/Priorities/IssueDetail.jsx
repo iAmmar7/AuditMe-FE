@@ -113,14 +113,26 @@ function IssueDetail({ item }) {
         </Col>
       </Row>
       <Row style={{ marginTop: '15px' }}>
+        <Col col={24}>
+          Maintenance Team's Comment:{' '}
+          <Typography.Text strong>
+            {item.maintenanceComment ? item.maintenanceComment : 'N/A'}
+          </Typography.Text>
+        </Col>
+      </Row>
+      <Row style={{ marginTop: '15px' }}>
         <Col col={8} style={{ marginRight: '15px' }}>
           Days Open: <Typography.Text strong>{item.daysOpen}</Typography.Text>
         </Col>
-        <Col col={8}>
+        <Col col={8} style={{ marginRight: '15px' }}>
           Date of Closure:{' '}
           <Typography.Text strong>
             {item.dateOfClosure ? moment(item.dateOfClosure).format('Do MMMM, YYYY') : 'N/A'}
           </Typography.Text>
+        </Col>
+        <Col col={8}>
+          Log Number:{' '}
+          <Typography.Text strong>{item.logNumber ? item.logNumber : 'N/A'}</Typography.Text>
         </Col>
       </Row>
       {/* Evidences After */}

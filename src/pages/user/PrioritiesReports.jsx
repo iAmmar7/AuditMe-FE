@@ -83,6 +83,7 @@ const PrioritiesReports = () => {
           result.data.reports[i].status === 'Resolved' ? null : result.data.reports[i].daysOpen,
         daysResolved:
           result.data.reports[i].status === 'Resolved' ? result.data.reports[i].daysOpen : null,
+        logNumber: result.data.reports[i].logNumber,
       });
     }
 

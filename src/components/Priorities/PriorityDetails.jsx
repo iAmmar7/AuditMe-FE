@@ -273,10 +273,11 @@ function PriorityDetails({ item, tableRef }) {
 
   // if issue is maitenance
   if (item.status === 'Maintenance') {
-    if (
-      JSON.parse(localStorage.user).role === 'rm' &&
-      JSON.parse(localStorage.user).id.toString() === item.resolvedById.toString()
-    ) {
+    // if (
+    //   JSON.parse(localStorage.user).role === 'rm' &&
+    //   JSON.parse(localStorage.user).id.toString() === item.resolvedById.toString()
+    // ) {
+    if (JSON.parse(localStorage.user).role === 'rm') {
       editButton = (
         <Row justify="center" align="end">
           <Col offset={1} style={{ paddingTop: '2px', marginRight: '4px' }}>
