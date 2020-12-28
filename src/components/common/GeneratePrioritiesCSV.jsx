@@ -19,6 +19,7 @@ const headers = [
   { label: 'Area Manager', key: 'areaManager' },
   { label: 'Date Identified', key: 'dateIdentified' },
   { label: 'Station/BE', key: 'stationNumber' },
+  { label: 'Log Number', key: 'logNumber' },
   { label: 'Days Open', key: 'daysOpen' },
   { label: 'Resolve Days', key: 'daysResolved' },
   { label: 'Resolved By', key: 'resolvedByName' },
