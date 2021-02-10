@@ -77,7 +77,7 @@ function UserTable({ onRequest, tableRef }) {
     {
       title: 'Name',
       dataIndex: 'name',
-      width: 250,
+      width: 200,
       ellipsis: true,
       sorter: () => null,
       render: (_) => <Typography.Text strong>{_}</Typography.Text>,
@@ -168,6 +168,7 @@ function UserTable({ onRequest, tableRef }) {
         options={{
           density: false,
         }}
+        scroll={{ x: '650px' }}
         toolBarRender={() => [
           <Button key="add-user" type="primary" onClick={() => setAddModeOn(true)}>
             Add New User
