@@ -35,17 +35,19 @@ function PriorityForm(props) {
 
   return (
     <ProForm
-      initialValues={{
-        region: 'CR-North',
-        areaManager: 'John Doe AM',
-        regionalManager: 'John Doe RM',
-        processSpecialist: 'John Doe PS',
-        stationNumber: 'Test123',
-        issueDetails: 'Test details',
-        type: 'Initiative',
-        dateIdentified: '2021-02-19',
-        date: '2021-02-22',
-      }}
+      initialValues={
+        {
+          // region: 'CR-North',
+          // areaManager: 'John Doe AM',
+          // regionalManager: 'John Doe RM',
+          // processSpecialist: 'John Doe PS',
+          // stationNumber: 'Test123',
+          // issueDetails: 'Test details',
+          // type: 'Initiative',
+          // dateIdentified: '2021-02-19',
+          // date: '2021-02-22',
+        }
+      }
       submitter={{
         render: (submitProps) => {
           return (

@@ -344,18 +344,30 @@ function PriorityDetails({ item, tableRef }) {
         {/* <Col span={12}>{cancelButton}</Col> */}
         <Col span={12}>
           {JSON.parse(localStorage.user).isAdmin ? (
-            <Popconfirm
-              title="Are you sure to delete this?"
-              onConfirm={deleteItem}
-              // onCancel={cancel}
-              okText="Yes"
-              cancelText="No"
-            >
-              <Button danger icon={<DeleteOutlined />}>
-                Delete
-              </Button>
-            </Popconfirm>
+            <Row>
+              <Popconfirm
+                title="Are you sure to delete this?"
+                onConfirm={deleteItem}
+                // onCancel={cancel}
+                okText="Yes"
+                cancelText="No"
+              >
+                <Button danger icon={<DeleteOutlined />}>
+                  Delete
+                </Button>
+              </Popconfirm>
+            </Row>
           ) : null}
+          {item?.status === 'Resolved' && item?.resolvedByName && (
+            <Row style={{ marginTop: '6px' }}>
+              <Col span={24}>
+                <Typography>
+                  Issue is resolved by:{' '}
+                  <Typography.Text strong>{item.resolvedByName}</Typography.Text>
+                </Typography>
+              </Col>
+            </Row>
+          )}
         </Col>
         <Col span={12}>{editButton}</Col>
       </Row>

@@ -171,7 +171,7 @@ function IssueDetail({ item }) {
           />
         </Col>
         <Col span={12}>
-          {item.dateOfClosure ? (
+          {item?.dateOfClosure && item?.status === 'Resolved' ? (
             <Alert
               message={
                 <Typography.Text>
