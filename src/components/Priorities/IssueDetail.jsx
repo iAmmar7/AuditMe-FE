@@ -34,7 +34,7 @@ function IssueDetail({ item }) {
       </Row>
       <Row style={{ marginTop: '15px' }}>
         <Col col={8} style={{ marginRight: '15px' }}>
-          Process Specialist:{' '}
+          Business Excellence Team:{' '}
           <Typography.Text strong>{item.userName ? item.userName : 'N/A'}</Typography.Text>
         </Col>
         <Col col={8} style={{ marginRight: '15px' }}>

@@ -16,7 +16,7 @@ const columns = [
     render: (_) => <Typography.Text>{_.props.text}</Typography.Text>,
   },
   {
-    title: 'Process Specialist',
+    title: 'BE Team',
     width: '14%',
     dataIndex: 'user',
     render: (_) => <Typography.Text strong>{_}</Typography.Text>,

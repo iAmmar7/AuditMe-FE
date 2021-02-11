@@ -11,7 +11,7 @@ const URL =
 const headers = [
   { label: 'Date', key: 'date' },
   { label: 'Week', key: 'week' },
-  { label: 'Process Specialist', key: 'processSpecialist' },
+  { label: 'BE Team', key: 'processSpecialist' },
   { label: 'Type', key: 'type' },
   { label: 'Region', key: 'region' },
   { label: 'Regional Manager', key: 'regionalManager' },
