@@ -16,6 +16,7 @@ const headers = [
   { label: 'Region', key: 'region' },
   { label: 'Regional Manager', key: 'regionalManager' },
   { label: 'Area Manager', key: 'areaManager' },
+  { label: 'Details', key: 'details' },
   { label: 'Date Identified', key: 'dateIdentified' },
   { label: 'Station/BE', key: 'stationNumber' },
 ];
