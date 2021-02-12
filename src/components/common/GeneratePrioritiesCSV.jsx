@@ -19,6 +19,7 @@ const headers = [
   { label: 'Area Manager', key: 'areaManager' },
   { label: 'Date Identified', key: 'dateIdentified' },
   { label: 'Station/BE', key: 'stationNumber' },
+  { label: 'Issue Details', key: 'issueDetails' },
   { label: 'Log Number', key: 'logNumber' },
   { label: 'Days Open', key: 'daysOpen' },
   { label: 'Resolve Days', key: 'daysResolved' },
@@ -63,7 +64,7 @@ const GeneratePrioritiesCSV = () => {
       <a onClick={fetchReports}>Download CSV</a>
       <CSVLink
         target="_blank"
-        filename={`priorities-report-${new Date()}.csv`}
+        filename={`Priorities-Report-${new Date()}.csv`}
         headers={headers}
         data={data.reports}
         style={{ display: 'none' }}
