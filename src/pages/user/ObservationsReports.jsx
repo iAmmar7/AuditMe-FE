@@ -16,14 +16,14 @@ const URL =
     : process.env.AUDITME_PROD_BE_URL;
 
 let allData = [];
-const PrioritiesReports = () => {
+const ObservationsReports = () => {
   const tableRef = useRef(null);
 
   const onRequest = async (parameters, sorter, filter) => {
     const result = await axios.post(
       `${URL}/api/user/priorities-reports`,
       {
-        isPrioritized: true,
+        isPrioritized: false,
         params: parameters,
         sorter: {
           dateSorter: sorter?.date,
@@ -112,4 +112,4 @@ const PrioritiesReports = () => {
   );
 };
 
-export default PrioritiesReports;
+export default ObservationsReports;

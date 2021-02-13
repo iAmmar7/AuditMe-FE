@@ -18,7 +18,6 @@ const URL =
 
 function IssueForm({ item, tableRef, setFormDisabled }) {
   const [loading, setLoading] = useState(false);
-  const [initialValues, setInitialValues] = useState(item);
   const [status, setStatus] = useState(item.status);
   const [evidenceBeforeFileList, setEvidenceBeforeFileList] = useState([]);
   const [evidenceAfterFileList, setEvidenceAfterFileList] = useState([]);
@@ -38,6 +37,7 @@ function IssueForm({ item, tableRef, setFormDisabled }) {
 
     // Send axios request
     axios
+      // eslint-disable-next-line no-underscore-dangle
       .post(`${URL}/api/auditor/update-issue/${item._id}`, formData, {
         headers: { Authorization: localStorage.userToken },
       })
@@ -49,6 +49,7 @@ function IssueForm({ item, tableRef, setFormDisabled }) {
           message.success('Issue has been successfully updated!');
         }
       })
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       .catch((error) => {
         setLoading(false);
         message.error('Unable to update issue, please try later!', 10);
@@ -68,9 +69,21 @@ function IssueForm({ item, tableRef, setFormDisabled }) {
       formData.append('evidencesAfter', evidenceAfterFileList[i]);
     }
 
+    // Set api endpoint according to the logged in user
+    let apiURL;
+    if (JSON.parse(localStorage.user).role === 'rm') {
+      // eslint-disable-next-line no-underscore-dangle
+      apiURL = `${URL}/api/rm/update-issue/${item._id}`;
+    }
+
+    if (JSON.parse(localStorage.user).role === 'am') {
+      // eslint-disable-next-line no-underscore-dangle
+      apiURL = `${URL}/api/am/update-issue/${item._id}`;
+    }
+
     // Send axios request
     axios
-      .post(`${URL}/api/rm/update-issue/${item._id}`, formData, {
+      .post(apiURL, formData, {
         headers: { Authorization: localStorage.userToken },
       })
       .then((res) => {
@@ -136,7 +149,8 @@ function IssueForm({ item, tableRef, setFormDisabled }) {
     return (
       <ProForm
         initialValues={{
-          ...initialValues,
+          ...item,
+          priority: item.isPrioritized ? 'Priority' : 'Observation',
         }}
         submitter={{
           render: (props) => (
@@ -220,7 +234,7 @@ function IssueForm({ item, tableRef, setFormDisabled }) {
           name="issueDetails"
           label="Priority Issue Details"
           placeholder="Add issue details"
-          rules={[{ required: true, message: 'Please select date!' }]}
+          rules={[{ required: true, message: 'Please add details!' }]}
         />
         <ProForm.Group>
           <ProFormDatePicker
@@ -229,6 +243,18 @@ function IssueForm({ item, tableRef, setFormDisabled }) {
             label="Date Identified/Listed"
             placeholder="Select date"
             rules={[{ required: true, message: 'Please select date!' }]}
+          />
+          <ProFormSelect
+            width="s"
+            name="priority"
+            label="Priority"
+            placeholder="Select Priority"
+            options={[
+              { value: 'Observation', label: 'Observation' },
+              { value: 'Priority', label: 'Priority' },
+            ]}
+            rules={[{ required: true, message: 'Please select issue priority!' }]}
+            disabled={item.isPrioritized}
           />
         </ProForm.Group>
         <Typography.Text>Evidence </Typography.Text>
@@ -256,7 +282,7 @@ function IssueForm({ item, tableRef, setFormDisabled }) {
     );
   }
 
-  if (JSON.parse(localStorage.user).role === 'rm') {
+  if (JSON.parse(localStorage.user).role === 'rm' || JSON.parse(localStorage.user).role === 'am') {
     const evidencesProps = {
       name: 'evidencesAfter',
       listType: 'picture',
@@ -279,7 +305,8 @@ function IssueForm({ item, tableRef, setFormDisabled }) {
     return (
       <ProForm
         initialValues={{
-          ...initialValues,
+          ...item,
+          status: undefined,
         }}
         submitter={{
           render: (props) => (
@@ -287,7 +314,10 @@ function IssueForm({ item, tableRef, setFormDisabled }) {
               <Button
                 type="primary"
                 loading={loading}
-                disabled={JSON.parse(localStorage.user).role !== 'rm'}
+                disabled={
+                  JSON.parse(localStorage.user).role !== 'rm' &&
+                  JSON.parse(localStorage.user).role !== 'am'
+                }
                 onClick={() => props.form.submit()}
               >
                 Submit

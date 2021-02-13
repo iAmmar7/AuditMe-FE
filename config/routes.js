@@ -67,6 +67,11 @@ export default [
             icon: 'tablet',
             routes: [
               {
+                path: '/user/reports/observation-reports',
+                name: 'Observations',
+                component: './user/ObservationsReports',
+              },
+              {
                 path: '/user/reports/priorities-reports',
                 name: 'Priorities Issues',
                 component: './user/PrioritiesReports',

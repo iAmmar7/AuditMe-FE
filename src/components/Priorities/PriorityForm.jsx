@@ -35,19 +35,18 @@ function PriorityForm(props) {
 
   return (
     <ProForm
-      initialValues={
-        {
-          // region: 'CR-North',
-          // areaManager: 'John Doe AM',
-          // regionalManager: 'John Doe RM',
-          // processSpecialist: 'John Doe PS',
-          // stationNumber: 'Test123',
-          // issueDetails: 'Test details',
-          // type: 'Initiative',
-          // dateIdentified: '2021-02-19',
-          // date: '2021-02-22',
-        }
-      }
+      initialValues={{
+        // region: 'CR-North',
+        // areaManager: 'John Doe AM',
+        // regionalManager: 'John Doe RM',
+        // processSpecialist: 'John Doe PS',
+        // stationNumber: 'Test123',
+        // issueDetails: 'Test details',
+        // type: 'Initiative',
+        // dateIdentified: '2021-02-19',
+        // date: '2021-02-22',
+        priority: 'Observation',
+      }}
       submitter={{
         render: (submitProps) => {
           return (
@@ -163,6 +162,17 @@ function PriorityForm(props) {
           label="Date Identified/Listed"
           placeholder="Select date"
           rules={[{ required: true, message: 'Please select date!' }]}
+        />
+        <ProFormSelect
+          width="s"
+          name="priority"
+          label="Priority"
+          placeholder="Select Priority"
+          options={[
+            { value: 'Observation', label: 'Observation' },
+            { value: 'Priority', label: 'Priority' },
+          ]}
+          rules={[{ required: true, message: 'Please select issue priority!' }]}
         />
       </ProForm.Group>
       <Typography.Text>Evidence </Typography.Text>

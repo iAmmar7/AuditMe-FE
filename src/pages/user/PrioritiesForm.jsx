@@ -36,7 +36,8 @@ const PrioritiesForm = () => {
         setLoading(false);
         if (res.data.success) {
           message.success('Issue has been successfully published!');
-          history.push('/user/reports/priorities-reports');
+          if (res?.data?.report?.isPrioritized) history.push('/user/reports/priorities-reports');
+          else history.push('/user/reports/observation-reports');
         }
       })
       .catch(() => {
