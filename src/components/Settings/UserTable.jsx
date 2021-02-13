@@ -101,6 +101,10 @@ function UserTable({ onRequest, tableRef }) {
           value: 'rm',
         },
         {
+          text: 'AM',
+          value: 'am',
+        },
+        {
           text: 'Viewer',
           value: 'viewer',
         },
@@ -108,7 +112,8 @@ function UserTable({ onRequest, tableRef }) {
       render: (role) => {
         if (role === 'auditor') return <Tag color="purple">Auditor</Tag>;
         if (role === 'rm') return <Tag color="orange">RM</Tag>;
-        return <Tag color="pink">Viewer</Tag>;
+        if (role === 'am') return <Tag color="red">AM</Tag>;
+        if (role === 'viewer') return <Tag color="pink">Viewer</Tag>;
       },
     },
     {

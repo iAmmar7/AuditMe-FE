@@ -34,7 +34,6 @@ const AddForm = ({ tableRef, modalClose }) => {
         }
       })
       .catch((err) => {
-        console.log(err.response);
         setError(err.response?.data?.message);
         setLoading(false);
         message.error('Unable to add user, please try again!', 10);
@@ -95,6 +94,7 @@ const AddForm = ({ tableRef, modalClose }) => {
           valueEnum={{
             auditor: 'Auditor',
             rm: 'Regional Manager',
+            am: 'Area Manager',
             viewer: 'Viewer',
           }}
           placeholder="Signup as"
