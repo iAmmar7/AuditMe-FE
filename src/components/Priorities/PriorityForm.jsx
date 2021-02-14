@@ -5,11 +5,14 @@ import ProForm, {
   ProFormDatePicker,
   ProFormSelect,
 } from '@ant-design/pro-form';
-import { Upload, Button, Typography, Tooltip, message } from 'antd';
+import { Upload, Button, Typography, Tooltip, Form, message } from 'antd';
 import { UploadOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import { FooterToolbar } from '@ant-design/pro-layout';
 
 function PriorityForm(props) {
+  const [form] = Form.useForm();
+  // const [disabled, setDisabled] = useState([]);
+
   const { loading, submitForm, evidenceFileList, setEvidenceFileList } = props;
 
   const evidencesProps = {
@@ -35,6 +38,7 @@ function PriorityForm(props) {
 
   return (
     <ProForm
+      form={form}
       initialValues={{
         // region: 'CR-North',
         // areaManager: 'John Doe AM',
@@ -72,14 +76,21 @@ function PriorityForm(props) {
         },
       }}
       onFinish={submitForm}
-      // onValuesChange={(changedValues, allValues) => {
-      //   console.log('onValuesChange', changedValues, allValues);
-      //   const { dateIdentified } = changedValues;
+      onValuesChange={(changedValues, allValues) => {
+        const { date, dateIdentified } = allValues;
 
-      //   if (dateIdentified) {
+        // If dateIdentified is greater than date then throw error
+        if (dateIdentified && date?.diff(dateIdentified, 'days') < 0) {
+          form.setFieldsValue({ dateIdentified: null });
+          message.error('Date identified can not be greater than date');
+        }
 
-      //   };
-      // }}
+        // If date is 3 days older than today then change issue priority and disabled field
+        // if (moment().diff(date, 'days') > 2) {
+        //   form.setFieldsValue({ priority: 'Priority' });
+        //   setDisabled([...disabled, 'priority']);
+        // } else setDisabled([...disabled.filter((item) => item !== 'priority')]);
+      }}
     >
       <ProForm.Group>
         <ProFormDatePicker
@@ -168,6 +179,7 @@ function PriorityForm(props) {
           name="priority"
           label="Priority"
           placeholder="Select Priority"
+          // disabled={disabled.includes('priority')}
           options={[
             { value: 'Observation', label: 'Observation' },
             { value: 'Priority', label: 'Priority' },
