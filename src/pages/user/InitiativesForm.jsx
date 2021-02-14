@@ -51,28 +51,38 @@ const InitiativesForm = () => {
       });
   };
 
+  const alertMessage = () => {
+    let messageText = null;
+
+    if (JSON.parse(localStorage.getItem('user')).role === 'rm')
+      messageText =
+        'You have signed up as regional manager, you can not submit an initiative. Please signup as auditor or station manager in order to submit an initiative.';
+
+    if (JSON.parse(localStorage.getItem('user')).role === 'am')
+      messageText =
+        'You have signed up as area manager, you can not submit an initiative. Please signup as auditor or station manager in order to submit an initiative.';
+
+    if (JSON.parse(localStorage.getItem('user')).role === 'viewer')
+      messageText =
+        'You have signed up as viewer, you can not submit an initiative. Please signup as auditor or station manager in order to submit an initiative.';
+
+    return (
+      messageText && (
+        <Alert
+          style={{
+            marginBottom: 24,
+          }}
+          message={messageText}
+          type="error"
+          showIcon
+        />
+      )
+    );
+  };
+
   return (
     <PageHeaderWrapper content="Enter initiative details here by completing the form below">
-      {JSON.parse(localStorage.getItem('user')).role === 'rm' ? (
-        <Alert
-          style={{
-            marginBottom: 24,
-          }}
-          message="You have signed up as regional manager, you can not submit an initiative. Please signup as auditor in order to raise an issue"
-          type="error"
-          showIcon
-        />
-      ) : null}
-      {JSON.parse(localStorage.getItem('user')).role === 'viewer' ? (
-        <Alert
-          style={{
-            marginBottom: 24,
-          }}
-          message="You have signed up as viewer, you can not submit an initiative. Please signup as auditor in order to raise an issue"
-          type="error"
-          showIcon
-        />
-      ) : null}
+      {alertMessage()}
       <Card>
         <InitiativeForm
           loading={loading}

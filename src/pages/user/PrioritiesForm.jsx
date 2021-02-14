@@ -46,28 +46,38 @@ const PrioritiesForm = () => {
       });
   };
 
+  const alertMessage = () => {
+    let messageText = null;
+
+    if (JSON.parse(localStorage.getItem('user')).role === 'rm')
+      messageText =
+        'You have signed up as regional manager, you can not submit an issue. Please signup as auditor or station manager in order to raise an issue.';
+
+    if (JSON.parse(localStorage.getItem('user')).role === 'am')
+      messageText =
+        'You have signed up as area manager, you can not submit an issue. Please signup as auditor or station manager in order to raise an issue.';
+
+    if (JSON.parse(localStorage.getItem('user')).role === 'viewer')
+      messageText =
+        'You have signed up as viewer, you can not submit an issue. Please signup as auditor or station manager, in order to raise an issue.';
+
+    return (
+      messageText && (
+        <Alert
+          style={{
+            marginBottom: 24,
+          }}
+          message={messageText}
+          type="error"
+          showIcon
+        />
+      )
+    );
+  };
+
   return (
     <PageHeaderWrapper content="Raise an issue here by completing the form below">
-      {JSON.parse(localStorage.getItem('user')).role === 'rm' ? (
-        <Alert
-          style={{
-            marginBottom: 24,
-          }}
-          message="You have signed up as regional manager, you can not submit an issue. Please signup as auditor in order to raise an issue"
-          type="error"
-          showIcon
-        />
-      ) : null}
-      {JSON.parse(localStorage.getItem('user')).role === 'viewer' ? (
-        <Alert
-          style={{
-            marginBottom: 24,
-          }}
-          message="You have signed up as viewer, you can not submit an issue. Please signup as auditor in order to raise an issue"
-          type="error"
-          showIcon
-        />
-      ) : null}
+      {alertMessage()}
       <Card>
         <PriorityForm
           loading={loading}
