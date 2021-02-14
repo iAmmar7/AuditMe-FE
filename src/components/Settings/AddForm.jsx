@@ -95,6 +95,7 @@ const AddForm = ({ tableRef, modalClose }) => {
             auditor: 'Auditor',
             rm: 'Regional Manager',
             am: 'Area Manager',
+            sm: 'Station Manager',
             viewer: 'Viewer',
           }}
           placeholder="Signup as"

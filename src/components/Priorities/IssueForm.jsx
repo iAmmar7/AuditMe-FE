@@ -126,7 +126,10 @@ function IssueForm({ item, tableRef, setFormDisabled }) {
       });
   };
 
-  if (JSON.parse(localStorage.user).role === 'auditor') {
+  if (
+    JSON.parse(localStorage.user).role === 'auditor' ||
+    JSON.parse(localStorage.user).role === 'sm'
+  ) {
     const evidencesProps = {
       name: 'evidencesBefore',
       listType: 'picture',
@@ -157,7 +160,7 @@ function IssueForm({ item, tableRef, setFormDisabled }) {
             <Button
               type="primary"
               loading={loading}
-              disabled={JSON.parse(localStorage.user).role !== 'auditor'}
+              disabled={!['auditor', 'sm'].includes(JSON.parse(localStorage.user).role)}
               onClick={() => props.form.submit()}
             >
               Submit

@@ -105,12 +105,18 @@ function UserTable({ onRequest, tableRef }) {
           value: 'am',
         },
         {
+          text: 'SM',
+          value: 'sm',
+        },
+        {
           text: 'Viewer',
           value: 'viewer',
         },
       ],
+      // eslint-disable-next-line consistent-return
       render: (role) => {
         if (role === 'auditor') return <Tag color="purple">Auditor</Tag>;
+        if (role === 'sm') return <Tag color="green">SM</Tag>;
         if (role === 'rm') return <Tag color="orange">RM</Tag>;
         if (role === 'am') return <Tag color="red">AM</Tag>;
         if (role === 'viewer') return <Tag color="pink">Viewer</Tag>;
