@@ -4,15 +4,20 @@
  * https://github.com/ant-design/ant-design-pro-layout
  */
 import ProLayout from '@ant-design/pro-layout';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, connect, history } from 'umi';
 import { UserOutlined } from '@ant-design/icons';
 import { Menu, Dropdown, message, Avatar, Typography, Row, Col } from 'antd';
+import axios from 'axios';
 
 // import logo from '../assets/logo.svg';
 // import userAvatar from '../assets/user_avatar.png';
 
 const ColorList = ['#f56a00', '#7265e6', '#ffbf00', '#00a2ae'];
+const URL =
+  process.env.NODE_ENV === 'development'
+    ? process.env.AUDITME_DEV_BE_URL
+    : process.env.AUDITME_PROD_BE_URL;
 
 const BasicLayout = (props) => {
   const {
@@ -25,6 +30,16 @@ const BasicLayout = (props) => {
   } = props;
 
   const user = JSON.parse(localStorage.getItem('user'));
+
+  useEffect(() => {
+    axios.post(
+      `${URL}/api/user/update-activity`,
+      {},
+      {
+        headers: { Authorization: localStorage.userToken },
+      },
+    );
+  }, []);
 
   const handleMenuCollapse = (payload) => {
     if (dispatch) {

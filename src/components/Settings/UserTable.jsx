@@ -13,6 +13,7 @@ import {
 import ProTable from '@ant-design/pro-table';
 import enUS from 'antd/lib/locale/en_US';
 import axios from 'axios';
+import moment from 'moment';
 
 import AddForm from './AddForm';
 import EditForm from './EditForm';
@@ -121,6 +122,15 @@ function UserTable({ onRequest, tableRef }) {
         if (role === 'am') return <Tag color="red">AM</Tag>;
         if (role === 'viewer') return <Tag color="pink">Viewer</Tag>;
       },
+    },
+    {
+      title: 'Recent Activity',
+      dataIndex: 'recentActivity',
+      render: (date) => (
+        <Typography.Text>
+          {date.length > 1 ? moment(date).format('DD/MM/YYYY h:mma') : date}
+        </Typography.Text>
+      ),
     },
     {
       title: 'Password',

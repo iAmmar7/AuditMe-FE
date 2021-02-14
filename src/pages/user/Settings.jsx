@@ -48,6 +48,7 @@ const Settings = () => {
         name: result.data.users[i].name,
         badgeNumber: result.data.users[i].badgeNumber,
         role: result.data.users[i].role,
+        recentActivity: result.data.users[i].recentActivity,
         password: result.data.users[i].password,
       });
     }
