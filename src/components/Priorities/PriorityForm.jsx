@@ -49,7 +49,7 @@ function PriorityForm(props) {
         // type: 'Initiative',
         // dateIdentified: '2021-02-19',
         // date: '2021-02-22',
-        priority: 'Observation',
+        priority: 'Priority',
       }}
       submitter={{
         render: (submitProps) => {
@@ -180,6 +180,7 @@ function PriorityForm(props) {
           label="Priority"
           placeholder="Select Priority"
           // disabled={disabled.includes('priority')}
+          disabled
           options={[
             { value: 'Observation', label: 'Observation' },
             { value: 'Priority', label: 'Priority' },
