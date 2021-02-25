@@ -7,8 +7,14 @@ import GenerateInitiativesCSV from '../common/GenerateInitiativesCSV';
 
 const columns = [
   {
+    title: 'Initiative ID',
+    width: '12%',
+    dataIndex: 'id',
+    render: (_) => <Typography.Text>{_}</Typography.Text>,
+  },
+  {
     title: 'Date',
-    width: '14%',
+    width: '12%',
     minWidth: 100,
     dataIndex: 'date',
     valueType: 'dateRange',
@@ -17,13 +23,13 @@ const columns = [
   },
   {
     title: 'BE Team',
-    width: '14%',
+    width: '12%',
     dataIndex: 'user',
     render: (_) => <Typography.Text strong>{_}</Typography.Text>,
   },
   {
     title: 'Type',
-    width: '14%',
+    width: '12%',
     dataIndex: 'type',
     search: false,
     filters: [
@@ -44,7 +50,7 @@ const columns = [
   },
   {
     title: 'Region',
-    width: '14%',
+    width: '12%',
     dataIndex: 'region',
     search: false,
     filters: [
@@ -61,19 +67,19 @@ const columns = [
   },
   {
     title: 'Regional Manager',
-    width: '14%',
+    width: '12%',
     dataIndex: 'regionalManager',
     render: (_) => <Typography.Text>{_}</Typography.Text>,
   },
   {
     title: 'Area Manager',
-    width: '14%',
+    width: '12%',
     dataIndex: 'areaManager',
     render: (_) => <Typography.Text>{_}</Typography.Text>,
   },
   {
     title: 'Station/BE',
-    width: '14%',
+    width: '12%',
     dataIndex: 'stationNumber',
     render: (_) => <Typography.Text>{_}</Typography.Text>,
   },

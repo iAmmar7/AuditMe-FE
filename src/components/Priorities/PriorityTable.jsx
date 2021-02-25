@@ -8,6 +8,11 @@ import styles from './Priorities.less';
 
 const columns = [
   {
+    title: 'Issue ID',
+    dataIndex: 'id',
+    render: (_) => <Typography.Text>{_}</Typography.Text>,
+  },
+  {
     title: 'Date',
     width: '9%',
     minWidth: 100,
@@ -183,7 +188,7 @@ function PriorityTable(props) {
         options={{
           density: false,
         }}
-        scroll={{ x: '1000px' }}
+        scroll={{ x: '1050px' }}
         rowClassName={(record) => (record.status.text === 'Cancelled' ? styles.cancelledRow : '')}
         // className={styles.issueTable}
         // tableClassName={styles.issueTable}

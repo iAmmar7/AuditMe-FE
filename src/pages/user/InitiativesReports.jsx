@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import React, { useRef } from 'react';
 import { message } from 'antd';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
@@ -51,6 +52,7 @@ const InitiativesReports = () => {
     for (let i = 0; i < result.data.reports.length; i += 1) {
       tableList.push({
         key: result.data.reports[i]._id,
+        id: result.data.reports[i].id,
         date: moment(result.data.reports[i].date).format('DD-MMM-YY'),
         user: result.data.reports[i].userName,
         type: result.data.reports[i].type,

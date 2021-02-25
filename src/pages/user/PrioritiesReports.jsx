@@ -71,6 +71,7 @@ const PrioritiesReports = () => {
 
       tableList.push({
         key: result.data.reports[i]._id,
+        id: result.data.reports[i].id,
         date: moment(result.data.reports[i].date).format('DD-MMM-YY'),
         user: result.data.reports[i].userName,
         status,

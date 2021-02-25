@@ -9,6 +9,7 @@ const URL =
     : process.env.AUDITME_PROD_BE_URL;
 
 const headers = [
+  { label: 'Initiative ID', key: 'id' },
   { label: 'Date', key: 'date' },
   { label: 'Week', key: 'week' },
   { label: 'BE Team', key: 'processSpecialist' },
