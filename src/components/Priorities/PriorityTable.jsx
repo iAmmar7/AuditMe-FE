@@ -162,7 +162,7 @@ function PriorityTable(props) {
         }}
         search={{
           labelWidth: 'auto',
-          defaultCollapsed: false,
+          // defaultCollapsed: false,
         }}
         dateFormatter="string"
         options={{
