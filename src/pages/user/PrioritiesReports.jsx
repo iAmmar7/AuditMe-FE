@@ -108,6 +108,7 @@ const PrioritiesReports = () => {
         expandedRowRender={expandedRowRender}
         onRequest={onRequest}
         tableRef={tableRef}
+        isPrioritized
       />
     </PageHeaderWrapper>
   );

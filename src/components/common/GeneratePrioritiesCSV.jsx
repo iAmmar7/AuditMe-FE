@@ -1,7 +1,9 @@
 import React, { useState, useRef } from 'react';
 import { CSVLink } from 'react-csv';
 import { Spin, message } from 'antd';
+import _ from 'lodash';
 import axios from 'axios';
+import moment from 'moment';
 
 const URL =
   process.env.NODE_ENV === 'development'
@@ -28,7 +30,7 @@ const headers = [
   { label: 'Date Of Closure', key: 'dateOfClosure' },
 ];
 
-const GeneratePrioritiesCSV = () => {
+const GeneratePrioritiesCSV = ({ filters, isPrioritized }) => {
   const csvRef = useRef(null);
 
   const [data, setData] = useState({
@@ -39,13 +41,40 @@ const GeneratePrioritiesCSV = () => {
   const fetchReports = () => {
     setData({ ...data, loading: true });
 
+    let modifiedFilters = filters;
+    if (modifiedFilters.date)
+      modifiedFilters = {
+        ...modifiedFilters,
+        date: [
+          moment(modifiedFilters.date[0]).format('YYYY-MM-DD'),
+          moment(modifiedFilters.date[1]).format('YYYY-MM-DD'),
+        ],
+      };
+
+    if (modifiedFilters.dateIdentified)
+      modifiedFilters = {
+        ...modifiedFilters,
+        dateIdentified: [
+          moment(modifiedFilters.dateIdentified[0]).format('YYYY-MM-DD'),
+          moment(modifiedFilters.dateIdentified[1]).format('YYYY-MM-DD'),
+        ],
+      };
+
     axios
-      .get(`${URL}/api/user/csv/priorities-reports`, {
-        headers: { Authorization: localStorage.userToken },
-      })
+      .post(
+        `${URL}/api/user/csv/priorities-reports`,
+        { filters: modifiedFilters, isPrioritized },
+        {
+          headers: { Authorization: localStorage.userToken },
+        },
+      )
       .then((res) => {
-        setData({ loading: false, reports: res.data.reports });
-        csvRef.current.link.click();
+        setData({
+          loading: false,
+          reports: res.data.reports,
+        });
+        if (res.data.reports?.length > 0) csvRef.current.link.click();
+        else message.error('No data for CSV!');
       })
       .catch(() => {
         setData({ loading: false, reports: [] });
@@ -65,7 +94,11 @@ const GeneratePrioritiesCSV = () => {
       <a onClick={fetchReports}>Download CSV</a>
       <CSVLink
         target="_blank"
-        filename={`Priorities-Report-${new Date()}.csv`}
+        filename={
+          _.isEmpty(filters)
+            ? `Priorities Report - ${moment().format('MMMM Do YYYY, h:mm:ss a')}.csv`
+            : `Priorities Report - With Filters - ${moment().format('MMMM Do YYYY, h:mm:ss a')}.csv`
+        }
         headers={headers}
         data={data.reports}
         style={{ display: 'none' }}

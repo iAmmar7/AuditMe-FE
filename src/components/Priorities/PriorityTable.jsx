@@ -1,4 +1,5 @@
-import React from 'react';
+/* eslint-disable no-useless-computed-key */
+import React, { useRef } from 'react';
 import { ConfigProvider, Typography, Tag } from 'antd';
 import enUS from 'antd/lib/locale/en_US';
 import ProTable from '@ant-design/pro-table';
@@ -29,63 +30,41 @@ const columns = [
   {
     title: 'Status',
     dataIndex: 'status',
-    search: false,
-    // valueType: 'select',
-    // valueEnum: {
-    //   resolved: { text: 'Resolved', status: 'Resolved' },
-    //   pending: { text: 'Pending', status: 'Pending' },
-    //   cancelled: { text: 'Cancelled', status: 'Cancelled' },
-    // },
-    filters: [
-      {
-        text: 'Pending',
-        value: 'Pending',
-      },
-      {
-        text: 'Resolved',
-        value: 'Resolved',
-      },
-      {
-        text: 'Maintenance',
-        value: 'Maintenance',
-      },
-    ],
-    render: (_) =>
-      _.text === 'Cancelled' ? (
-        <Typography.Text>{_.text}</Typography.Text>
+    // search: false,
+    valueType: 'select',
+    filters: true,
+    valueEnum: {
+      Resolved: { text: 'Resolved', status: 'Resolved' },
+      Pending: { text: 'Pending', status: 'Pending' },
+      Maintenance: { text: 'Maintenance', status: 'Maintenance' },
+    },
+    render: ({ props }) => {
+      return props?.text?.text === 'Cancelled' ? (
+        <Typography.Text>{props?.text?.text}</Typography.Text>
       ) : (
-        <Tag color={_.color}>{_.text}</Tag>
-      ),
+        <Tag color={props?.text?.color}>{props?.text?.text}</Tag>
+      );
+    },
   },
   {
     title: 'Type',
     dataIndex: 'type',
-    search: false,
-    // valueType: 'select',
-    // valueEnum: {
-    //   customerExperience: { text: 'Customer Experience', type: 'Customer Experience' },
-    //   bayViolation: { text: 'Bay Violation', type: 'Bay Violation' },
-    //   housekeeping: { text: 'Housekeeping', type: 'Housekeeping' },
-    //   customerMistreatment: { text: 'Customer Mistreatment', type: 'Customer Mistreatment' },
-    //   initiative: { text: 'Initiative', type: 'Initiative' },
-    //   adminIssues: { text: 'Admin Issues', type: 'Admin Issues' },
-    //   safety: { text: 'Safety', type: 'Safety' },
-    //   others: { text: 'Others', type: 'Others' },
-    // },
-    filters: [
-      { text: 'Customer Experience', value: 'Customer Experience' },
-      { text: 'Bay Violation', value: 'Bay Violation' },
-      { text: 'Housekeeping', value: 'Housekeeping' },
-      { text: 'Customer Mistreatment', value: 'Customer Mistreatment' },
-      { text: 'Initiative', value: 'Initiative' },
-      { text: 'Admin Issues', value: 'Admin Issues' },
-      { text: 'Maintenance Issues', value: 'Maintenance Issues' },
-      { text: 'IT Issues', value: 'IT Issues' },
-      { text: 'Inventory Issues', value: 'Inventory Issues' },
-      { text: 'Violation', value: 'Violation' },
-      { text: 'Safety', value: 'Safety' },
-      { text: 'Others', value: 'Others' },
-    ],
+    valueType: 'select',
+    filters: true,
+    valueEnum: {
+      ['Customer Experience']: { text: 'Customer Experience', type: 'Customer Experience' },
+      ['Bay Violation']: { text: 'Bay Violation', type: 'Bay Violation' },
+      Housekeeping: { text: 'Housekeeping', type: 'Housekeeping' },
+      ['Customer Mistreatment']: { text: 'Customer Mistreatment', type: 'Customer Mistreatment' },
+      Initiative: { text: 'Initiative', type: 'Initiative' },
+      ['Admin Issues']: { text: 'Admin Issues', type: 'Admin Issues' },
+      ['Maintenance Issues']: { text: 'Maintenance Issues', type: 'Maintenance Issues' },
+      ['IT Issues']: { text: 'IT Issues', type: 'IT Issues' },
+      ['Inventory Issues']: { text: 'Inventory Issues', type: 'Inventory Issues' },
+      Violation: { text: 'Violation', type: 'Violation' },
+      Safety: { text: 'Safety', type: 'Safety' },
+      Others: { text: 'Others', type: 'Others' },
+    },
     render: (_) => <Typography.Text>{_}</Typography.Text>,
   },
   {
@@ -93,28 +72,18 @@ const columns = [
     width: '9%',
     minWidth: 100,
     dataIndex: 'region',
-    search: false,
-    // valueType: 'select',
-    // valueEnum: {
-    //   southern: { text: 'Southern', type: 'Southern' },
-    //   cr_east: { text: 'CR-East', type: 'CR-East' },
-    //   cr_north: { text: 'CR-North', type: 'CR-North' },
-    //   cr_south: { text: 'CR-South', type: 'CR-South' },
-    //   er_north: { text: 'ER-North', type: 'ER-North' },
-    //   er_south: { text: 'ER-South', type: 'ER-South' },
-    //   wr_north: { text: 'WR-North', type: 'WR-North' },
-    //   wr_south: { text: 'WR-South', type: 'WR-South' },
-    // },
-    filters: [
-      { text: 'Southern', value: 'Southern' },
-      { text: 'CR-East', value: 'CR-East' },
-      { text: 'CR-North', value: 'CR-North' },
-      { text: 'CR-South', value: 'CR-South' },
-      { text: 'ER-North', value: 'ER-North' },
-      { text: 'ER-South', value: 'ER-South' },
-      { text: 'WR-North', value: 'WR-North' },
-      { text: 'WR-South', value: 'WR-South' },
-    ],
+    valueType: 'select',
+    filters: true,
+    valueEnum: {
+      Southern: { text: 'Southern', region: 'Southern' },
+      ['CR-East']: { text: 'CR-East', region: 'CR-East' },
+      ['CR-North']: { text: 'CR-North', region: 'CR-North' },
+      ['CR-South']: { text: 'CR-South', region: 'CR-South' },
+      ['ER-North']: { text: 'ER-North', region: 'ER-North' },
+      ['ER-South']: { text: 'ER-South', region: 'ER-South' },
+      ['WR-North']: { text: 'WR-North', region: 'WR-North' },
+      ['WR-South']: { text: 'WR-South', region: 'WR-South' },
+    },
     render: (_) => <Tag>{_}</Tag>,
   },
   {
@@ -162,16 +131,26 @@ const columns = [
 ];
 
 function PriorityTable(props) {
-  const { expandedRowRender, onRequest, tableRef } = props;
+  const formRef = useRef(null);
+  const { expandedRowRender, onRequest, tableRef, isPrioritized } = props;
 
   return (
     <ConfigProvider locale={enUS}>
       <ProTable
         columns={columns}
         request={onRequest}
+        formRef={formRef}
         actionRef={tableRef}
         rowKey="key"
-        toolBarRender={() => [<GeneratePrioritiesCSV key="csv" />]}
+        toolBarRender={() => {
+          return [
+            <GeneratePrioritiesCSV
+              key="csv"
+              filters={formRef?.current?.getFieldValue()}
+              isPrioritized={isPrioritized}
+            />,
+          ];
+        }}
         pagination={{
           showQuickJumper: true,
           pageSize: 10,
@@ -183,6 +162,7 @@ function PriorityTable(props) {
         }}
         search={{
           labelWidth: 'auto',
+          defaultCollapsed: false,
         }}
         dateFormatter="string"
         options={{

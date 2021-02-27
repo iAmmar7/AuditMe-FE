@@ -107,6 +107,7 @@ const ObservationsReports = () => {
         expandedRowRender={expandedRowRender}
         onRequest={onRequest}
         tableRef={tableRef}
+        isPrioritized={false}
       />
     </PageHeaderWrapper>
   );
