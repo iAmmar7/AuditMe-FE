@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import React, { useState } from 'react';
 import { DeleteOutlined } from '@ant-design/icons';
 import {
@@ -63,7 +64,9 @@ function PriorityDetails({ item, tableRef }) {
               checkedChildren="Off"
               unCheckedChildren="On"
               checked={!formDisabled}
-              onClick={() => setFormDisabled(!formDisabled)}
+              onClick={() => {
+                setFormDisabled(!formDisabled);
+              }}
             />
           </Col>
         </Row>
@@ -162,6 +165,7 @@ function PriorityDetails({ item, tableRef }) {
       );
     }
   }
+
   // if issue is maitenance
   if (item.status === 'Maintenance') {
     if (JSON.parse(localStorage.user).role === 'rm') {

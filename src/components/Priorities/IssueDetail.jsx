@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import React from 'react';
 import { Row, Col, Typography, Tag, Image, Divider, Alert } from 'antd';
 import moment from 'moment';
