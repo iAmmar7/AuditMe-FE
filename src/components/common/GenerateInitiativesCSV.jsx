@@ -1,7 +1,9 @@
 import React, { useState, useRef } from 'react';
 import { CSVLink } from 'react-csv';
 import { Spin, message } from 'antd';
+import _ from 'lodash';
 import axios from 'axios';
+import moment from 'moment';
 
 const URL =
   process.env.NODE_ENV === 'development'
@@ -22,7 +24,7 @@ const headers = [
   { label: 'Station/BE', key: 'stationNumber' },
 ];
 
-const GenerateInitiativesCSV = () => {
+const GenerateInitiativesCSV = ({ filters }) => {
   const csvRef = useRef(null);
 
   const [data, setData] = useState({
@@ -33,13 +35,30 @@ const GenerateInitiativesCSV = () => {
   const fetchReports = () => {
     setData({ ...data, loading: true });
 
+    console.log('CSV', filters);
+
+    let modifiedFilters = filters;
+    if (modifiedFilters.date)
+      modifiedFilters = {
+        ...modifiedFilters,
+        date: [
+          moment(modifiedFilters.date[0]).format('YYYY-MM-DD'),
+          moment(modifiedFilters.date[1]).format('YYYY-MM-DD'),
+        ],
+      };
+
     axios
-      .get(`${URL}/api/user/csv/initiatives-reports`, {
-        headers: { Authorization: localStorage.userToken },
-      })
+      .post(
+        `${URL}/api/user/csv/initiatives-reports`,
+        { filters: modifiedFilters },
+        {
+          headers: { Authorization: localStorage.userToken },
+        },
+      )
       .then((res) => {
         setData({ loading: false, reports: res.data.reports });
-        csvRef.current.link.click();
+        if (res.data.reports?.length > 0) csvRef.current.link.click();
+        else message.error('No data for CSV!');
       })
       .catch(() => {
         setData({ loading: false, reports: [] });
@@ -59,7 +78,13 @@ const GenerateInitiativesCSV = () => {
       <a onClick={fetchReports}>Download CSV</a>
       <CSVLink
         target="_blank"
-        filename={`initiatives-report-${new Date()}.csv`}
+        filename={
+          _.isEmpty(filters)
+            ? `Initiatives Report - ${moment().format('MMMM Do YYYY, h:mm:ss a')}.csv`
+            : `Initiatives Report - With Filters - ${moment().format(
+                'MMMM Do YYYY, h:mm:ss a',
+              )}.csv`
+        }
         headers={headers}
         data={data.reports}
         style={{ display: 'none' }}

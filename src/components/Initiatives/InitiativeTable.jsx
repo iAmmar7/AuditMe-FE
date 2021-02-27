@@ -1,4 +1,5 @@
-import React from 'react';
+/* eslint-disable no-useless-computed-key */
+import React, { useRef } from 'react';
 import { ConfigProvider, Typography } from 'antd';
 import enUS from 'antd/lib/locale/en_US';
 import ProTable from '@ant-design/pro-table';
@@ -31,38 +32,40 @@ const columns = [
     title: 'Type',
     width: '12%',
     dataIndex: 'type',
-    search: false,
-    filters: [
-      { text: 'Customer Experience', value: 'Customer Experience' },
-      { text: 'Bay Violation', value: 'Bay Violation' },
-      { text: 'Housekeeping', value: 'Housekeeping' },
-      { text: 'Customer Mistreatment', value: 'Customer Mistreatment' },
-      { text: 'Initiative', value: 'Initiative' },
-      { text: 'Admin Issues', value: 'Admin Issues' },
-      { text: 'Maintenance Issues', value: 'Maintenance Issues' },
-      { text: 'IT Issues', value: 'IT Issues' },
-      { text: 'Inventory Issues', value: 'Inventory Issues' },
-      { text: 'Violation', value: 'Violation' },
-      { text: 'Safety', value: 'Safety' },
-      { text: 'Others', value: 'Others' },
-    ],
+    valueType: 'select',
+    filters: true,
+    valueEnum: {
+      ['Customer Experience']: { text: 'Customer Experience', type: 'Customer Experience' },
+      ['Bay Violation']: { text: 'Bay Violation', type: 'Bay Violation' },
+      Housekeeping: { text: 'Housekeeping', type: 'Housekeeping' },
+      ['Customer Mistreatment']: { text: 'Customer Mistreatment', type: 'Customer Mistreatment' },
+      Initiative: { text: 'Initiative', type: 'Initiative' },
+      ['Admin Issues']: { text: 'Admin Issues', type: 'Admin Issues' },
+      ['Maintenance Issues']: { text: 'Maintenance Issues', type: 'Maintenance Issues' },
+      ['IT Issues']: { text: 'IT Issues', type: 'IT Issues' },
+      ['Inventory Issues']: { text: 'Inventory Issues', type: 'Inventory Issues' },
+      Violation: { text: 'Violation', type: 'Violation' },
+      Safety: { text: 'Safety', type: 'Safety' },
+      Others: { text: 'Others', type: 'Others' },
+    },
     render: (_) => <Typography.Text>{_}</Typography.Text>,
   },
   {
     title: 'Region',
     width: '12%',
     dataIndex: 'region',
-    search: false,
-    filters: [
-      { text: 'Southern', value: 'Southern' },
-      { text: 'CR-East', value: 'CR-East' },
-      { text: 'CR-North', value: 'CR-North' },
-      { text: 'CR-South', value: 'CR-South' },
-      { text: 'ER-North', value: 'ER-North' },
-      { text: 'ER-South', value: 'ER-South' },
-      { text: 'WR-North', value: 'WR-North' },
-      { text: 'WR-South', value: 'WR-South' },
-    ],
+    valueType: 'select',
+    filters: true,
+    valueEnum: {
+      Southern: { text: 'Southern', region: 'Southern' },
+      ['CR-East']: { text: 'CR-East', region: 'CR-East' },
+      ['CR-North']: { text: 'CR-North', region: 'CR-North' },
+      ['CR-South']: { text: 'CR-South', region: 'CR-South' },
+      ['ER-North']: { text: 'ER-North', region: 'ER-North' },
+      ['ER-South']: { text: 'ER-South', region: 'ER-South' },
+      ['WR-North']: { text: 'WR-North', region: 'WR-North' },
+      ['WR-South']: { text: 'WR-South', region: 'WR-South' },
+    },
     render: (_) => <Typography.Text>{_}</Typography.Text>,
   },
   {
@@ -86,6 +89,7 @@ const columns = [
 ];
 
 function InitiativeTable(props) {
+  const formRef = useRef(null);
   const { expandedRowRender, onRequest, tableRef } = props;
 
   return (
@@ -94,8 +98,11 @@ function InitiativeTable(props) {
         columns={columns}
         request={onRequest}
         actionRef={tableRef}
+        formRef={formRef}
         rowKey="key"
-        toolBarRender={() => [<GenerateInitiativesCSV key="csv" />]}
+        toolBarRender={() => [
+          <GenerateInitiativesCSV key="csv" filters={formRef?.current?.getFieldValue()} />,
+        ]}
         pagination={{
           showQuickJumper: true,
           pageSize: 10,
