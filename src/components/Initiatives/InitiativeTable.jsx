@@ -7,15 +7,15 @@ import ProTable from '@ant-design/pro-table';
 import GenerateInitiativesCSV from '../common/GenerateInitiativesCSV';
 
 const columns = [
-  {
-    title: 'Initiative ID',
-    width: '12%',
-    dataIndex: 'id',
-    render: (_) => <Typography.Text>{_}</Typography.Text>,
-  },
+  // {
+  //   title: 'Initiative ID',
+  //   width: '12%',
+  //   dataIndex: 'id',
+  //   render: (_) => <Typography.Text>{_}</Typography.Text>,
+  // },
   {
     title: 'Date',
-    width: '12%',
+    width: '14%',
     minWidth: 100,
     dataIndex: 'date',
     valueType: 'dateRange',
@@ -24,13 +24,13 @@ const columns = [
   },
   {
     title: 'BE Team',
-    width: '12%',
+    width: '14%',
     dataIndex: 'user',
     render: (_) => <Typography.Text strong>{_}</Typography.Text>,
   },
   {
     title: 'Type',
-    width: '12%',
+    width: '14%',
     dataIndex: 'type',
     valueType: 'select',
     filters: true,
@@ -52,7 +52,7 @@ const columns = [
   },
   {
     title: 'Region',
-    width: '12%',
+    width: '14%',
     dataIndex: 'region',
     valueType: 'select',
     filters: true,
@@ -70,19 +70,19 @@ const columns = [
   },
   {
     title: 'Regional Manager',
-    width: '12%',
+    width: '14%',
     dataIndex: 'regionalManager',
     render: (_) => <Typography.Text>{_}</Typography.Text>,
   },
   {
     title: 'Area Manager',
-    width: '12%',
+    width: '14%',
     dataIndex: 'areaManager',
     render: (_) => <Typography.Text>{_}</Typography.Text>,
   },
   {
     title: 'Station/BE',
-    width: '12%',
+    width: '14%',
     dataIndex: 'stationNumber',
     render: (_) => <Typography.Text>{_}</Typography.Text>,
   },

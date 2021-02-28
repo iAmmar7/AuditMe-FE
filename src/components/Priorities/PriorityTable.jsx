@@ -8,11 +8,11 @@ import GeneratePrioritiesCSV from '../common/GeneratePrioritiesCSV';
 import styles from './Priorities.less';
 
 const columns = [
-  {
-    title: 'Issue ID',
-    dataIndex: 'id',
-    render: (_) => <Typography.Text>{_}</Typography.Text>,
-  },
+  // {
+  //   title: 'Issue ID',
+  //   dataIndex: 'id',
+  //   render: (_) => <Typography.Text>{_}</Typography.Text>,
+  // },
   {
     title: 'Date',
     width: '9%',
