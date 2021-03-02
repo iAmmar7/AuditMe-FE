@@ -32,7 +32,7 @@ const columns = [
     dataIndex: 'status',
     // search: false,
     valueType: 'select',
-    filters: true,
+    // filters: true,
     valueEnum: {
       Resolved: { text: 'Resolved', status: 'Resolved' },
       Pending: { text: 'Pending', status: 'Pending' },
@@ -50,7 +50,7 @@ const columns = [
     title: 'Type',
     dataIndex: 'type',
     valueType: 'select',
-    filters: true,
+    // filters: true,
     valueEnum: {
       ['Customer Experience']: { text: 'Customer Experience', type: 'Customer Experience' },
       ['Bay Violation']: { text: 'Bay Violation', type: 'Bay Violation' },
@@ -73,7 +73,7 @@ const columns = [
     minWidth: 100,
     dataIndex: 'region',
     valueType: 'select',
-    filters: true,
+    // filters: true,
     valueEnum: {
       Southern: { text: 'Southern', region: 'Southern' },
       ['CR-East']: { text: 'CR-East', region: 'CR-East' },
@@ -162,7 +162,9 @@ function PriorityTable(props) {
         }}
         search={{
           labelWidth: 'auto',
-          // defaultCollapsed: false,
+          defaultCollapsed: false,
+          collapseRender: () => false,
+          span: 8,
         }}
         dateFormatter="string"
         options={{
