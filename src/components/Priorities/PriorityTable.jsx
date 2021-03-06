@@ -32,7 +32,11 @@ const columns = [
     dataIndex: 'status',
     // search: false,
     valueType: 'select',
-    // filters: true,
+    filters: [
+      { text: 'Resolved', value: 'Resolved' },
+      { text: 'Pending', value: 'Pending' },
+      { text: 'Maintenance', value: 'Maintenance' },
+    ],
     valueEnum: {
       Resolved: { text: 'Resolved', status: 'Resolved' },
       Pending: { text: 'Pending', status: 'Pending' },
