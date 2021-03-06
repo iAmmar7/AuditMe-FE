@@ -34,8 +34,6 @@ const PrioritiesReports = () => {
         regionFilter: filter?.region,
       },
     };
-    console.log('onRequest', queryData);
-
     const result = await axios.post(`${URL}/api/user/priorities-reports`, queryData, {
       headers: {
         Authorization: localStorage.userToken,
