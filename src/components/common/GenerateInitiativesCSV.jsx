@@ -35,8 +35,6 @@ const GenerateInitiativesCSV = ({ filters }) => {
   const fetchReports = () => {
     setData({ ...data, loading: true });
 
-    console.log('CSV', filters);
-
     let modifiedFilters = filters;
     if (modifiedFilters.date)
       modifiedFilters = {

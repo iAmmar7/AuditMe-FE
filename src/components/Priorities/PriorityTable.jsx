@@ -190,7 +190,7 @@ function PriorityTable(props) {
           labelWidth: 'auto',
           // defaultCollapsed: false,
           // collapseRender: () => false,
-          span: 8,
+          // span: 8,
         }}
         dateFormatter="string"
         options={{
