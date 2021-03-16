@@ -314,7 +314,6 @@ function IssueForm({ item, tableRef, setFormDisabled }) {
             placeholder="Select issue type....      ...."
             options={[
               { value: 'Customer Experience', label: 'Customer Experience' },
-              { value: 'Bay Violation', label: 'Bay Violation' },
               { value: 'Housekeeping', label: 'Housekeeping' },
               { value: 'Customer Mistreatment', label: 'Customer Mistreatment' },
               { value: 'Initiative', label: 'Initiative' },

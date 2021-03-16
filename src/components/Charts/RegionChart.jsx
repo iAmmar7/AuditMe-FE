@@ -127,7 +127,7 @@ const RegionChart = ({ stats }) => {
     //               </Typography.Text>
     //             </Row>
     //             <Row style={{ marginBottom: '4px', paddingLeft: '12px' }}>
-    //               <Typography.Text>Bay Violation {item.data['Bay Violation'] ?? 0}</Typography.Text>
+    //               <Typography.Text>Violation {item.data['Violation'] ?? 0}</Typography.Text>
     //             </Row>
     //             <Row style={{ marginBottom: '4px', paddingLeft: '12px' }}>
     //               <Typography.Text>Housekeeping {item.data['Housekeeping'] ?? 0}</Typography.Text>

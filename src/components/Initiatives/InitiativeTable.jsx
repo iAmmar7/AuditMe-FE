@@ -35,7 +35,6 @@ const columns = [
     valueType: 'select',
     filters: [
       { text: 'Customer Experience', value: 'Customer Experience' },
-      { text: 'Bay Violation', value: 'Bay Violation' },
       { text: 'Housekeeping', value: 'Housekeeping' },
       { text: 'Customer Mistreatment', value: 'Customer Mistreatment' },
       { text: 'Initiative', value: 'Initiative' },
@@ -49,7 +48,6 @@ const columns = [
     ],
     valueEnum: {
       ['Customer Experience']: { text: 'Customer Experience', type: 'Customer Experience' },
-      ['Bay Violation']: { text: 'Bay Violation', type: 'Bay Violation' },
       Housekeeping: { text: 'Housekeeping', type: 'Housekeeping' },
       ['Customer Mistreatment']: { text: 'Customer Mistreatment', type: 'Customer Mistreatment' },
       Initiative: { text: 'Initiative', type: 'Initiative' },
