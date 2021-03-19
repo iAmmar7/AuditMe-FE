@@ -91,6 +91,18 @@ export default [
             component: './user/Settings',
           },
           {
+            path: '/user/am-checklist',
+            name: 'Area Manager Checklist',
+            icon: 'edit',
+            component: './user/AMChecklist',
+          },
+          {
+            path: '/user/employee-feedback',
+            name: 'Employee Feedback',
+            icon: 'edit',
+            component: './user/EmployeeFeedback',
+          },
+          {
             component: './404',
           },
         ],
