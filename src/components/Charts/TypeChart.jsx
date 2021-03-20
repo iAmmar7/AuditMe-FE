@@ -9,10 +9,6 @@ const TypeChart = ({ stats }) => {
       count: stats.data['Customer Experience'] ?? null,
     },
     {
-      type: 'Bay Violation',
-      count: stats.data['Bay Violation'] ?? null,
-    },
-    {
       type: 'Housekeeping',
       count: stats.data['Housekeeping'] ?? null,
     },

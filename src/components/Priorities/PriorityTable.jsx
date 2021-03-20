@@ -32,7 +32,11 @@ const columns = [
     dataIndex: 'status',
     // search: false,
     valueType: 'select',
-    // filters: true,
+    filters: [
+      { text: 'Resolved', value: 'Resolved' },
+      { text: 'Pending', value: 'Pending' },
+      { text: 'Maintenance', value: 'Maintenance' },
+    ],
     valueEnum: {
       Resolved: { text: 'Resolved', status: 'Resolved' },
       Pending: { text: 'Pending', status: 'Pending' },
@@ -50,10 +54,21 @@ const columns = [
     title: 'Type',
     dataIndex: 'type',
     valueType: 'select',
-    // filters: true,
+    filters: [
+      { text: 'Customer Experience', value: 'Customer Experience' },
+      { text: 'Housekeeping', value: 'Housekeeping' },
+      { text: 'Customer Mistreatment', value: 'Customer Mistreatment' },
+      { text: 'Initiative', value: 'Initiative' },
+      { text: 'Admin Issues', value: 'Admin Issues' },
+      { text: 'Maintenance Issues', value: 'Maintenance Issues' },
+      { text: 'IT Issues', value: 'IT Issues' },
+      { text: 'Inventory Issues', value: 'Inventory Issues' },
+      { text: 'Violation', value: 'Violation' },
+      { text: 'Safety', value: 'Safety' },
+      { text: 'Others', value: 'Others' },
+    ],
     valueEnum: {
       ['Customer Experience']: { text: 'Customer Experience', type: 'Customer Experience' },
-      ['Bay Violation']: { text: 'Bay Violation', type: 'Bay Violation' },
       Housekeeping: { text: 'Housekeeping', type: 'Housekeeping' },
       ['Customer Mistreatment']: { text: 'Customer Mistreatment', type: 'Customer Mistreatment' },
       Initiative: { text: 'Initiative', type: 'Initiative' },
@@ -73,7 +88,16 @@ const columns = [
     minWidth: 100,
     dataIndex: 'region',
     valueType: 'select',
-    // filters: true,
+    filters: [
+      { text: 'Southern', value: 'Southern' },
+      { text: 'CR-East', value: 'CR-East' },
+      { text: 'CR-North', value: 'CR-North' },
+      { text: 'CR-South', value: 'CR-South' },
+      { text: 'ER-North', value: 'ER-North' },
+      { text: 'ER-South', value: 'ER-South' },
+      { text: 'WR-North', value: 'WR-North' },
+      { text: 'WR-South', value: 'WR-South' },
+    ],
     valueEnum: {
       Southern: { text: 'Southern', region: 'Southern' },
       ['CR-East']: { text: 'CR-East', region: 'CR-East' },
@@ -162,9 +186,9 @@ function PriorityTable(props) {
         }}
         search={{
           labelWidth: 'auto',
-          defaultCollapsed: false,
-          collapseRender: () => false,
-          span: 8,
+          // defaultCollapsed: false,
+          // collapseRender: () => false,
+          // span: 8,
         }}
         dateFormatter="string"
         options={{

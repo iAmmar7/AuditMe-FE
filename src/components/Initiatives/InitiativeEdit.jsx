@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import React, { useState } from 'react';
 import { Row, Col, Image, Typography, Tooltip, Upload, Button, message } from 'antd';
 import { UploadOutlined, QuestionCircleOutlined, DeleteTwoTone } from '@ant-design/icons';
@@ -184,14 +185,17 @@ function InitiativeEdit({ item, tableRef, setFormDisabled }) {
         <ProFormSelect
           name="type"
           label="Type"
-          placeholder="Select issue type......"
+          placeholder="Select issue type....      ...."
           options={[
             { value: 'Customer Experience', label: 'Customer Experience' },
-            { value: 'Bay Violation', label: 'Bay Violation' },
             { value: 'Housekeeping', label: 'Housekeeping' },
             { value: 'Customer Mistreatment', label: 'Customer Mistreatment' },
             { value: 'Initiative', label: 'Initiative' },
             { value: 'Admin Issues', label: 'Admin Issues' },
+            { value: 'Maintenance Issues', label: 'Maintenance Issues' },
+            { value: 'IT Issues', label: 'IT Issues' },
+            { value: 'Inventory Issues', label: 'Inventory Issues' },
+            { value: 'Violation', label: 'Violation' },
             { value: 'Safety', label: 'Safety' },
             { value: 'Others', label: 'Others' },
           ]}
