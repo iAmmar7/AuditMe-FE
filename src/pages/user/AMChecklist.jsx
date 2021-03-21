@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import { history } from 'umi';
-import { Card, Alert, message } from 'antd';
+import { Card, message, Alert, Form } from 'antd';
 import axios from 'axios';
 
 import AMChecklist from '../../components/AMChecklist';
@@ -13,80 +12,89 @@ const URL =
 
 const AMChecklistForm = () => {
   const [loading, setLoading] = useState(false);
-  // const [evidenceBeforeFileList, setEvidenceBeforeFileList] = useState([]);
-  // const [evidenceAfterFileList, setEvidenceAfterFileList] = useState([]);
+  const [images, setImages] = useState({});
+  const [form] = Form.useForm();
 
-  // const submitForm = async (values) => {
-  //   setLoading(true);
+  const onSubmit = async (values) => {
+    setLoading(true);
 
-  //   const formData = new FormData();
-  //   Object.keys(values).forEach((item) => {
-  //     // Don't append images
-  //     if (item !== 'evidencesBefore' && item !== 'evidencesAfter')
-  //       formData.append(item, values[item]);
-  //   });
+    const formData = new FormData();
+    Object.keys(values).forEach((item) => {
+      let value;
+      if (item.includes('question')) {
+        value = values[item] === 'Yes';
+      } else {
+        value = values[item];
+      }
+      formData.append(item, value);
+    });
 
-  //   for (let i = 0; i < evidenceBeforeFileList.length; i += 1) {
-  //     formData.append('evidencesBefore', evidenceBeforeFileList[i]);
-  //   }
+    Object.entries(images).forEach(([key, value]) => {
+      value.forEach((image) => {
+        formData.append([key], image);
+      });
+    });
 
-  //   for (let i = 0; i < evidenceAfterFileList.length; i += 1) {
-  //     formData.append('evidencesAfter', evidenceAfterFileList[i]);
-  //   }
+    axios
+      .post(`${URL}/api/am/checklist`, formData, {
+        headers: { Authorization: localStorage.userToken },
+      })
+      .then((res) => {
+        setLoading(false);
+        if (res.data.success) {
+          message.success('Checklist form has been successfully published!');
+          form.resetFields();
+        }
+      })
+      .catch(() => {
+        setLoading(false);
+        message.error('Unable to publish checklist!', 10);
+      });
+  };
 
-  //   axios
-  //     .post(`${URL}/api/auditor/initiative`, formData, {
-  //       headers: { Authorization: localStorage.userToken },
-  //     })
-  //     .then((res) => {
-  //       setLoading(false);
-  //       if (res.data.success) {
-  //         message.success('Initiative has been successfully published!');
-  //         history.push('/user/reports/initiative-reports');
-  //       }
-  //     })
-  //     .catch(() => {
-  //       setLoading(false);
-  //       message.error('Unable to publish initiative!', 10);
-  //     });
-  // };
+  const alertMessage = () => {
+    let messageText = null;
 
-  // const alertMessage = () => {
-  //   let messageText = null;
+    if (JSON.parse(localStorage.getItem('user')).role === 'rm')
+      messageText =
+        'You have signed up as regional manager, you can not submit a checklist. Please signup as area manager in order to submit a checklist.';
 
-  //   if (JSON.parse(localStorage.getItem('user')).role === 'rm')
-  //     messageText =
-  //       'You have signed up as regional manager, you can not submit an initiative. Please signup as auditor or station manager in order to submit an initiative.';
+    if (JSON.parse(localStorage.getItem('user')).role === 'sm')
+      messageText =
+        'You have signed up as station manager, you can not submit a checklist. Please signup as area manager in order to submit a checklist.';
 
-  //   if (JSON.parse(localStorage.getItem('user')).role === 'am')
-  //     messageText =
-  //       'You have signed up as area manager, you can not submit an initiative. Please signup as auditor or station manager in order to submit an initiative.';
+    if (JSON.parse(localStorage.getItem('user')).role === 'auditor')
+      messageText =
+        'You have signed up as auditor, you can not submit a checklist. Please signup as area manager in order to submit a checklist.';
 
-  //   if (JSON.parse(localStorage.getItem('user')).role === 'viewer')
-  //     messageText =
-  //       'You have signed up as viewer, you can not submit an initiative. Please signup as auditor or station manager in order to submit an initiative.';
+    if (JSON.parse(localStorage.getItem('user')).role === 'viewer')
+      messageText =
+        'You have signed up as viewer, you can not submit a checklist. Please signup as area manager, in order to submit a checklist.';
 
-  //   return (
-  //     messageText && (
-  //       <Alert
-  //         style={{
-  //           marginBottom: 24,
-  //         }}
-  //         message={messageText}
-  //         type="error"
-  //         showIcon
-  //       />
-  //     )
-  //   );
-  // };
+    return (
+      messageText && (
+        <Alert
+          style={{
+            marginBottom: 24,
+          }}
+          message={messageText}
+          type="error"
+          showIcon
+        />
+      )
+    );
+  };
 
   return (
     <PageHeaderWrapper content="Complete AM checklist using the form below">
-      {/* {alertMessage()} */}
+      {alertMessage()}
       <Card>
         <AMChecklist
           loading={loading}
-          // submitForm={submitForm}
+          images={images}
+          setImages={setImages}
+          onFinish={onSubmit}
+          form={form}
         />
       </Card>
     </PageHeaderWrapper>
