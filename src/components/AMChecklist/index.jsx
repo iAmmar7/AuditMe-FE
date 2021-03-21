@@ -40,12 +40,14 @@ const AMChecklist = ({ loading, images, setImages, onFinish, form }) => {
           },
         }}
         onFinish={onFinish}
-        initialValues={{
-          BENumber: '123456',
-          stationName: 'ABC Station',
-          SMName: 'John Doe SM',
-          date: '2021-03-20',
-        }}
+        initialValues={
+          {
+            // BENumber: '123456',
+            // stationName: 'ABC Station',
+            // SMName: 'John Doe SM',
+            // date: '2021-03-20',
+          }
+        }
         submitter={{
           render: (submitProps) => {
             return (
