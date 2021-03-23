@@ -57,7 +57,7 @@ const AMChecklist = ({ loading, images, setImages, onFinish, form }) => {
                   loading={loading}
                   disabled={!['am'].includes(JSON.parse(localStorage.user).role)}
                   onClick={() => submitProps?.form?.resetFields()}
-                  style={{ marginRight: '4px' }}
+                  style={{ marginRight: '8px' }}
                 >
                   Reset
                 </Button>
