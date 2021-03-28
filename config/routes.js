@@ -103,6 +103,12 @@ export default [
             component: './user/EmployeeFeedback',
           },
           {
+            path: '/user/dashboard-timeline',
+            name: 'Dashboard Timeline',
+            icon: 'dashboard',
+            component: './user/DashboardTimeline',
+          },
+          {
             component: './404',
           },
         ],

@@ -1,0 +1,21 @@
+@import '~antd/es/style/themes/default.less';
+
+.main_board {
+  display: flex;
+  flex-direction: column;
+  height: 70vh;
+  overflow-y: auto;
+  @media screen and (max-width: @screen-sm) {
+    flex-direction: row !important;
+    flex-flow: row;
+  }
+}
+
+.tasks_column_container {
+  min-width: 270px;
+  padding: 0 10px;
+}
+
+.task_card_style {
+  margin-bottom: 10px;
+}
