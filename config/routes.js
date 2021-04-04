@@ -81,6 +81,11 @@ export default [
                 name: 'Initiatives',
                 component: './user/InitiativesReports',
               },
+              {
+                path: '/user/reports/employee-feedback-reports',
+                name: 'Employee Feedback',
+                component: './user/EmployeeFeedbackReports',
+              },
             ],
           },
           {
