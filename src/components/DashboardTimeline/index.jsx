@@ -1,3 +1,4 @@
+/* eslint-disable prefer-template */
 import React from 'react';
 import { Card, Row, Col, Typography, Tag } from 'antd';
 import moment from 'moment';
@@ -43,7 +44,10 @@ const DashboardTimeline = ({ data }) => {
                 </Tag>
               </Col>
               <Col>
-                Issue Details: <Typography.Text strong>{item.issueDetails.substring(0,100) + "..."}</Typography.Text>
+                Issue Details:{' '}
+                <Typography.Text strong>
+                  {item.issueDetails.substring(0, 100) + '...'}
+                </Typography.Text>
               </Col>
             </Card>
           ))}
@@ -74,7 +78,10 @@ const DashboardTimeline = ({ data }) => {
                 </Tag>
               </Col>
               <Col>
-                Issue Details: <Typography.Text strong>{item.issueDetails.substring(0,100) + "..."}</Typography.Text>
+                Issue Details:{' '}
+                <Typography.Text strong>
+                  {item.issueDetails.substring(0, 100) + '...'}
+                </Typography.Text>
               </Col>
             </Card>
           ))}
@@ -102,7 +109,10 @@ const DashboardTimeline = ({ data }) => {
               </Col>
 
               <Col>
-                Issue Details: <Typography.Text strong>{item.issueDetails.substring(0,100) + "..."}</Typography.Text>
+                Issue Details:{' '}
+                <Typography.Text strong>
+                  {item.issueDetails.substring(0, 100) + '...'}
+                </Typography.Text>
               </Col>
             </Card>
           ))}
@@ -133,7 +143,10 @@ const DashboardTimeline = ({ data }) => {
                 </Tag>
               </Col>
               <Col>
-                Issue Details: <Typography.Text strong>{item.issueDetails.substring(0,100) + "..."}</Typography.Text>
+                Issue Details:{' '}
+                <Typography.Text strong>
+                  {item.issueDetails.substring(0, 100) + '...'}
+                </Typography.Text>
               </Col>
             </Card>
           ))}
