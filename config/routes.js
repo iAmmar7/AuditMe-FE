@@ -35,7 +35,7 @@ export default [
   //   ],
   // },
   {
-    path: '/user',
+    path: '/',
     component: '../layouts/UserSecuredLayout',
     routes: [
       {
@@ -44,74 +44,105 @@ export default [
         authority: ['user'],
         routes: [
           {
-            path: '/user/',
-            name: 'Dashboard',
-            icon: 'dashboard',
-            component: './user/Landing',
+            path: '/home',
+            name: 'Home',
+            icon: 'home',
+            component: './home',
           },
           {
-            path: '/user/priorities-form',
-            name: 'Priorities Issues',
+            path: '/eder',
+            name: 'EDER',
             icon: 'form',
-            component: './user/PrioritiesForm',
-          },
-          {
-            path: '/user/initiative-form',
-            name: 'Initiatives',
-            icon: 'edit',
-            component: './user/InitiativesForm',
-          },
-          {
-            path: '/user/reports',
-            name: 'Reports',
-            icon: 'tablet',
             routes: [
-              // {
-              //   path: '/user/reports/observation-reports',
-              //   name: 'Observations',
-              //   component: './user/ObservationsReports',
-              // },
               {
-                path: '/user/reports/priorities-reports',
-                name: 'Priorities Issues',
-                component: './user/PrioritiesReports',
+                path: '/eder/dashboard',
+                name: 'Dashboard',
+                component: './eder/Dashboard',
               },
               {
-                path: '/user/reports/initiative-reports',
+                path: '/eder/timeline',
+                name: 'Timeline',
+                component: './eder/Timeline',
+              },
+              {
+                path: '/eder/priorities-form',
+                name: 'Priority Issues',
+                component: './eder/PrioritiesForm',
+              },
+              {
+                path: '/eder/initiative-form',
                 name: 'Initiatives',
-                component: './user/InitiativesReports',
+                component: './eder/InitiativesForm',
               },
               {
-                path: '/user/reports/employee-feedback-reports',
-                name: 'Employee Feedback',
-                component: './user/EmployeeFeedbackReports',
+                path: '/eder/observation-form',
+                name: 'Observations',
+                component: './eder/PrioritiesForm',
               },
             ],
           },
           {
-            path: '/user/settings',
+            path: '/station-visit',
+            name: 'Station Visit',
+            icon: 'FolderViewOutlined',
+            routes: [
+              {
+                path: '/station-visit/checklist',
+                name: 'Housekeeping Checklist',
+                component: './station_visit/HousekeepingChecklist',
+              },
+            ],
+          },
+          {
+            path: '/employee-feedback',
+            name: 'Employee Feedback',
+            icon: 'contacts',
+            routes: [
+              {
+                path: '/employee-feedback/submission',
+                name: 'Feedback Submission',
+                component: './employee_feedback/EmployeeFeedback',
+              },
+            ],
+          },
+          {
+            path: '/reports',
+            name: 'Reports',
+            icon: 'tablet',
+            routes: [
+              {
+                path: '/reports/initiative-reports',
+                name: 'Initiatives',
+                component: './reports/InitiativesReports',
+              },
+              {
+                path: '/reports/am-checklist',
+                name: 'Housekeeping Checklist',
+                component: './station_visit/HousekeepingChecklist',
+              },
+              {
+                path: '/reports/priorities-reports',
+                name: 'Priority Issues',
+                component: './reports/PrioritiesReports',
+              },
+              {
+                path: '/reports/observation-reports',
+                name: 'Observations',
+                component: './reports/ObservationsReports',
+              },
+              {
+                path: '/reports/feedback-reports',
+                name: 'Feedback',
+                component: './reports/EmployeeFeedbackReports',
+              },
+            ],
+          },
+          {
+            path: '/settings',
             name: 'Settings',
             icon: 'setting',
             hideInMenu: true,
             component: './user/Settings',
-          },
-          {
-            path: '/user/am-checklist',
-            name: 'Area Manager Checklist',
-            icon: 'edit',
-            component: './user/AMChecklist',
-          },
-          {
-            path: '/user/employee-feedback',
-            name: 'Employee Feedback',
-            icon: 'edit',
-            component: './user/EmployeeFeedback',
-          },
-          {
-            path: '/user/dashboard-timeline',
-            name: 'Dashboard Timeline',
-            icon: 'dashboard',
-            component: './user/DashboardTimeline',
           },
           {
             component: './404',

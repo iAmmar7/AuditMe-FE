@@ -65,11 +65,12 @@ const BasicLayout = (props) => {
       locale="en-US"
       onCollapse={handleMenuCollapse}
       onMenuHeaderClick={() => {
-        if (location.pathname !== '/user') history.push('/user');
+        if (location.pathname !== '/home') history.push('/home');
       }}
       menuDataRender={(routes) => {
         const newRoutes = [...routes];
-        if (JSON.parse(localStorage.user).isAdmin) newRoutes[4].hideInMenu = false;
+        if (JSON.parse(localStorage.user).isAdmin)
+          newRoutes.find((route) => route.name === 'Settings').hideInMenu = false;
 
         return newRoutes;
       }}
@@ -79,13 +80,7 @@ const BasicLayout = (props) => {
         }
         return <Link to={menuItemProps.path}>{defaultDom}</Link>;
       }}
-      breadcrumbRender={(routers = []) => [
-        {
-          path: '/',
-          breadcrumbName: 'User',
-        },
-        ...routers,
-      ]}
+      breadcrumbRender={(routers = []) => [...routers]}
       itemRender={(route, params, routes, paths) => {
         const first = routes.indexOf(route) === 0;
         return first ? (

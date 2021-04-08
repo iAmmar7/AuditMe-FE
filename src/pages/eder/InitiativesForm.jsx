@@ -42,7 +42,7 @@ const InitiativesForm = () => {
         setLoading(false);
         if (res.data.success) {
           message.success('Initiative has been successfully published!');
-          history.push('/user/reports/initiative-reports');
+          history.push('/reports/initiative-reports');
         }
       })
       .catch(() => {
