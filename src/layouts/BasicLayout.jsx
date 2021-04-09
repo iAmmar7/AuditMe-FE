@@ -69,8 +69,12 @@ const BasicLayout = (props) => {
       }}
       menuDataRender={(routes) => {
         const newRoutes = [...routes];
-        if (JSON.parse(localStorage.user).isAdmin)
+        if (JSON.parse(localStorage.user).isAdmin) {
           newRoutes.find((route) => route.name === 'Settings').hideInMenu = false;
+          newRoutes[1].children[1].hideInMenu = false;
+          newRoutes[1].children[4].hideInMenu = false;
+          newRoutes[4].children[3].hideInMenu = false;
+        }
 
         return newRoutes;
       }}
