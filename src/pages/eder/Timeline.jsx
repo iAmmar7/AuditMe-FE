@@ -16,6 +16,7 @@ const DashboardTimelinePage = () => {
 
   useEffect(() => {
     async function fetchData() {
+      setLoading(true);
       const res = await axios.get(`${URL}/api/user/dashboard-timeline`, {
         headers: { Authorization: localStorage.userToken },
       });
@@ -24,6 +25,7 @@ const DashboardTimelinePage = () => {
       else {
         setData(res.data);
       }
+      setLoading(false);
     }
     fetchData();
   }, []);

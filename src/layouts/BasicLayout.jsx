@@ -75,7 +75,6 @@ const BasicLayout = (props) => {
           newRoutes[1].children[4].hideInMenu = false;
           newRoutes[4].children[3].hideInMenu = false;
         }
-
         return newRoutes;
       }}
       menuItemRender={(menuItemProps, defaultDom) => {
@@ -86,12 +85,13 @@ const BasicLayout = (props) => {
       }}
       breadcrumbRender={(routers = []) => [...routers]}
       itemRender={(route, params, routes, paths) => {
-        const first = routes.indexOf(route) === 0;
-        return first ? (
-          <Link to={paths.join('/')}>{route.breadcrumbName}</Link>
-        ) : (
-          <span>{route.breadcrumbName}</span>
-        );
+        // const first = routes.indexOf(route) === 0;
+        // return first ? (
+        //   <Link to={paths.join('/')}>{route.breadcrumbName}</Link>
+        // ) : (
+        //   <span>{route.breadcrumbName}</span>
+        // );
+        return <span>{route.breadcrumbName}</span>;
       }}
       menuProps={
         window.innerWidth < 765

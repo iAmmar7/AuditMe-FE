@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { Card, message, Alert, Form } from 'antd';
 import axios from 'axios';
@@ -12,8 +12,26 @@ const URL =
 
 const AMChecklistForm = () => {
   const [loading, setLoading] = useState(false);
+  const [regionalManagers, setRegionalManagers] = useState({ fetching: false, data: [] });
   const [images, setImages] = useState({});
   const [form] = Form.useForm();
+
+  useEffect(() => {
+    (async function fetchRegionalManagers() {
+      setRegionalManagers({ ...regionalManagers, fetching: true });
+      const res = await axios.get(`${URL}/api/user/regional-managers`, {
+        headers: { Authorization: localStorage.userToken },
+      });
+
+      if (res?.data?.success) {
+        setRegionalManagers({
+          ...regionalManagers,
+          fetching: false,
+          data: res.data?.regionalManagers,
+        });
+      } else message.error('Unable to fetch data, reload');
+    })();
+  }, []);
 
   const onSubmit = async (values) => {
     setLoading(true);
@@ -92,6 +110,7 @@ const AMChecklistForm = () => {
         <AMChecklist
           loading={loading}
           images={images}
+          regionalManagers={regionalManagers}
           setImages={setImages}
           onFinish={onSubmit}
           form={form}

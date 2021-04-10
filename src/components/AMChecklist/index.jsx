@@ -1,14 +1,20 @@
+/* eslint-disable no-underscore-dangle */
 import React from 'react';
 import { Button, message, Collapse, Upload } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
-import ProForm, { ProFormText, ProFormDatePicker, ProFormRadio } from '@ant-design/pro-form';
+import ProForm, {
+  ProFormText,
+  ProFormDatePicker,
+  ProFormRadio,
+  ProFormSelect,
+} from '@ant-design/pro-form';
 import ProCard from '@ant-design/pro-card';
 
 import styles from './AMChecklist.less';
 
 const { Panel } = Collapse;
 
-const AMChecklist = ({ loading, images, setImages, onFinish, form }) => {
+const AMChecklist = ({ loading, images, regionalManagers, setImages, onFinish, form }) => {
   const imageUploadProps = (name) => ({
     name,
     listType: 'picture',
@@ -79,34 +85,55 @@ const AMChecklist = ({ loading, images, setImages, onFinish, form }) => {
           className={styles.form_collapse}
         >
           <Panel header="Basic Information" key="1">
+            <ProFormDatePicker
+              width="s"
+              name="date"
+              label="Date"
+              placeholder="Select date"
+              rules={[{ required: true, message: 'Please select date' }]}
+            />
             <ProFormText
               name="BENumber"
-              label="BE Number"
+              label="Station/BE Number"
               wrapperCol={{ xl: 6, md: 24 }}
-              tooltip="BE Number"
               placeholder="Enter BE Number"
               rules={[{ required: true, message: 'Please enter BE number' }]}
             />
+            <ProForm.Group>
+              <ProFormSelect
+                name="region"
+                label="Region"
+                placeholder="Select region"
+                options={[
+                  { value: 'Southern', label: 'Southern' },
+                  { value: 'CR-East', label: 'CR-East' },
+                  { value: 'CR-North', label: 'CR-North' },
+                  { value: 'CR-South', label: 'CR-South' },
+                  { value: 'ER-North', label: 'ER-North' },
+                  { value: 'ER-South', label: 'ER-South' },
+                  { value: 'WR-North', label: 'WR-North' },
+                  { value: 'WR-South', label: 'WR-South' },
+                ]}
+                rules={[{ required: true, message: 'Please select region!' }]}
+              />
+              <ProFormSelect
+                width="s"
+                name="RMName"
+                label="Regional Manager"
+                placeholder="Enter regional manager"
+                options={(regionalManagers?.data || []).map((item) => ({
+                  value: item._id,
+                  label: item.name,
+                }))}
+                rules={[{ required: true, message: 'Please select regional manager!' }]}
+              />
+            </ProForm.Group>
             <ProFormText
               name="stationName"
               label="Station Name"
               wrapperCol={{ xl: 6, md: 24 }}
-              tooltip="Station Name"
               placeholder="Enter Station Name"
               rules={[{ required: true, message: 'Please enter station name' }]}
-            />
-            <ProFormText
-              name="SMName"
-              label="Station Manager Name"
-              wrapperCol={{ xl: 6, md: 24 }}
-              tooltip="Station Manager Name"
-              placeholder="Enter Station Manager Name"
-              rules={[{ required: true, message: 'Please enter station manager name' }]}
-            />
-            <ProFormDatePicker
-              name="date"
-              label="Date"
-              rules={[{ required: true, message: 'Please select date' }]}
             />
           </Panel>
           <Panel header="Housekeeping - Exterior" key="2">
