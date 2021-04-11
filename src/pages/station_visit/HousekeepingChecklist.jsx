@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 import React, { useState, useEffect } from 'react';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { Card, message, Alert, Form } from 'antd';
@@ -44,6 +45,8 @@ const AMChecklistForm = () => {
       } else {
         value = values[item];
       }
+      // Truncate name from RMName value
+      if (item === 'RMName') value = values[item].split(' ')[1];
       formData.append(item, value);
     });
 
@@ -61,6 +64,7 @@ const AMChecklistForm = () => {
         setLoading(false);
         if (res.data.success) {
           message.success('Checklist form has been successfully published!');
+          setImages({});
           form.resetFields();
         }
       })

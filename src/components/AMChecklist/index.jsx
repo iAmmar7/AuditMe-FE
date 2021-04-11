@@ -10,6 +10,7 @@ import ProForm, {
 } from '@ant-design/pro-form';
 import ProCard from '@ant-design/pro-card';
 
+import AMSkeleton from './AMChecklist.Skeleton';
 import styles from './AMChecklist.less';
 
 const { Panel } = Collapse;
@@ -36,6 +37,8 @@ const AMChecklist = ({ loading, images, regionalManagers, setImages, onFinish, f
     images,
   });
 
+  if (regionalManagers.fetching) return <AMSkeleton />;
+
   return (
     <ProCard>
       <ProForm
@@ -48,10 +51,10 @@ const AMChecklist = ({ loading, images, regionalManagers, setImages, onFinish, f
         onFinish={onFinish}
         initialValues={
           {
+            // date: '2021-03-20',
             // BENumber: '123456',
             // stationName: 'ABC Station',
-            // SMName: 'John Doe SM',
-            // date: '2021-03-20',
+            // region: 'CR-South',
           }
         }
         submitter={{
@@ -93,6 +96,7 @@ const AMChecklist = ({ loading, images, regionalManagers, setImages, onFinish, f
               rules={[{ required: true, message: 'Please select date' }]}
             />
             <ProFormText
+              width="s"
               name="BENumber"
               label="Station/BE Number"
               wrapperCol={{ xl: 6, md: 24 }}
@@ -101,6 +105,7 @@ const AMChecklist = ({ loading, images, regionalManagers, setImages, onFinish, f
             />
             <ProForm.Group>
               <ProFormSelect
+                width="s"
                 name="region"
                 label="Region"
                 placeholder="Select region"
@@ -121,14 +126,16 @@ const AMChecklist = ({ loading, images, regionalManagers, setImages, onFinish, f
                 name="RMName"
                 label="Regional Manager"
                 placeholder="Enter regional manager"
+                showSearch
                 options={(regionalManagers?.data || []).map((item) => ({
-                  value: item._id,
+                  value: `${item.name} ${item._id}`,
                   label: item.name,
                 }))}
                 rules={[{ required: true, message: 'Please select regional manager!' }]}
               />
             </ProForm.Group>
             <ProFormText
+              width="s"
               name="stationName"
               label="Station Name"
               wrapperCol={{ xl: 6, md: 24 }}
