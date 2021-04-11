@@ -78,7 +78,7 @@ export default [
               {
                 path: '/eder/observation-form',
                 name: 'Observations',
-                component: './eder/PrioritiesForm',
+                component: './eder/ObservationsForm',
                 hideInMenu: true,
               },
             ],

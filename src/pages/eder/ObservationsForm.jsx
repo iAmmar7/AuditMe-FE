@@ -11,7 +11,7 @@ const URL =
     ? process.env.AUDITME_DEV_BE_URL
     : process.env.AUDITME_PROD_BE_URL;
 
-const PrioritiesForm = () => {
+const ObservationsForm = () => {
   const [loading, setLoading] = useState(false);
   const [evidenceFileList, setEvidenceFileList] = useState([]);
 
@@ -19,7 +19,7 @@ const PrioritiesForm = () => {
     setLoading(true);
 
     const formData = new FormData();
-    formData.append('isPrioritized', true);
+    formData.append('isPrioritized', false);
     Object.keys(values).forEach((item) => {
       // Don't append images
       if (item !== 'evidences') formData.append(item, values[item]);
@@ -37,7 +37,7 @@ const PrioritiesForm = () => {
         setLoading(false);
         if (res.data.success) {
           message.success('Issue has been successfully published!');
-          history.push('/reports/priorities-reports');
+          history.push('/reports/observation-reports');
         }
       })
       .catch(() => {
@@ -51,15 +51,15 @@ const PrioritiesForm = () => {
 
     if (JSON.parse(localStorage.getItem('user')).role === 'rm')
       messageText =
-        'You have signed up as regional manager, you can not submit an issue. Please signup as auditor or station manager in order to raise an issue.';
+        'You have signed up as regional manager, you can not submit an observation. Please signup as auditor or station manager in order to add an observation.';
 
     if (JSON.parse(localStorage.getItem('user')).role === 'am')
       messageText =
-        'You have signed up as area manager, you can not submit an issue. Please signup as auditor or station manager in order to raise an issue.';
+        'You have signed up as area manager, you can not submit an observation. Please signup as auditor or station manager in order to add an observation.';
 
     if (JSON.parse(localStorage.getItem('user')).role === 'viewer')
       messageText =
-        'You have signed up as viewer, you can not submit an issue. Please signup as auditor or station manager, in order to raise an issue.';
+        'You have signed up as viewer, you can not submit an observation. Please signup as auditor or station manager, in order to add an observation.';
 
     return (
       messageText && (
@@ -76,7 +76,7 @@ const PrioritiesForm = () => {
   };
 
   return (
-    <PageHeaderWrapper content="Raise an issue here by completing the form below">
+    <PageHeaderWrapper content="Add an observation here by completing the form below">
       {alertMessage()}
       <Card>
         <PriorityForm
@@ -90,4 +90,4 @@ const PrioritiesForm = () => {
   );
 };
 
-export default PrioritiesForm;
+export default ObservationsForm;

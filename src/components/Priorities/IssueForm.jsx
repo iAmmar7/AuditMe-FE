@@ -250,10 +250,7 @@ function IssueForm({ item, tableRef, setFormDisabled }) {
 
     return (
       <ProForm
-        initialValues={{
-          ...item,
-          priority: item.isPrioritized ? 'Priority' : 'Observation',
-        }}
+        initialValues={item}
         submitter={{
           render: (props) => (
             <Button
@@ -348,18 +345,6 @@ function IssueForm({ item, tableRef, setFormDisabled }) {
             label="Date Identified/Listed"
             placeholder="Select date"
             rules={[{ required: true, message: 'Please select date!' }]}
-          />
-          <ProFormSelect
-            width="s"
-            name="priority"
-            label="Priority"
-            placeholder="Select Priority"
-            options={[
-              { value: 'Observation', label: 'Observation' },
-              { value: 'Priority', label: 'Priority' },
-            ]}
-            rules={[{ required: true, message: 'Please select issue priority!' }]}
-            disabled={item.isPrioritized}
           />
         </ProForm.Group>
         <Typography.Text>Evidence </Typography.Text>

@@ -39,18 +39,19 @@ function PriorityForm(props) {
   return (
     <ProForm
       form={form}
-      initialValues={{
-        // region: 'CR-North',
-        // areaManager: 'John Doe AM',
-        // regionalManager: 'John Doe RM',
-        // processSpecialist: 'John Doe PS',
-        // stationNumber: 'Test123',
-        // issueDetails: 'Test details',
-        // type: 'Initiative',
-        // dateIdentified: '2021-02-19',
-        // date: '2021-02-22',
-        priority: 'Priority',
-      }}
+      initialValues={
+        {
+          // region: 'CR-North',
+          // areaManager: 'John Doe AM',
+          // regionalManager: 'John Doe RM',
+          // processSpecialist: 'John Doe PS',
+          // stationNumber: 'Test123',
+          // issueDetails: 'Test details',
+          // type: 'Initiative',
+          // dateIdentified: '2021-02-19',
+          // date: '2021-02-22',
+        }
+      }
       submitter={{
         render: (submitProps) => {
           return (
@@ -80,7 +81,7 @@ function PriorityForm(props) {
         const { date, dateIdentified } = allValues;
 
         // If dateIdentified is greater than date then throw error
-        if (dateIdentified && date?.diff(dateIdentified, 'days') < 0) {
+        if (dateIdentified && date?.diff && date.diff(dateIdentified, 'days') < 0) {
           form.setFieldsValue({ dateIdentified: null });
           message.error('Date identified can not be greater than date');
         }
@@ -172,19 +173,6 @@ function PriorityForm(props) {
           label="Date Identified/Listed"
           placeholder="Select date"
           rules={[{ required: true, message: 'Please select date!' }]}
-        />
-        <ProFormSelect
-          width="s"
-          name="priority"
-          label="Priority"
-          placeholder="Select Priority"
-          // disabled={disabled.includes('priority')}
-          disabled
-          options={[
-            { value: 'Observation', label: 'Observation' },
-            { value: 'Priority', label: 'Priority' },
-          ]}
-          rules={[{ required: true, message: 'Please select issue priority!' }]}
         />
       </ProForm.Group>
       <Typography.Text>Evidence </Typography.Text>
