@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import React from 'react';
-import { Button, message, Collapse, Upload } from 'antd';
+import { Button, message, Collapse, Upload, Alert } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import ProForm, {
   ProFormText,
@@ -508,6 +508,14 @@ const AMChecklist = ({ loading, images, regionalManagers, setImages, onFinish, f
             </Upload>
           </Panel>
         </Collapse>
+        <Alert
+          style={{
+            marginBottom: 24,
+          }}
+          message="After submitting this checklist, you can edit it within 1 hour"
+          type="info"
+          showIcon
+        />
       </ProForm>
     </ProCard>
   );
