@@ -97,11 +97,11 @@ const AMChecklist = ({ loading, images, regionalManagers, setImages, onFinish, f
             />
             <ProFormText
               width="s"
-              name="BENumber"
-              label="Station/BE Number"
+              name="BEName"
+              label="Station/BE Name"
               wrapperCol={{ xl: 6, md: 24 }}
-              placeholder="Enter BE Number"
-              rules={[{ required: true, message: 'Please enter BE number' }]}
+              placeholder="Enter Station/BE Name"
+              rules={[{ required: true, message: 'Please enter Station/BE Name' }]}
             />
             <ProForm.Group>
               <ProFormSelect
@@ -136,11 +136,11 @@ const AMChecklist = ({ loading, images, regionalManagers, setImages, onFinish, f
             </ProForm.Group>
             <ProFormText
               width="s"
-              name="stationName"
-              label="Station Name"
+              name="AMName"
+              label="Area Manager"
               wrapperCol={{ xl: 6, md: 24 }}
-              placeholder="Enter Station Name"
-              rules={[{ required: true, message: 'Please enter station name' }]}
+              placeholder="Enter Area Manager"
+              rules={[{ required: true, message: 'Please enter Area Manager!' }]}
             />
           </Panel>
           <Panel header="Housekeeping - Exterior" key="2">

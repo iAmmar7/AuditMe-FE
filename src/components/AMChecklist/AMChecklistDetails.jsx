@@ -23,7 +23,7 @@ const URL =
     ? process.env.AUDITME_DEV_BE_URL
     : process.env.AUDITME_PROD_BE_URL;
 
-function AMChecklistDetails({ item, tableRef }) {
+function AMChecklistDetails({ data, tableRef }) {
   const [formDisabled, setFormDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
 
@@ -52,20 +52,20 @@ function AMChecklistDetails({ item, tableRef }) {
 //   };
 
   // If the current user is regional manager
-  if (JSON.parse(localStorage.user).role === 'rm') {
-    editButton = (
-      <Row justify="center" align="end">
-        <Col offset={1} style={{ paddingTop: '2px', marginRight: '4px' }}>
-          <Typography.Text>Edit Checklist </Typography.Text>
-        </Col>
-        <Col>
-          <Tooltip title={`Only ${item.userName} can edit this initiative`}>
-            <Switch checkedChildren="Off" unCheckedChildren="On" checked={false} disabled />
-          </Tooltip>
-        </Col>
-      </Row>
-    );
-  }
+  // if (JSON.parse(localStorage.user).role === 'rm') {
+  //   editButton = (
+  //     <Row justify="center" align="end">
+  //       <Col offset={1} style={{ paddingTop: '2px', marginRight: '4px' }}>
+  //         <Typography.Text>Edit Checklist </Typography.Text>
+  //       </Col>
+  //       <Col>
+  //         <Tooltip title={`Only ${item.userName} can edit this initiative`}>
+  //           <Switch checkedChildren="Off" unCheckedChildren="On" checked={false} disabled />
+  //         </Tooltip>
+  //       </Col>
+  //     </Row>
+  //   );
+  // }
 
   // If the currrent user is the one who added this initiative
 //   if (JSON.parse(localStorage.user).id.toString() === item.userId.toString()) {
@@ -87,72 +87,53 @@ function AMChecklistDetails({ item, tableRef }) {
 //   }
 
   // If the current user is auditor but not the one who added this initiative
-  else {
-    editButton = (
-      <Row justify="center" align="end">
-        <Col offset={1} style={{ paddingTop: '2px', marginRight: '4px' }}>
-          <Typography.Text>Edit Checklist </Typography.Text>
-        </Col>
-        <Col>
-          <Tooltip title={`Only ${item.userName} can edit this issue`}>
-            <Switch checkedChildren="Off" unCheckedChildren="On" checked={false} disabled />
-          </Tooltip>
-        </Col>
-      </Row>
-    );
-  }
+  // else {
+  //   editButton = (
+  //     <Row justify="center" align="end">
+  //       <Col offset={1} style={{ paddingTop: '2px', marginRight: '4px' }}>
+  //         <Typography.Text>Edit Checklist </Typography.Text>
+  //       </Col>
+  //       <Col>
+  //         <Tooltip title={`Only ${item.userName} can edit this issue`}>
+  //           <Switch checkedChildren="Off" unCheckedChildren="On" checked={false} disabled />
+  //         </Tooltip>
+  //       </Col>
+  //     </Row>
+  //   );
+  // }
 
   // If the current user is viewer
-  if (JSON.parse(localStorage.user).role === 'viewer') {
-    editButton = (
-      <Row justify="center" align="end">
-        <Col offset={1} style={{ paddingTop: '2px', marginRight: '4px' }}>
-          <Typography.Text>Edit status </Typography.Text>
-        </Col>
-        <Col>
-          <Tooltip title="A viewer can not edit issues">
-            <Switch checkedChildren="Off" unCheckedChildren="On" checked={false} disabled />
-          </Tooltip>
-        </Col>
-      </Row>
-    );
-  }
+  // if (JSON.parse(localStorage.user).role === 'viewer') {
+  //   editButton = (
+  //     <Row justify="center" align="end">
+  //       <Col offset={1} style={{ paddingTop: '2px', marginRight: '4px' }}>
+  //         <Typography.Text>Edit status </Typography.Text>
+  //       </Col>
+  //       <Col>
+  //         <Tooltip title="A viewer can not edit issues">
+  //           <Switch checkedChildren="Off" unCheckedChildren="On" checked={false} disabled />
+  //         </Tooltip>
+  //       </Col>
+  //     </Row>
+  //   );
+  // }
 
   let content = 
 //   formDisabled ? (
-    <AMChecklistInfo item={item} />
+    <AMChecklistInfo data={data} />
 //   ) : (
     // <InitiativeEdit item={item} tableRef={tableRef} setFormDisabled={setFormDisabled} />
 //   );
 
   if (loading)
     content = (
-      <div style={{ textAlign: 'center', paddingTop: '20px', paddingBottom: '20px' }}>
+      <div style={{ textAlign: 'center', paddingBottom: '20px' }}>
         <Spin />
       </div>
     );
 
   return (
     <Card>
-      <Row justify="center">
-        {/* <Col span={12}>
-          {JSON.parse(localStorage.user).isAdmin ? (
-            <Popconfirm
-              title="Are you sure to delete this?"
-              onConfirm={deleteItem}
-              // onCancel={cancel}
-              okText="Yes"
-              cancelText="No"
-            >
-              <Button danger icon={<DeleteOutlined />}>
-                Delete
-              </Button>
-            </Popconfirm>
-          ) : null}
-        </Col> */}
-        <Col span={12}>{editButton}</Col>
-      </Row>
-      <Divider />
       {content}
     </Card>
   );

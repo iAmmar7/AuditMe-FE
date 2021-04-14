@@ -49,10 +49,12 @@ const ChecklistReports = () => {
     // allData = result.data.reports;
 
     const tableList = [{
-        BENumber: 12695,
-        stationName: "ER-North",
-        stationManagerName: "Saad Khan",
-        date: 1617733457000,
+        key:1,
+        BEName: 12695,
+        region: "ER-North",
+        RMName: "Saad Khan",
+        AMName: "Mr. Necsan",
+        date: moment(1617733457000).format('DD-MMM-YY'),
     }
     ];
 
