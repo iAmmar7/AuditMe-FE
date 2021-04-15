@@ -16,17 +16,17 @@ function AMChecklistInfo({ data }) {
   let completed = 0;
   return (
     <>
-    <Row gutter={[8, 8]} justify="center" style={{ paddingTop: '30px' }}>
+    <Row gutter={[8, 8]} justify="center">
       <Col col={5} style={{ minWidth: '150px' }}>
         <Card>
           {completed = 0, data?.slice(0,4).map((question)=>{
-            if (question.status == "true") {
+            if (question.status == true) {
               completed += 1;
             }
           })}
           <Statistic
             title="Housekeeping - Exterior"
-            value={completed/4 * 100 + "%"}
+            value={(completed/4 * 100).toFixed(2) + "%"}
             valueStyle={{ color: '#262626' }}
             prefix={<StockOutlined />}
           />
@@ -35,13 +35,13 @@ function AMChecklistInfo({ data }) {
       <Col col={5} style={{ minWidth: '150px' }}>
         <Card>
         {completed = 0, data?.slice(4, 13).map((question)=>{
-          if (question.status == "true") {
+          if (question.status == true) {
             completed += 1;
           }
         })}
           <Statistic
             title="Housekeeping - Customer Lounge"
-            value={completed/9 * 100 + "%"}
+            value={(completed/9 * 100).toFixed(2) + "%"}
             valueStyle={{ color: '#262626' }}
             prefix={<StockOutlined />}
           />
@@ -50,13 +50,13 @@ function AMChecklistInfo({ data }) {
       <Col col={5} style={{ minWidth: '150px' }}>
         <Card>
           {completed = 0, data?.slice(13,16).map((question)=>{
-            if (question.status == "true") {
+            if (question.status == true) {
               completed += 1;
             }
           })}
           <Statistic
             title="Housekeeping - Comfort Room"
-            value={completed/3 * 100 + "%"}
+            value={(completed/3 * 100).toFixed(2) + "%"}
             valueStyle={{ color: '#262626' }}
             prefix={<StockOutlined />}
           />
@@ -65,13 +65,13 @@ function AMChecklistInfo({ data }) {
       <Col col={4} style={{ minWidth: '150px' }}>
         <Card>
           {completed = 0, data?.slice(16,28).map((question)=>{
-            if (question.status == "true") {
+            if (question.status == true) {
               completed += 1;
             }
           })}
           <Statistic
             title="Housekeeping - Bay Area"
-            value={completed/12 * 100 + "%"}
+            value={(completed/12 * 100).toFixed(2) + "%"}
             valueStyle={{ color: '#262626' }}
             prefix={<StockOutlined />}
           />
@@ -80,13 +80,13 @@ function AMChecklistInfo({ data }) {
       <Col col={5} style={{ minWidth: '150px' }}>
         <Card>
           {completed = 0, data?.slice(28,32).map((question)=>{
-            if (question.status == "true") {
+            if (question.status == true) {
               completed += 1;
             }
           })}
           <Statistic
             title="Housekeeping - Stock Room"
-            value={completed/4 * 100 + "%"}
+            value={(completed/4 * 100).toFixed(2) + "%"}
             valueStyle={{ color: '#262626' }}
             prefix={<StockOutlined />}
           />
