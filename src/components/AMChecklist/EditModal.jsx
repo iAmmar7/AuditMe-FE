@@ -1,3 +1,5 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable prefer-destructuring */
 import React, { useState, useEffect } from 'react';
 import { message } from 'antd';
 import axios from 'axios';
@@ -9,7 +11,7 @@ const URL =
     ? process.env.AUDITME_DEV_BE_URL
     : process.env.AUDITME_PROD_BE_URL;
 
-function ChecklistEditModal({ data, tableRef }) {
+function ChecklistEditModal({ data, tableRef, closeModal }) {
   const [loading, setLoading] = useState(false);
   const [regionalManagers, setRegionalManagers] = useState({ fetching: false, data: [] });
   const [images, setImages] = useState({});
@@ -70,6 +72,47 @@ function ChecklistEditModal({ data, tableRef }) {
     setLoading(false);
   };
 
+  const onSubmit = async (values) => {
+    setLoading(true);
+
+    const formData = new FormData();
+    Object.keys(values).forEach((item) => {
+      let value;
+      if (item.includes('question')) {
+        value = values[item] === 'Yes';
+      } else {
+        value = values[item];
+      }
+      // Truncate name from RMName value
+      if (item === 'RMName') value = values[item].split('id_')[1] ?? data.regionalManagerId;
+      formData.append(item, value);
+    });
+
+    Object.entries(images).forEach(([key, value]) => {
+      value.forEach((image) => {
+        formData.append([key], image);
+      });
+    });
+
+    axios
+      .post(`${URL}/api/am/update-checklist/${data._id}`, formData, {
+        headers: { Authorization: localStorage.userToken },
+      })
+      .then((res) => {
+        setLoading(false);
+        if (res.data.success) {
+          message.success('Checklist has been successfully updated!');
+          setImages({});
+          closeModal({ status: false, data: {} });
+          tableRef.current.reload();
+        }
+      })
+      .catch(() => {
+        setLoading(false);
+        message.error('Unable to edit checklist!', 10);
+      });
+  };
+
   return (
     <ChecklistForm
       loading={loading}
@@ -80,6 +123,7 @@ function ChecklistEditModal({ data, tableRef }) {
       setImages={setImages}
       deleteImage={deleteImage}
       URL={URL}
+      onFinish={onSubmit}
     />
   );
 }

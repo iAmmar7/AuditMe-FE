@@ -11,23 +11,21 @@ import ProForm, {
 import ProCard from '@ant-design/pro-card';
 
 import ChecklistSkeleton from './Checklist.Skeleton';
-import styles from './AMChecklist.less';
+import styles from './Checklist.less';
 
 const { Panel } = Collapse;
 
 const ChecklistForm = ({
   loading,
-  images,
   regionalManagers,
+  images,
   setImages,
   onFinish,
-  form,
   initialValues = {},
   initialImages = {},
   deleteImage,
   URL,
 }) => {
-  console.log('initialImages', initialImages);
   const imageUploadProps = (name) => ({
     name,
     listType: 'picture',
@@ -54,7 +52,6 @@ const ChecklistForm = ({
   return (
     <ProCard>
       <ProForm
-        form={form}
         formprops={{
           validateMessages: {
             required: 'This field is required',
@@ -437,7 +434,7 @@ const ChecklistForm = ({
             style={{
               marginBottom: 24,
             }}
-            message="After submitting this checklist, you can edit it within 1 hour"
+            message="After submitting this checklist, you can edit it within 1 day"
             type="info"
             showIcon
           />

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col, Skeleton, Space } from 'antd';
 
-import styles from './AMChecklist.less';
+import styles from './Checklist.less';
 
 export default function ChecklistSkeleton() {
   return (

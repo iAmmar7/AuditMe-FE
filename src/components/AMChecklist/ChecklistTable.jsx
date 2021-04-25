@@ -1,6 +1,6 @@
 /* eslint-disable no-useless-computed-key */
 import React, { useRef, useState } from 'react';
-import { ConfigProvider, Typography, Modal, Tag } from 'antd';
+import { ConfigProvider, Typography, Modal, Tag, Tooltip } from 'antd';
 import enUS from 'antd/lib/locale/en_US';
 import ProTable from '@ant-design/pro-table';
 import moment from 'moment';
@@ -70,15 +70,24 @@ function ChecklistTable(props) {
       title: '',
       valueType: 'option',
       render: (_, record) => {
+        const now = moment(new Date()).utcOffset(0);
+        const createdAt = moment(record.createdAt).utcOffset(0);
+        const timeExceededADay = moment.duration(now.diff(createdAt)).asDays() > 1;
+        const loggedInUserId = JSON.parse(localStorage.user).id;
         return [
-          <a
+          <Tooltip
             key="edit"
-            onClick={() => {
-              setEditModal({ data: record, status: true });
-            }}
+            title={`Only ${record.areaManagerName} can edit this checklist within a day`}
           >
-            Edit
-          </a>,
+            <a
+              disabled={record.areaManagerId !== loggedInUserId || timeExceededADay}
+              onClick={() => {
+                setEditModal({ data: record, status: true });
+              }}
+            >
+              Edit
+            </a>
+          </Tooltip>,
           <a
             key="details"
             onClick={() => {
@@ -342,8 +351,9 @@ function ChecklistTable(props) {
         onCancel={() => setEditModal({ ...editModal, status: false })}
         footer={null}
         width="75vw"
+        destroyOnClose
       >
-        <EditChecklistModal data={editModal?.data} tableRef={tableRef} />
+        <EditChecklistModal data={editModal?.data} tableRef={tableRef} closeModal={setEditModal} />
       </Modal>
     </ConfigProvider>
   );

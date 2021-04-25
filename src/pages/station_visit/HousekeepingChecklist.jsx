@@ -1,7 +1,7 @@
 /* eslint-disable prefer-destructuring */
 import React, { useState, useEffect } from 'react';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import { Card, message, Alert, Form } from 'antd';
+import { Card, message, Alert } from 'antd';
 import axios from 'axios';
 
 import ChecklistForm from '../../components/AMChecklist/ChecklistForm';
@@ -15,7 +15,6 @@ const HousekeepingChecklist = () => {
   const [loading, setLoading] = useState(false);
   const [regionalManagers, setRegionalManagers] = useState({ fetching: false, data: [] });
   const [images, setImages] = useState({});
-  const [form] = Form.useForm();
 
   useEffect(() => {
     (async function fetchRegionalManagers() {
@@ -65,7 +64,6 @@ const HousekeepingChecklist = () => {
         if (res.data.success) {
           message.success('Checklist form has been successfully published!');
           // setImages({});
-          // form.resetFields();
         }
       })
       .catch(() => {
@@ -117,7 +115,6 @@ const HousekeepingChecklist = () => {
           images={images}
           setImages={setImages}
           onFinish={onSubmit}
-          form={form}
         />
       </Card>
     </PageHeaderWrapper>
