@@ -3,7 +3,7 @@ import { Row, Col, Skeleton, Space } from 'antd';
 
 import styles from './AMChecklist.less';
 
-export default function AMSkeleton() {
+export default function ChecklistSkeleton() {
   return (
     <>
       <Row gutter={[16, 16]} justify="start" className={styles.mb_3}>

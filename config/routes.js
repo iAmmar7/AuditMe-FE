@@ -120,7 +120,7 @@ export default [
               {
                 path: '/reports/am-checklist',
                 name: 'Housekeeping Checklist',
-                component: './user/AMChecklistReports',
+                component: './reports/HousekeepingChecklistReports',
               },
               {
                 path: '/reports/priorities-reports',

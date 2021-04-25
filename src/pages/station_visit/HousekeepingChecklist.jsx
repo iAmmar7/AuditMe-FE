@@ -4,14 +4,14 @@ import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { Card, message, Alert, Form } from 'antd';
 import axios from 'axios';
 
-import AMChecklist from '../../components/AMChecklist';
+import ChecklistForm from '../../components/AMChecklist/ChecklistForm';
 
 const URL =
   process.env.NODE_ENV === 'development'
     ? process.env.AUDITME_DEV_BE_URL
     : process.env.AUDITME_PROD_BE_URL;
 
-const AMChecklistForm = () => {
+const HousekeepingChecklist = () => {
   const [loading, setLoading] = useState(false);
   const [regionalManagers, setRegionalManagers] = useState({ fetching: false, data: [] });
   const [images, setImages] = useState({});
@@ -46,7 +46,7 @@ const AMChecklistForm = () => {
         value = values[item];
       }
       // Truncate name from RMName value
-      if (item === 'RMName') value = values[item].split(' ')[1];
+      if (item === 'RMName') value = values[item].split('id_')[1];
       formData.append(item, value);
     });
 
@@ -64,8 +64,8 @@ const AMChecklistForm = () => {
         setLoading(false);
         if (res.data.success) {
           message.success('Checklist form has been successfully published!');
-          setImages({});
-          form.resetFields();
+          // setImages({});
+          // form.resetFields();
         }
       })
       .catch(() => {
@@ -111,10 +111,10 @@ const AMChecklistForm = () => {
     <PageHeaderWrapper content="Complete AM checklist using the form below">
       {alertMessage()}
       <Card>
-        <AMChecklist
+        <ChecklistForm
           loading={loading}
-          images={images}
           regionalManagers={regionalManagers}
+          images={images}
           setImages={setImages}
           onFinish={onSubmit}
           form={form}
@@ -124,4 +124,4 @@ const AMChecklistForm = () => {
   );
 };
 
-export default AMChecklistForm;
+export default HousekeepingChecklist;
