@@ -1,7 +1,22 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable react/no-unescaped-entities */
-import React from 'react';
-import { Row, Col, Button, Upload, Divider, Table, Form, Input, Typography, Image } from 'antd';
+import React, { useState } from 'react';
+import {
+  Row,
+  Col,
+  Button,
+  Upload,
+  Divider,
+  Table,
+  Form,
+  Input,
+  Typography,
+  Image,
+  Spin,
+  message,
+} from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
+import axios from 'axios';
 
 const { TextArea } = Input;
 
@@ -36,7 +51,7 @@ const columns = [
     render: (src) => (
       <Row gutter={[4, 4]}>
         {src?.map((img) => (
-          <Col>
+          <Col key={img}>
             <Image width={100} src={`${URL}${img}`} />
           </Col>
         ))}
@@ -45,7 +60,8 @@ const columns = [
   },
 ];
 
-function ChecklistDetailsModal({ data }) {
+function ChecklistDetailsModal({ data, tableRef, closeModal }) {
+  const [loading, setLoading] = useState(false);
   const questions = Object.keys(data)
     .filter((key) => key.includes('question'))
     .map((key, index) => ({
@@ -60,8 +76,45 @@ function ChecklistDetailsModal({ data }) {
     listType: 'picture',
   };
 
+  const deleteChecklist = () => {
+    setLoading(true);
+    axios
+      .delete(`${URL}/api/user/delete-checklist/${data._id}`, {
+        headers: {
+          Authorization: localStorage.userToken,
+        },
+      })
+      .then((res) => {
+        if (res.data.success) {
+          setLoading(false);
+          message.success('Issue deleted successfully');
+          closeModal({ status: false, data: {} });
+          tableRef.current.reload();
+        }
+      })
+      .catch(() => {
+        message.error('Unable to delete the issue');
+        setLoading(false);
+      });
+  };
+
   return (
     <>
+      {JSON.parse(localStorage.user).isAdmin && (
+        <Row justify="end">
+          <Col>
+            {loading ? (
+              <div style={{ marginRight: '6px' }}>
+                <Spin />
+              </div>
+            ) : (
+              <Button type="danger" onClick={deleteChecklist}>
+                Delete
+              </Button>
+            )}
+          </Col>
+        </Row>
+      )}
       <Table
         columns={columns}
         dataSource={questions.slice(0, 4)}

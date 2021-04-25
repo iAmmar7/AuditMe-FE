@@ -137,7 +137,11 @@ function ChecklistTable(props) {
         footer={null}
         width="75vw"
       >
-        <ChecklistDetailsModal data={detailModal?.data} />
+        <ChecklistDetailsModal
+          data={detailModal?.data}
+          tableRef={tableRef}
+          closeModal={setDetailModal}
+        />
       </Modal>
       <Modal
         title="Edit Checklist"
