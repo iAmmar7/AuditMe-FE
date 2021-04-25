@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { Card, message, Alert } from 'antd';
+import { history } from 'umi';
 import axios from 'axios';
 
 import ChecklistForm from '../../components/AMChecklist/ChecklistForm';
@@ -63,7 +64,8 @@ const HousekeepingChecklist = () => {
         setLoading(false);
         if (res.data.success) {
           message.success('Checklist form has been successfully published!');
-          // setImages({});
+          setImages({});
+          history.push('/reports/am-checklist');
         }
       })
       .catch(() => {
