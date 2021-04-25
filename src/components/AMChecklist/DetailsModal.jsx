@@ -12,11 +12,17 @@ import {
   Input,
   Typography,
   Image,
-  Spin,
+  Tooltip,
+  Card,
   message,
 } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import axios from 'axios';
+import moment from 'moment';
+
+import styles from './Checklist.less';
+
+moment.locale('en');
 
 const { TextArea } = Input;
 
@@ -51,8 +57,8 @@ const columns = [
     render: (src) => (
       <Row gutter={[4, 4]}>
         {src?.map((img) => (
-          <Col key={img}>
-            <Image width={100} src={`${URL}${img}`} />
+          <Col key={img} className={styles.image_container}>
+            <Image className={styles.image} width={100} height="auto" src={`${URL}${img}`} />
           </Col>
         ))}
       </Row>
@@ -62,6 +68,9 @@ const columns = [
 
 function ChecklistDetailsModal({ data, tableRef, closeModal }) {
   const [loading, setLoading] = useState(false);
+  const [reviewImages, setReviewImages] = useState([]);
+
+  // Extract all questions from the data
   const questions = Object.keys(data)
     .filter((key) => key.includes('question'))
     .map((key, index) => ({
@@ -71,9 +80,25 @@ function ChecklistDetailsModal({ data, tableRef, closeModal }) {
       images: data[key].images,
     }));
 
-  const reviewersCommentProps = {
-    name: 'evidencesAfter',
+  const imageUploadProps = {
+    name: 'review',
     listType: 'picture',
+    onRemove: (file) => {
+      const index = reviewImages.indexOf(file);
+      const newFileList = reviewImages.slice();
+      newFileList.splice(index, 1);
+      setReviewImages(newFileList);
+    },
+    beforeUpload: (file) => {
+      if (file.type !== 'image/png' && file.type !== 'image/jpg' && file.type !== 'image/jpeg') {
+        message.error(`Supported image formats are png, jpg and jpeg`);
+        return;
+      }
+      setReviewImages([...reviewImages, file]);
+      // eslint-disable-next-line consistent-return
+      return false;
+    },
+    reviewImages,
   };
 
   const deleteChecklist = () => {
@@ -98,20 +123,42 @@ function ChecklistDetailsModal({ data, tableRef, closeModal }) {
       });
   };
 
+  const addReview = (value) => {
+    setLoading(true);
+
+    const formData = new FormData();
+    formData.append('comment', value?.comment);
+
+    for (let i = 0; i < reviewImages.length; i += 1) {
+      formData.append('images', reviewImages[i]);
+    }
+
+    axios
+      .post(`${URL}/api/rm/checklist/add-review/${data._id}`, formData, {
+        headers: { Authorization: localStorage.userToken },
+      })
+      .then((res) => {
+        setLoading(false);
+        if (res.data.success) {
+          message.success('Review has been successfully published!');
+          closeModal({ status: false, data: {} });
+          tableRef.current.reload();
+        }
+      })
+      .catch(() => {
+        setLoading(false);
+        message.error('Unable to publish review!', 10);
+      });
+  };
+
   return (
     <>
       {JSON.parse(localStorage.user).isAdmin && (
         <Row justify="end">
           <Col>
-            {loading ? (
-              <div style={{ marginRight: '6px' }}>
-                <Spin />
-              </div>
-            ) : (
-              <Button type="danger" onClick={deleteChecklist}>
-                Delete
-              </Button>
-            )}
+            <Button type="danger" loading={loading} onClick={deleteChecklist}>
+              Delete
+            </Button>
           </Col>
         </Row>
       )}
@@ -151,23 +198,64 @@ function ChecklistDetailsModal({ data, tableRef, closeModal }) {
         pagination={false}
       />
       <Divider>Reviewer's Comment</Divider>
-      <Form layout="vertical">
-        <Form.Item
-          name="comment"
-          label="Enter Comment"
-          rules={[{ required: true, message: 'Please enter comment' }]}
-        >
-          <TextArea rows={4} />
-        </Form.Item>
-        <Upload {...reviewersCommentProps}>
-          <Button icon={<UploadOutlined />}>Select multiple images</Button>
-        </Upload>
-        <Form.Item style={{ textAlign: 'right' }}>
-          <Button type="primary" htmlType="submit">
-            Submit
-          </Button>
-        </Form.Item>
-      </Form>
+      {data.review ? (
+        <Card>
+          <Row gutter={[8, 8]}>
+            <Col span={24}>
+              Added by: <Typography.Text strong>{data.reviewerName}</Typography.Text>
+            </Col>
+            <Col span={24}>
+              Time:{' '}
+              <Typography.Text strong>
+                {moment(data.review?.updateTime).format('Do MMMM, YYYY')}
+              </Typography.Text>
+            </Col>
+            <Col span={24}>
+              Comment: <Typography.Text strong>{data.review.comment}</Typography.Text>
+            </Col>
+            <Col span={24}>Images: </Col>
+            <Row gutter={[2, 2]} style={{ marginRight: '4px', marginLeft: '4px' }}>
+              {data.review?.images?.length > 0 ? (
+                data.review?.images?.map((image) => (
+                  <Col key={image} span={8} className={styles.image_container}>
+                    <Image src={URL + image} width="90%" className={styles.image} />
+                  </Col>
+                ))
+              ) : (
+                <Col span={24}>
+                  <Typography.Text strong>No image available</Typography.Text>
+                </Col>
+              )}
+            </Row>
+          </Row>
+        </Card>
+      ) : (
+        <Form layout="vertical" onFinish={addReview}>
+          <Form.Item
+            name="comment"
+            label="Enter Comment"
+            rules={[{ required: true, message: 'Please enter comment' }]}
+          >
+            <TextArea rows={4} />
+          </Form.Item>
+          <Upload {...imageUploadProps}>
+            <Button icon={<UploadOutlined />}>Select multiple images</Button>
+          </Upload>
+          <Form.Item style={{ textAlign: 'right', marginTop: '10px' }}>
+            {['rm'].includes(JSON.parse(localStorage.user).role) ? (
+              <Button type="primary" htmlType="submit" loading={loading}>
+                Submit
+              </Button>
+            ) : (
+              <Tooltip title="Only a regional manager can add a checklist review">
+                <Button type="primary" disabled>
+                  Submit
+                </Button>
+              </Tooltip>
+            )}
+          </Form.Item>
+        </Form>
+      )}
     </>
   );
 }
