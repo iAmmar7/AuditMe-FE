@@ -108,7 +108,7 @@ const HousekeepingChecklist = () => {
   };
 
   return (
-    <PageHeaderWrapper content="Complete AM checklist using the form below">
+    <PageHeaderWrapper>
       {alertMessage()}
       <Card>
         <ChecklistForm

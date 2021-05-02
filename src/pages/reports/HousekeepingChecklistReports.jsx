@@ -50,7 +50,7 @@ const HousekeepingChecklistReports = () => {
   };
 
   return (
-    <PageHeaderWrapper content="Area Manager Checklist">
+    <PageHeaderWrapper>
       <ChecklistTable
         expandedRowRender={expandedRowRender}
         onRequest={onRequest}

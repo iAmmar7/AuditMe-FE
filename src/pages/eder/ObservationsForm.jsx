@@ -76,7 +76,7 @@ const ObservationsForm = () => {
   };
 
   return (
-    <PageHeaderWrapper content="Add an observation here by completing the form below">
+    <PageHeaderWrapper>
       {alertMessage()}
       <Card>
         <PriorityForm

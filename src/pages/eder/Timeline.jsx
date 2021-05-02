@@ -31,7 +31,7 @@ const DashboardTimelinePage = () => {
   }, []);
 
   return (
-    <PageHeaderWrapper content="Voice of Employee">
+    <PageHeaderWrapper>
       <Card>
         <DashboardTimeline loading={loading} data={data} />
       </Card>

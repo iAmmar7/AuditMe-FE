@@ -99,11 +99,13 @@ export default [
             path: '/employee-feedback',
             name: 'Employee Feedback',
             icon: 'contacts',
+            hideInMenu: true,
             routes: [
               {
                 path: '/employee-feedback/submission',
                 name: 'Feedback Submission',
                 component: './employee_feedback/EmployeeFeedback',
+                hideInMenu: true,
               },
             ],
           },
@@ -137,6 +139,7 @@ export default [
                 path: '/reports/feedback-reports',
                 name: 'Feedback',
                 component: './reports/EmployeeFeedbackReports',
+                hideInMenu: true,
               },
             ],
           },

@@ -81,7 +81,7 @@ const InitiativesForm = () => {
   };
 
   return (
-    <PageHeaderWrapper content="Enter initiative details here by completing the form below">
+    <PageHeaderWrapper>
       {alertMessage()}
       <Card>
         <InitiativeForm

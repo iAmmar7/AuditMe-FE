@@ -76,7 +76,7 @@ const PrioritiesForm = () => {
   };
 
   return (
-    <PageHeaderWrapper content="Raise an issue here by completing the form below">
+    <PageHeaderWrapper>
       {alertMessage()}
       <Card>
         <PriorityForm
