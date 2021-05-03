@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 /* eslint-disable prefer-template */
 import React from 'react';
 import { Card, Row, Col, Typography, Tag, Tooltip } from 'antd';
@@ -24,12 +25,43 @@ const detail_card_styles = {
   paddingBottom: 0,
 };
 
-export default ({ loading, data }) => {
+const Timeline = ({ loading, data }) => {
+  const timeRemaining = (createdDate) => {
+    // Date after 3 days - skip weekends, friday and saturday
+    let add = 3;
+    let i = 1;
+    let date = moment(createdDate).utcOffset(0);
+    let weekendEncounter = false;
+    while (i <= 3) {
+      if (date.isoWeekday() === 5 || date.isoWeekday() === 6) {
+        add++;
+        weekendEncounter = true;
+      }
+      date = date.add(1, 'days');
+      ++i;
+    }
+    add = weekendEncounter ? add : add + 1;
+    const dateToCheck = moment(createdDate).utcOffset(0).add(add, 'days').startOf('day');
+    const currentDate = moment().utcOffset(0);
+    const difference = dateToCheck.diff(currentDate, 'days');
+
+    return difference - 1;
+  };
+
+  const timeElapsed = (createdDate) => {
+    const date = moment(createdDate).utcOffset(0);
+    const currentDate = moment().utcOffset(0);
+
+    const difference = currentDate.diff(date, 'days');
+
+    return difference;
+  };
+
   if (loading) return <TimelineSkeleton />;
 
   const detailsCard = (item) => (
     <Card key={item.id} bodyStyle={detail_card_styles} className={styles.task_card_style}>
-      <Row>
+      <Row gutter={[4, 4]}>
         <Col col={24}>
           <Title level={5} strong>
             {item.id}
@@ -38,7 +70,7 @@ export default ({ loading, data }) => {
       </Row>
       <Row gutter={[4, 4]}>
         <Col col={12}>
-          <Tag strong>
+          <Tag>
             <Text strong>{moment(item.date).format('DD MMM, YYYY')}</Text>
           </Tag>
         </Col>
@@ -48,14 +80,56 @@ export default ({ loading, data }) => {
           </Tag>
         </Col>
       </Row>
-      <Col col={24}>
-        <Paragraph
-          className={styles.ellipsis}
-          ellipsis={{ rows: 2, expandable: true, symbol: 'more' }}
-        >
-          {item.issueDetails}
-        </Paragraph>
-      </Col>
+      <Row gutter={[4, 4]}>
+        <Col col={24}>
+          <Text>
+            Raised by: <Text strong>{item.userName}</Text>
+          </Text>
+        </Col>
+      </Row>
+      {item.status === 'Pending' && !item.isPrioritized && (
+        <Row gutter={[4, 4]}>
+          <Col col={24}>
+            <Text>
+              Days Remaining:{' '}
+              <Text strong type="danger">
+                {timeRemaining(item.createdAt)}
+              </Text>
+            </Text>
+          </Col>
+        </Row>
+      )}
+      {item.status === 'Pending' && item.isPrioritized && (
+        <Row gutter={[4, 4]}>
+          <Col col={24}>
+            <Text>
+              Days Elapsed:{' '}
+              <Text strong type="danger">
+                {timeElapsed(item.createdAt)}
+              </Text>
+            </Text>
+          </Col>
+        </Row>
+      )}
+      {item.status !== 'Pending' && (
+        <Row gutter={[4, 4]}>
+          <Col col={24}>
+            <Text>
+              Closed by: <Text strong>{item.resolvedByName}</Text>
+            </Text>
+          </Col>
+        </Row>
+      )}
+      <Row gutter={[4, 4]} style={{ marginTop: 10 }}>
+        <Col col={24}>
+          <Paragraph
+            className={styles.ellipsis}
+            ellipsis={{ rows: 2, expandable: true, symbol: 'more' }}
+          >
+            {item.issueDetails}
+          </Paragraph>
+        </Col>
+      </Row>
     </Card>
   );
 
@@ -116,3 +190,5 @@ export default ({ loading, data }) => {
     </Row>
   );
 };
+
+export default Timeline;

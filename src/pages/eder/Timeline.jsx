@@ -3,7 +3,7 @@ import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { Card, message } from 'antd';
 import axios from 'axios';
 
-import DashboardTimeline from '../../components/DashboardTimeline';
+import { Timeline, TimelineHeaderContent } from '../../components/DashboardTimeline';
 
 const URL =
   process.env.NODE_ENV === 'development'
@@ -31,9 +31,9 @@ const DashboardTimelinePage = () => {
   }, []);
 
   return (
-    <PageHeaderWrapper>
+    <PageHeaderWrapper content={<TimelineHeaderContent />}>
       <Card>
-        <DashboardTimeline loading={loading} data={data} />
+        <Timeline loading={loading} data={data} />
       </Card>
     </PageHeaderWrapper>
   );

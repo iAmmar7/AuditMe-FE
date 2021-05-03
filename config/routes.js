@@ -63,7 +63,6 @@ export default [
                 path: '/eder/timeline',
                 name: 'Timeline',
                 component: './eder/Timeline',
-                hideInMenu: true,
               },
               {
                 path: '/eder/priorities-form',
@@ -79,7 +78,7 @@ export default [
                 path: '/eder/observation-form',
                 name: 'Observations',
                 component: './eder/ObservationsForm',
-                hideInMenu: true,
+                // hideInMenu: true,
               },
             ],
           },
@@ -133,7 +132,7 @@ export default [
                 path: '/reports/observation-reports',
                 name: 'Observations',
                 component: './reports/ObservationsReports',
-                hideInMenu: true,
+                // hideInMenu: true,
               },
               {
                 path: '/reports/feedback-reports',
