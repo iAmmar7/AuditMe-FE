@@ -124,7 +124,7 @@ const Timeline = ({ loading, data }) => {
         <Col col={24}>
           <Paragraph
             className={styles.ellipsis}
-            ellipsis={{ rows: 2, expandable: true, symbol: 'more' }}
+            ellipsis={{ rows: 2, expandable: item.issueDetails.length > 20, symbol: 'more' }}
           >
             {item.issueDetails}
           </Paragraph>
