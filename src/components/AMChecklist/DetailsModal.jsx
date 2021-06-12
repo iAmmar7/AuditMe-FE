@@ -198,7 +198,7 @@ function ChecklistDetailsModal({ data, tableRef, closeModal }) {
         pagination={false}
       />
       <Divider>Reviewer's Comment</Divider>
-      {data.review ? (
+      {data?.review?.reviewerId ? (
         <Card>
           <Row gutter={[8, 8]}>
             <Col span={24}>
