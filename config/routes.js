@@ -43,45 +43,45 @@ export default [
         component: '../layouts/BasicLayout',
         authority: ['user'],
         routes: [
-          {
-            path: '/home',
-            name: 'Home',
-            icon: 'home',
-            component: './home/Home',
-          },
-          {
-            path: '/eder',
-            name: 'EDER',
-            icon: 'form',
-            routes: [
-              {
-                path: '/eder/dashboard',
-                name: 'Dashboard',
-                component: './eder/Dashboard',
-              },
-              {
-                path: '/eder/timeline',
-                name: 'Timeline',
-                component: './eder/Timeline',
-              },
-              {
-                path: '/eder/priorities-form',
-                name: 'Priority Issues',
-                component: './eder/PrioritiesForm',
-              },
-              {
-                path: '/eder/initiative-form',
-                name: 'Initiatives',
-                component: './eder/InitiativesForm',
-              },
-              {
-                path: '/eder/observation-form',
-                name: 'Observations',
-                component: './eder/ObservationsForm',
-                // hideInMenu: true,
-              },
-            ],
-          },
+          // {
+          //   path: '/home',
+          //   name: 'Home',
+          //   icon: 'home',
+          //   component: './home/Home',
+          // },
+          // {
+          //   path: '/eder',
+          //   name: 'EDER',
+          //   icon: 'form',
+          //   routes: [
+          //     {
+          //       path: '/eder/dashboard',
+          //       name: 'Dashboard',
+          //       component: './eder/Dashboard',
+          //     },
+          //     {
+          //       path: '/eder/timeline',
+          //       name: 'Timeline',
+          //       component: './eder/Timeline',
+          //     },
+          //     {
+          //       path: '/eder/priorities-form',
+          //       name: 'Priority Issues',
+          //       component: './eder/PrioritiesForm',
+          //     },
+          //     {
+          //       path: '/eder/initiative-form',
+          //       name: 'Initiatives',
+          //       component: './eder/InitiativesForm',
+          //     },
+          //     {
+          //       path: '/eder/observation-form',
+          //       name: 'Observations',
+          //       component: './eder/ObservationsForm',
+          //       // hideInMenu: true,
+          //     },
+          //   ],
+          // },
           {
             path: '/station-visit',
             name: 'Station Visit',
@@ -94,52 +94,52 @@ export default [
               },
             ],
           },
-          {
-            path: '/employee-feedback',
-            name: 'Employee Feedback',
-            icon: 'contacts',
-            hideInMenu: true,
-            routes: [
-              {
-                path: '/employee-feedback/submission',
-                name: 'Feedback Submission',
-                component: './employee_feedback/EmployeeFeedback',
-                hideInMenu: true,
-              },
-            ],
-          },
+          // {
+          //   path: '/employee-feedback',
+          //   name: 'Employee Feedback',
+          //   icon: 'contacts',
+          //   hideInMenu: true,
+          //   routes: [
+          //     {
+          //       path: '/employee-feedback/submission',
+          //       name: 'Feedback Submission',
+          //       component: './employee_feedback/EmployeeFeedback',
+          //       hideInMenu: true,
+          //     },
+          //   ],
+          // },
           {
             path: '/reports',
             name: 'Reports',
             icon: 'tablet',
             routes: [
-              {
-                path: '/reports/initiative-reports',
-                name: 'Initiatives',
-                component: './reports/InitiativesReports',
-              },
+              // {
+              //   path: '/reports/initiative-reports',
+              //   name: 'Initiatives',
+              //   component: './reports/InitiativesReports',
+              // },
               {
                 path: '/reports/am-checklist',
                 name: 'Housekeeping Checklist',
                 component: './reports/HousekeepingChecklistReports',
               },
-              {
-                path: '/reports/priorities-reports',
-                name: 'Priority Issues',
-                component: './reports/PrioritiesReports',
-              },
-              {
-                path: '/reports/observation-reports',
-                name: 'Observations',
-                component: './reports/ObservationsReports',
-                // hideInMenu: true,
-              },
-              {
-                path: '/reports/feedback-reports',
-                name: 'Feedback',
-                component: './reports/EmployeeFeedbackReports',
-                hideInMenu: true,
-              },
+              // {
+              //   path: '/reports/priorities-reports',
+              //   name: 'Priority Issues',
+              //   component: './reports/PrioritiesReports',
+              // },
+              // {
+              //   path: '/reports/observation-reports',
+              //   name: 'Observations',
+              //   component: './reports/ObservationsReports',
+              //   // hideInMenu: true,
+              // },
+              // {
+              //   path: '/reports/feedback-reports',
+              //   name: 'Feedback',
+              //   component: './reports/EmployeeFeedbackReports',
+              //   hideInMenu: true,
+              // },
             ],
           },
           {

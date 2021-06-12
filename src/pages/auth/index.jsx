@@ -50,7 +50,7 @@ const Auth = () => {
             localStorage.setItem('userToken', res.data.token);
             localStorage.setItem('user', JSON.stringify(res.data.user));
             message.success('Login successfull');
-            history.push('/home');
+            history.push('/station-visit/checklist');
           }
         })
         .catch((err) => {
