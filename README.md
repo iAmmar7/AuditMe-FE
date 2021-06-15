@@ -27,6 +27,12 @@ yarn
 npm start
 ```
 
+### Start project in dev environment
+
+```bash
+npm run dev
+```
+
 ### Build project
 
 ```bash
