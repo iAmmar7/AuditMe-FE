@@ -1,4 +1,4 @@
-# Petromin Client
+# FirmFigure Client
 This application is for one of the **audit firm**s based in **KSA**, which helps them to **automate** their daily routine tasks. It also allows the admin to see the progress of each team working inside the firm.
 
 > This repo only contains the client side code. To read the server side code, please see [here](https://github.com/iAmmar7/Petromin-BE).
