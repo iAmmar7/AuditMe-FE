@@ -60,7 +60,6 @@ function IssueForm({ item, tableRef, setFormDisabled }) {
           message.success('Issue has been successfully updated!');
         }
       })
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       .catch((error) => {
         setLoading(false);
         message.error('Unable to update issue, please try later!', 10);

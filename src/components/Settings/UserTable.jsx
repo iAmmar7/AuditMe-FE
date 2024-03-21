@@ -140,7 +140,6 @@ function UserTable({ onRequest, tableRef }) {
     {
       title: 'Operation',
       valueType: 'option',
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       render: (text, record, _, action) => [
         <a
           key="editable"
