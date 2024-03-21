@@ -34,7 +34,7 @@ export default defineConfig({
   theme: {
     'primary-color': defaultSettings.primaryColor,
   },
-  title: 'Petromin Express',
+  title: 'FirmFigure',
   ignoreMomentLocale: true,
   proxy: proxy[REACT_APP_ENV || 'dev'],
   // base: 'D:/VSCode/Petromin/AuditMe-BE/dist/',
@@ -42,9 +42,7 @@ export default defineConfig({
   exportStatic: {},
   esbuild: {},
   define: {
-    'process.env.AUDITME_DEV_BE_URL': process.env.AUDITME_DEV_BE_URL,
-    'process.env.AUDITME_PROD_BE_URL': process.env.AUDITME_PROD_BE_URL,
-    'process.env.AUDITME_DEV_FE_URL': process.env.AUDITME_DEV_FE_URL,
-    'process.env.AUDITME_PROD_FE_URL': process.env.AUDITME_PROD_FE_URL,
+    'process.env.SERVER_URL': process.env.SERVER_URL,
+    'process.env.CLIENT_URL': process.env.CLIENT_URL,
   },
 });

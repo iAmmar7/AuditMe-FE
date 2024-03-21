@@ -6,10 +6,7 @@ import axios from 'axios';
 
 import PriorityForm from '../../components/Priorities/PriorityForm';
 
-const URL =
-  process.env.NODE_ENV === 'development'
-    ? process.env.AUDITME_DEV_BE_URL
-    : process.env.AUDITME_PROD_BE_URL;
+const URL = process.env.SERVER_URL;
 
 const PrioritiesForm = () => {
   const [loading, setLoading] = useState(false);

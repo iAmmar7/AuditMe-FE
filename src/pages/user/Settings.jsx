@@ -10,10 +10,7 @@ import UserTable from '../../components/Settings/UserTable';
 
 moment.locale('en');
 
-const URL =
-  process.env.NODE_ENV === 'development'
-    ? process.env.AUDITME_DEV_BE_URL
-    : process.env.AUDITME_PROD_BE_URL;
+const URL = process.env.SERVER_URL;
 
 const Settings = () => {
   const tableRef = useRef();

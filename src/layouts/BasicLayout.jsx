@@ -9,15 +9,13 @@ import { Link, connect, history } from 'umi';
 import { UserOutlined } from '@ant-design/icons';
 import { Menu, Dropdown, message, Avatar, Typography, Row, Col } from 'antd';
 import axios from 'axios';
+import { footerText } from '@/utils/constants';
 
 // import logo from '../assets/logo.svg';
 // import userAvatar from '../assets/user_avatar.png';
 
 const ColorList = ['#f56a00', '#7265e6', '#ffbf00', '#00a2ae'];
-const URL =
-  process.env.NODE_ENV === 'development'
-    ? process.env.AUDITME_DEV_BE_URL
-    : process.env.AUDITME_PROD_BE_URL;
+const URL = process.env.SERVER_URL;
 
 const BasicLayout = (props) => {
   const {
@@ -103,7 +101,7 @@ const BasicLayout = (props) => {
       }
       footerRender={() => (
         <Typography.Text style={{ textAlign: 'center', color: 'grey', padding: '10px' }}>
-          Copyright &copy; {new Date().getFullYear()} Business Excellence Team || Saad Khan
+          {footerText}
         </Typography.Text>
       )}
       rightContentRender={() => (

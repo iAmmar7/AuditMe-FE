@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, connect, Redirect } from 'umi';
 import jwt_decode from 'jwt-decode';
+import { footerText } from '@/utils/constants';
 
 // import logo from '../assets/logo.svg';
 import styles from './AuthLayout.less';
@@ -31,9 +32,7 @@ const AuthLayout = ({ children }) => {
         </div>
         {children}
       </div>
-      <div className={styles.footer}>
-        Copyright &copy; {new Date().getFullYear()} Business Excellence Team || Ammar x Shifali
-      </div>
+      <div className={styles.footer}>{footerText}</div>
     </div>
   );
 };

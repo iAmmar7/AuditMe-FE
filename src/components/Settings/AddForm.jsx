@@ -3,10 +3,7 @@ import { Button, Row, Alert, message } from 'antd';
 import ProForm, { ProFormText, ProFormSelect } from '@ant-design/pro-form';
 import axios from 'axios';
 
-const URL =
-  process.env.NODE_ENV === 'development'
-    ? process.env.AUDITME_DEV_BE_URL
-    : process.env.AUDITME_PROD_BE_URL;
+const URL = process.env.SERVER_URL;
 
 const AddForm = ({ tableRef, modalClose }) => {
   const [loading, setLoading] = useState(false);

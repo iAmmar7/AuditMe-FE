@@ -5,10 +5,7 @@ import _ from 'lodash';
 import axios from 'axios';
 import moment from 'moment';
 
-const URL =
-  process.env.NODE_ENV === 'development'
-    ? process.env.AUDITME_DEV_BE_URL
-    : process.env.AUDITME_PROD_BE_URL;
+const URL = process.env.SERVER_URL;
 
 const headers = [
   { label: 'Issue ID', key: 'id' },

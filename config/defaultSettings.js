@@ -5,7 +5,7 @@ const proSettings = {
   contentWidth: 'Fluid',
   fixedHeader: false,
   fixSiderbar: true,
-  title: 'Petromin Express',
+  title: 'FirmFigure',
   colorWeak: false,
   iconfontUrl: '',
   // pwa: true,

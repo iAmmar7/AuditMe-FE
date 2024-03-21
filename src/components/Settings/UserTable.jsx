@@ -18,10 +18,7 @@ import moment from 'moment';
 import AddForm from './AddForm';
 import EditForm from './EditForm';
 
-const URL =
-  process.env.NODE_ENV === 'development'
-    ? process.env.AUDITME_DEV_BE_URL
-    : process.env.AUDITME_PROD_BE_URL;
+const URL = process.env.SERVER_URL;
 
 function UserTable({ onRequest, tableRef }) {
   const [form] = Form.useForm();

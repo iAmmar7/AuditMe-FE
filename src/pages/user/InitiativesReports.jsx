@@ -10,10 +10,7 @@ import InitiativeDetails from '../../components/Initiatives/InitiativeDetails';
 
 moment.locale('en');
 
-const URL =
-  process.env.NODE_ENV === 'development'
-    ? process.env.AUDITME_DEV_BE_URL
-    : process.env.AUDITME_PROD_BE_URL;
+const URL = process.env.SERVER_URL;
 
 let allData = [];
 const InitiativesReports = () => {
@@ -77,7 +74,7 @@ const InitiativesReports = () => {
   };
 
   return (
-    <PageHeaderWrapper content="Initiative / Improvement / Action Taken">
+    <PageHeaderWrapper content="Initiative - Improvement - Action Taken">
       <InitiativeTable
         expandedRowRender={expandedRowRender}
         onRequest={onRequest}

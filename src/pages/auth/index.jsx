@@ -8,10 +8,7 @@ import styles from './index.less';
 import SignUp from '../../components/Auth/Signup';
 import LogIn from '../../components/Auth/Login';
 
-const URL =
-  process.env.NODE_ENV === 'development'
-    ? process.env.AUDITME_DEV_BE_URL
-    : process.env.AUDITME_PROD_BE_URL;
+const URL = process.env.SERVER_URL;
 
 const AuthMessage = ({ message }) => {
   return (

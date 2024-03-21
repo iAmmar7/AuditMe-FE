@@ -18,10 +18,7 @@ import axios from 'axios';
 import InitiativeInfo from './InitiativeInfo';
 import InitiativeEdit from './InitiativeEdit';
 
-const URL =
-  process.env.NODE_ENV === 'development'
-    ? process.env.AUDITME_DEV_BE_URL
-    : process.env.AUDITME_PROD_BE_URL;
+const URL = process.env.SERVER_URL;
 
 function InitiativeDetails({ item, tableRef }) {
   const [formDisabled, setFormDisabled] = useState(true);

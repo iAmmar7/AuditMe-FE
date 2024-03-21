@@ -6,10 +6,7 @@ import axios from 'axios';
 
 import InitiativeForm from '../../components/Initiatives/InitiativeForm';
 
-const URL =
-  process.env.NODE_ENV === 'development'
-    ? process.env.AUDITME_DEV_BE_URL
-    : process.env.AUDITME_PROD_BE_URL;
+const URL = process.env.SERVER_URL;
 
 const InitiativesForm = () => {
   const [loading, setLoading] = useState(false);

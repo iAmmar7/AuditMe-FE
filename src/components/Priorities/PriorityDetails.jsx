@@ -19,10 +19,7 @@ import axios from 'axios';
 import IssueDetail from './IssueDetail';
 import IssueForm from './IssueForm';
 
-const URL =
-  process.env.NODE_ENV === 'development'
-    ? process.env.AUDITME_DEV_BE_URL
-    : process.env.AUDITME_PROD_BE_URL;
+const URL = process.env.SERVER_URL;
 
 function PriorityDetails({ item, tableRef }) {
   const [formDisabled, setFormDisabled] = useState(true);

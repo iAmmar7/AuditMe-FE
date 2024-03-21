@@ -5,10 +5,7 @@ import moment from 'moment';
 
 import styles from './Priorities.less';
 
-const URL =
-  process.env.NODE_ENV === 'development'
-    ? process.env.AUDITME_DEV_BE_URL
-    : process.env.AUDITME_PROD_BE_URL;
+const URL = process.env.SERVER_URL;
 
 function IssueDetail({ item }) {
   let color = null;
