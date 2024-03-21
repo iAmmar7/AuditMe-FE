@@ -24,11 +24,7 @@ const AuthLayout = ({ children }) => {
         <div className={styles.top}>
           <div className={styles.header}>
             <Link to="/">
-              <img
-                alt="logo"
-                className={styles.logo}
-                src="https://upload.wikimedia.org/wikipedia/en/7/7b/Petromin_Logo.png"
-              />
+              <img alt="logo" className={styles.logo} src="/FirmFigure_LOGO.png" />
             </Link>
           </div>
           <div className={styles.desc}>Business Excellence Automation</div>
@@ -36,7 +32,7 @@ const AuthLayout = ({ children }) => {
         {children}
       </div>
       <div className={styles.footer}>
-        Copyright &copy; {new Date().getFullYear()} Business Excellence Team || Saad Khan
+        Copyright &copy; {new Date().getFullYear()} Business Excellence Team || Ammar x Shifali
       </div>
     </div>
   );
