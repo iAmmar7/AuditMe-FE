@@ -2,13 +2,11 @@ import React, { useState } from 'react';
 import { Alert, Tabs, Button, message } from 'antd';
 import ProForm from '@ant-design/pro-form';
 import { history } from 'umi';
-import axios from 'axios';
 
+import authService from '@/services/auth';
 import styles from './index.less';
 import SignUp from '../../components/Auth/Signup';
 import LogIn from '../../components/Auth/Login';
-
-const URL = process.env.SERVER_URL;
 
 const AuthMessage = ({ message }) => {
   return (
@@ -40,11 +38,8 @@ const Auth = () => {
     });
 
     if (tab === 'login') {
-      axios
-        .post(`${URL}/api/auth/user/login`, {
-          email: values.email,
-          password: values.password,
-        })
+      authService
+        .login(values)
         .then((res) => {
           if (res.data.success) {
             localStorage.setItem('userType', res.data.user.role);
@@ -64,13 +59,8 @@ const Auth = () => {
     }
 
     if (tab === 'signup') {
-      axios
-        .post(`${URL}/api/auth/user/signup`, {
-          name: values.name,
-          email: values.email,
-          password: values.password,
-          role: values.userType,
-        })
+      authService
+        .signup(values)
         .then((res) => {
           if (res.data.success) {
             localStorage.setItem('userType', values.userType);
