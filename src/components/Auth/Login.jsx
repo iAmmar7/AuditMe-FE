@@ -6,21 +6,23 @@ export default function LogIn({ styles }) {
   return (
     <>
       <ProFormText
-        name="badgeNumber"
+        name="email"
+        type="email"
         fieldProps={{
           size: 'large',
           prefix: <MailOutlined className={styles.prefixIcon} />,
         }}
-        placeholder="Enter your Badge number"
+        placeholder="Enter your email"
         rules={[
           {
             required: true,
-            message: 'Badge number is required',
+            message: 'Email is required',
           },
         ]}
       />
       <ProFormText.Password
         name="password"
+        type="password"
         fieldProps={{
           size: 'large',
           prefix: <LockTwoTone className={styles.prefixIcon} />,
@@ -33,16 +35,6 @@ export default function LogIn({ styles }) {
           },
         ]}
       />
-      {/* <ProFormSelect
-        name="userType"
-        hasFeedback
-        valueEnum={{
-          admin: 'Admin',
-          user: 'User',
-        }}
-        placeholder="Login as"
-        rules={[{ required: true, message: 'Please select login as' }]}
-      /> */}
     </>
   );
 }

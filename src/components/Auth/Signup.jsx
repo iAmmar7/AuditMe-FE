@@ -1,6 +1,7 @@
 import React from 'react';
 import { LockTwoTone, UserOutlined, MailOutlined } from '@ant-design/icons';
 import { ProFormText, ProFormSelect } from '@ant-design/pro-form';
+import { rolesDescription } from '@/utils/constants';
 
 export default function SingUp({ styles }) {
   return (
@@ -21,17 +22,17 @@ export default function SingUp({ styles }) {
         ]}
       />
       <ProFormText
-        type="text"
-        name="badgeNumber"
+        type="email"
+        name="email"
         fieldProps={{
           size: 'large',
           prefix: <MailOutlined className={styles.prefixIcon} />,
         }}
-        placeholder="Enter your badge number"
+        placeholder="Enter your email"
         rules={[
           {
             required: true,
-            message: 'Badge number is required',
+            message: 'Email is required',
           },
         ]}
       />
@@ -56,10 +57,7 @@ export default function SingUp({ styles }) {
           size: 'large',
         }}
         hasFeedback
-        valueEnum={{
-          auditor: 'Auditor',
-          rm: 'Regional Manager',
-        }}
+        valueEnum={rolesDescription}
         placeholder="Signup as"
         rules={[{ required: true, message: 'Please select signup as' }]}
       />

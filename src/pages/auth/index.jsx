@@ -13,22 +13,25 @@ const URL =
     ? process.env.AUDITME_DEV_BE_URL
     : process.env.AUDITME_PROD_BE_URL;
 
-const AuthMessage = ({ content }) => (
-  <Alert
-    style={{
-      marginBottom: 24,
-    }}
-    message={content || 'Unknown error'}
-    type="error"
-    showIcon
-  />
-);
+const AuthMessage = ({ message }) => {
+  return (
+    <Alert
+      style={{
+        marginBottom: 24,
+      }}
+      message={message || 'Unknown error'}
+      type="error"
+      showIcon
+    />
+  );
+};
 
 const Auth = () => {
   const [response, setResponse] = useState({
     loading: false,
     success: null,
     data: null,
+    errors: null,
   });
   const [tab, setTab] = useState('login');
 
@@ -36,12 +39,13 @@ const Auth = () => {
     setResponse({
       ...response,
       loading: true,
+      errors: null,
     });
 
     if (tab === 'login') {
       axios
         .post(`${URL}/api/auth/user/login`, {
-          badgeNumber: values.badgeNumber,
+          email: values.email,
           password: values.password,
         })
         .then((res) => {
@@ -49,7 +53,7 @@ const Auth = () => {
             localStorage.setItem('userType', res.data.user.role);
             localStorage.setItem('userToken', res.data.token);
             localStorage.setItem('user', JSON.stringify(res.data.user));
-            message.success('Login successfull');
+            message.success('Login successful');
             history.push('/user/');
           }
         })
@@ -57,7 +61,7 @@ const Auth = () => {
           setResponse({
             loading: false,
             success: false,
-            error: err.response?.data?.message,
+            errors: err.response?.data?.errors,
           });
         });
     }
@@ -66,14 +70,14 @@ const Auth = () => {
       axios
         .post(`${URL}/api/auth/user/signup`, {
           name: values.name,
-          badgeNumber: values.badgeNumber,
+          email: values.email,
           password: values.password,
           role: values.userType,
         })
         .then((res) => {
           if (res.data.success) {
             localStorage.setItem('userType', values.userType);
-            message.success('SignUp successfull');
+            message.success('SignUp successful');
             setResponse({
               ...response,
               loading: false,
@@ -85,7 +89,7 @@ const Auth = () => {
           setResponse({
             loading: false,
             success: false,
-            error: err.response?.data?.message,
+            errors: err.response?.data?.errors,
           });
         });
     }
@@ -122,16 +126,17 @@ const Auth = () => {
       >
         <Tabs activeKey={tab} onChange={setTab}>
           <Tabs.TabPane key="login" tab="Login" />
-          {/* <Tabs.TabPane key="signup" tab="Signup" /> */}
+          <Tabs.TabPane key="signup" tab="Signup" />
         </Tabs>
 
         {response.success === false && tab === 'login' && !response.loading && (
-          <AuthMessage content={response.error} />
+          <AuthMessage message={response.errors?.[0]?.msg} />
         )}
+
         {tab === 'login' && <LogIn styles={styles} />}
 
         {response.success === false && tab === 'signup' && !response.loading && (
-          <AuthMessage content={response.error} />
+          <AuthMessage message={response.errors?.[0]?.msg} />
         )}
         {tab === 'signup' && <SignUp styles={styles} />}
       </ProForm>
