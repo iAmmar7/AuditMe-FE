@@ -9,13 +9,14 @@ import ProForm, {
 } from '@ant-design/pro-form';
 import { FooterToolbar } from '@ant-design/pro-layout';
 import { Button, Form, message, Tooltip, Typography, Upload } from 'antd';
+import moment from 'moment';
 
 function PriorityForm(props) {
   const { user } = useAppContext();
   const [form] = Form.useForm();
   // const [disabled, setDisabled] = useState([]);
 
-  const { loading, submitForm, evidenceFileList, setEvidenceFileList } = props;
+  const { loading, managers, submitForm, evidenceFileList, setEvidenceFileList } = props;
 
   const evidencesProps = {
     name: 'evidences',
@@ -41,6 +42,15 @@ function PriorityForm(props) {
     <ProForm
       form={form}
       initialValues={{
+        region: 'CR-North',
+        areaManager: 'John Doe AM',
+        regionalManager: 'John Doe RM',
+        processSpecialist: 'John Doe PS',
+        stationNumber: 'Test123',
+        issueDetails: 'Test details',
+        type: 'Initiative',
+        dateIdentified: '2021-02-19',
+        date: '2021-02-22',
         priority: 'Priority',
       }}
       submitter={{
@@ -72,7 +82,7 @@ function PriorityForm(props) {
         const { date, dateIdentified } = allValues;
 
         // If dateIdentified is greater than date then throw error
-        if (dateIdentified && date?.diff(dateIdentified, 'days') < 0) {
+        if (dateIdentified && moment(date)?.diff(dateIdentified, 'days') < 0) {
           form.setFieldsValue({ dateIdentified: null });
           message.error('Date identified can not be greater than date');
         }
@@ -100,27 +110,33 @@ function PriorityForm(props) {
           placeholder="Select region"
           options={regionSelectOptions}
           rules={[{ required: true, message: 'Please select region!' }]}
+          style={{ width: '150px' }}
         />
-        <ProFormText
+        <ProFormSelect
           name="areaManager"
           label="Area Manager"
-          placeholder="Enter area manager"
-          rules={[{ required: true, message: 'Please write area manager name!' }]}
+          placeholder="Select area manager"
+          options={managers.am.map((user) => ({ value: user.name, label: user.name }))}
+          rules={[{ required: true, message: 'Please select area manager name!' }]}
+          style={{ width: '250px' }}
         />
-        <ProFormText
+        <ProFormSelect
           name="regionalManager"
           label="Regional Manager"
-          placeholder="Enter regional manager"
-          rules={[{ required: true, message: 'Please write regional manager name!' }]}
+          placeholder="Select regional manager"
+          options={managers.rm.map((user) => ({ value: user.name, label: user.name }))}
+          rules={[{ required: true, message: 'Please select regional manager name!' }]}
+          style={{ width: '250px' }}
         />
       </ProForm.Group>
       <ProForm.Group>
         <ProFormSelect
           name="type"
           label="Type"
-          placeholder="Select issue type of this report"
+          placeholder="Select issue type"
           options={issueTypeOptions}
           rules={[{ required: true, message: 'Please select issue type!' }]}
+          style={{ width: '250px' }}
         />
         <ProFormText
           name="stationNumber"

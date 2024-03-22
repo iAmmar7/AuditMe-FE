@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 
 const AppContext = createContext();
 
@@ -18,11 +18,19 @@ export const AppProvider = ({ children }) => {
     }
   }, []);
 
+  const updateUser = useCallback((user) => {
+    setUser(user);
+  }, []);
+
+  const updateToken = useCallback((token) => {
+    setToken(token);
+  }, []);
+
   const appContext = {
     user,
-    setUser,
+    setUser: updateUser,
     token,
-    setToken,
+    setToken: updateToken,
   };
 
   return <AppContext.Provider value={appContext}>{children}</AppContext.Provider>;
