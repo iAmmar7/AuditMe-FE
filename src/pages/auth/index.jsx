@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
-import { Alert, Tabs, Button, message } from 'antd';
 import ProForm from '@ant-design/pro-form';
+import { Alert, Button, message, Tabs } from 'antd';
+import { useState } from 'react';
 import { history } from 'umi';
 
+import { useAppContext } from '@/contexts/AppContext';
 import authService from '@/services/auth';
-import styles from './index.less';
-import SignUp from '../../components/Auth/Signup';
 import LogIn from '../../components/Auth/Login';
+import SignUp from '../../components/Auth/Signup';
+import styles from './index.less';
 
 const AuthMessage = ({ message }) => {
   return (
@@ -22,6 +23,7 @@ const AuthMessage = ({ message }) => {
 };
 
 const Auth = () => {
+  const { setUser, setToken } = useAppContext();
   const [response, setResponse] = useState({
     loading: false,
     success: null,
@@ -42,6 +44,8 @@ const Auth = () => {
         .login(values)
         .then((res) => {
           if (res.data.success) {
+            setUser(res.data.user);
+            setToken(res.data.token);
             localStorage.setItem('userType', res.data.user.role);
             localStorage.setItem('userToken', res.data.token);
             localStorage.setItem('user', JSON.stringify(res.data.user));

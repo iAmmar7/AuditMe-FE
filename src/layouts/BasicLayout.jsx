@@ -3,13 +3,14 @@
  * You can view component api by:
  * https://github.com/ant-design/ant-design-pro-layout
  */
-import ProLayout from '@ant-design/pro-layout';
-import React, { useEffect } from 'react';
-import { Link, connect, history } from 'umi';
-import { UserOutlined } from '@ant-design/icons';
-import { Menu, Dropdown, message, Avatar, Typography, Row, Col } from 'antd';
-import axios from 'axios';
+import { useAppContext } from '@/contexts/AppContext';
 import { footerText } from '@/utils/constants';
+import { UserOutlined } from '@ant-design/icons';
+import ProLayout from '@ant-design/pro-layout';
+import { Avatar, Col, Dropdown, Menu, message, Row, Typography } from 'antd';
+import axios from 'axios';
+import { useEffect } from 'react';
+import { connect, history, Link } from 'umi';
 
 // import logo from '../assets/logo.svg';
 // import userAvatar from '../assets/user_avatar.png';
@@ -27,17 +28,17 @@ const BasicLayout = (props) => {
     },
   } = props;
 
-  const user = JSON.parse(localStorage.getItem('user'));
+  const { user, token, setUser, setToken } = useAppContext();
 
   useEffect(() => {
     axios.post(
       `${URL}/api/user/update-activity`,
       {},
       {
-        headers: { Authorization: localStorage.userToken },
+        headers: { Authorization: token },
       },
     );
-  }, []);
+  }, [token]);
 
   const handleMenuCollapse = (payload) => {
     if (dispatch) {
@@ -49,6 +50,8 @@ const BasicLayout = (props) => {
   };
 
   const logoutUser = () => {
+    setUser(null);
+    setToken(null);
     localStorage.removeItem('user');
     localStorage.removeItem('userToken');
     message.success('Logout successfully');
@@ -67,7 +70,7 @@ const BasicLayout = (props) => {
       }}
       menuDataRender={(routes) => {
         const newRoutes = [...routes];
-        if (JSON.parse(localStorage.user).isAdmin) newRoutes[4].hideInMenu = false;
+        if (user.isAdmin) newRoutes[4].hideInMenu = false;
 
         return newRoutes;
       }}

@@ -1,34 +1,20 @@
-import React, { useState } from 'react';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
+import { Alert, Card, message } from 'antd';
+import { useState } from 'react';
 import { history } from 'umi';
-import { Card, Alert, message } from 'antd';
-import axios from 'axios';
 
+import { useAppContext } from '@/contexts/AppContext';
 import PriorityForm from '../../components/Priorities/PriorityForm';
-
-const URL = process.env.SERVER_URL;
 
 const PrioritiesForm = () => {
   const [loading, setLoading] = useState(false);
   const [evidenceFileList, setEvidenceFileList] = useState([]);
+  const { user } = useAppContext();
 
   const submitForm = async (values) => {
     setLoading(true);
 
-    const formData = new FormData();
-    Object.keys(values).forEach((item) => {
-      // Don't append images
-      if (item !== 'evidences') formData.append(item, values[item]);
-    });
-
-    for (let i = 0; i < evidenceFileList.length; i += 1) {
-      formData.append('evidences', evidenceFileList[i]);
-    }
-
-    axios
-      .post(`${URL}/api/auditor/raise-issue`, formData, {
-        headers: { Authorization: localStorage.userToken },
-      })
+    raiseIssue(values)
       .then((res) => {
         setLoading(false);
         if (res.data.success) {
@@ -44,19 +30,16 @@ const PrioritiesForm = () => {
   };
 
   const alertMessage = () => {
-    let messageText = null;
+    const roleMessages = {
+      rm:
+        'You have signed up as regional manager, you cannot submit an issue. Please sign up as auditor or station manager in order to raise an issue.',
+      am:
+        'You have signed up as area manager, you cannot submit an issue. Please sign up as auditor or station manager in order to raise an issue.',
+      viewer:
+        'You have signed up as viewer, you cannot submit an issue. Please sign up as auditor or station manager, in order to raise an issue.',
+    };
 
-    if (JSON.parse(localStorage.getItem('user')).role === 'rm')
-      messageText =
-        'You have signed up as regional manager, you can not submit an issue. Please signup as auditor or station manager in order to raise an issue.';
-
-    if (JSON.parse(localStorage.getItem('user')).role === 'am')
-      messageText =
-        'You have signed up as area manager, you can not submit an issue. Please signup as auditor or station manager in order to raise an issue.';
-
-    if (JSON.parse(localStorage.getItem('user')).role === 'viewer')
-      messageText =
-        'You have signed up as viewer, you can not submit an issue. Please signup as auditor or station manager, in order to raise an issue.';
+    let messageText = roleMessages[user.role];
 
     return (
       messageText && (

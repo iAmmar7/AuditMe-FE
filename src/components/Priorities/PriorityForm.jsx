@@ -1,15 +1,17 @@
-import React from 'react';
+import { useAppContext } from '@/contexts/AppContext';
+import { issuePriorityOptions, issueTypeOptions, regionSelectOptions } from '@/utils/constants';
+import { QuestionCircleOutlined, UploadOutlined } from '@ant-design/icons';
 import ProForm, {
-  ProFormText,
-  ProFormTextArea,
   ProFormDatePicker,
   ProFormSelect,
+  ProFormText,
+  ProFormTextArea,
 } from '@ant-design/pro-form';
-import { Upload, Button, Typography, Tooltip, Form, message } from 'antd';
-import { UploadOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import { FooterToolbar } from '@ant-design/pro-layout';
+import { Button, Form, message, Tooltip, Typography, Upload } from 'antd';
 
 function PriorityForm(props) {
+  const { user } = useAppContext();
   const [form] = Form.useForm();
   // const [disabled, setDisabled] = useState([]);
 
@@ -30,7 +32,6 @@ function PriorityForm(props) {
         return;
       }
       setEvidenceFileList([...evidenceFileList, file]);
-      // eslint-disable-next-line consistent-return
       return false;
     },
     evidenceFileList,
@@ -40,15 +41,6 @@ function PriorityForm(props) {
     <ProForm
       form={form}
       initialValues={{
-        // region: 'CR-North',
-        // areaManager: 'John Doe AM',
-        // regionalManager: 'John Doe RM',
-        // processSpecialist: 'John Doe PS',
-        // stationNumber: 'Test123',
-        // issueDetails: 'Test details',
-        // type: 'Initiative',
-        // dateIdentified: '2021-02-19',
-        // date: '2021-02-22',
         priority: 'Priority',
       }}
       submitter={{
@@ -58,7 +50,7 @@ function PriorityForm(props) {
               <Button
                 type="secondary"
                 loading={loading}
-                disabled={!['auditor', 'sm'].includes(JSON.parse(localStorage.user).role)}
+                disabled={!['auditor', 'sm'].includes(user.role)}
                 onClick={() => submitProps?.form?.resetFields()}
               >
                 Reset
@@ -66,7 +58,7 @@ function PriorityForm(props) {
               <Button
                 type="primary"
                 loading={loading}
-                disabled={!['auditor', 'sm'].includes(JSON.parse(localStorage.user).role)}
+                disabled={!['auditor', 'sm'].includes(user.role)}
                 onClick={() => submitProps?.form?.submit()}
               >
                 Submit
@@ -106,16 +98,7 @@ function PriorityForm(props) {
           name="region"
           label="Region"
           placeholder="Select region"
-          options={[
-            { value: 'Southern', label: 'Southern' },
-            { value: 'CR-East', label: 'CR-East' },
-            { value: 'CR-North', label: 'CR-North' },
-            { value: 'CR-South', label: 'CR-South' },
-            { value: 'ER-North', label: 'ER-North' },
-            { value: 'ER-South', label: 'ER-South' },
-            { value: 'WR-North', label: 'WR-North' },
-            { value: 'WR-South', label: 'WR-South' },
-          ]}
+          options={regionSelectOptions}
           rules={[{ required: true, message: 'Please select region!' }]}
         />
         <ProFormText
@@ -135,20 +118,8 @@ function PriorityForm(props) {
         <ProFormSelect
           name="type"
           label="Type"
-          placeholder="Select issue type....      ...."
-          options={[
-            { value: 'Customer Experience', label: 'Customer Experience' },
-            { value: 'Housekeeping', label: 'Housekeeping' },
-            { value: 'Customer Mistreatment', label: 'Customer Mistreatment' },
-            { value: 'Initiative', label: 'Initiative' },
-            { value: 'Admin Issues', label: 'Admin Issues' },
-            { value: 'Maintenance Issues', label: 'Maintenance Issues' },
-            { value: 'IT Issues', label: 'IT Issues' },
-            { value: 'Inventory Issues', label: 'Inventory Issues' },
-            { value: 'Violation', label: 'Violation' },
-            { value: 'Safety', label: 'Safety' },
-            { value: 'Others', label: 'Others' },
-          ]}
+          placeholder="Select issue type of this report"
+          options={issueTypeOptions}
           rules={[{ required: true, message: 'Please select issue type!' }]}
         />
         <ProFormText
@@ -180,10 +151,7 @@ function PriorityForm(props) {
           placeholder="Select Priority"
           // disabled={disabled.includes('priority')}
           disabled
-          options={[
-            { value: 'Observation', label: 'Observation' },
-            { value: 'Priority', label: 'Priority' },
-          ]}
+          options={issuePriorityOptions}
           rules={[{ required: true, message: 'Please select issue priority!' }]}
         />
       </ProForm.Group>
