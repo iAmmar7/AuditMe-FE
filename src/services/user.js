@@ -26,3 +26,24 @@ export function raiseIssue(data, fileList) {
     headers: { Authorization: localStorage.userToken },
   });
 }
+
+export function raiseInitiative(data, { evidenceBeforeFileList, evidenceAfterFileList }) {
+  const formData = new FormData();
+
+  Object.keys(data).forEach((item) => {
+    // Don't append images
+    if (item !== 'evidencesBefore' && item !== 'evidencesAfter') formData.append(item, data[item]);
+  });
+
+  for (let i = 0; i < evidenceBeforeFileList.length; i += 1) {
+    formData.append('evidencesBefore', evidenceBeforeFileList[i]);
+  }
+
+  for (let i = 0; i < evidenceAfterFileList.length; i += 1) {
+    formData.append('evidencesAfter', evidenceAfterFileList[i]);
+  }
+
+  return axios.post(`${URL}/api/auditor/initiative`, formData, {
+    headers: { Authorization: localStorage.userToken },
+  });
+}

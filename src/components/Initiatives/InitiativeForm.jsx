@@ -1,23 +1,26 @@
-import React from 'react';
+import { useAppContext } from '@/contexts/AppContext';
+import { regionSelectOptions } from '@/utils/constants';
+import { QuestionCircleOutlined, UploadOutlined } from '@ant-design/icons';
 import ProForm, {
-  ProFormText,
-  ProFormTextArea,
   ProFormDatePicker,
   ProFormSelect,
+  ProFormText,
+  ProFormTextArea,
 } from '@ant-design/pro-form';
-import { Upload, Button, Typography, Tooltip, message } from 'antd';
-import { UploadOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import { FooterToolbar } from '@ant-design/pro-layout';
+import { Button, message, Tooltip, Typography, Upload } from 'antd';
 
 function InitiativeForm(props) {
   const {
     loading,
     submitForm,
+    managers,
     evidenceBeforeFileList,
     setEvidenceBeforeFileList,
     evidenceAfterFileList,
     setEvidenceAfterFileList,
   } = props;
+  const { user } = useAppContext();
 
   const evidencesBeforeProps = {
     name: 'evidencesBefore',
@@ -65,14 +68,14 @@ function InitiativeForm(props) {
     <ProForm
       initialValues={
         {
-          // date: moment().format('YYYY-MM-DD'),
+          // date: '2023-03-23',
           // region: 'CR-North',
           // areaManager: 'John Doe AM',
           // regionalManager: 'John Doe RM',
           // stationNumber: 'Test123',
           // details: 'Test initiative details',
           // type: 'Initiative',
-          // dateIdentified: '2020-11-19',
+          // dateIdentified: '2023-03-19',
           // actionTaken: 'Test action',
         }
       }
@@ -83,7 +86,7 @@ function InitiativeForm(props) {
               <Button
                 type="secondary"
                 loading={loading}
-                disabled={JSON.parse(localStorage.user).role !== 'auditor'}
+                disabled={user.role !== 'auditor'}
                 onClick={() => submitProps?.form?.resetFields()}
               >
                 Reset
@@ -91,7 +94,7 @@ function InitiativeForm(props) {
               <Button
                 type="primary"
                 loading={loading}
-                disabled={JSON.parse(localStorage.user).role !== 'auditor'}
+                disabled={user.role !== 'auditor'}
                 onClick={() => submitProps.form.submit()}
               >
                 Submit
@@ -116,29 +119,25 @@ function InitiativeForm(props) {
           name="region"
           label="Region"
           placeholder="Select region"
-          options={[
-            { value: 'Southern', label: 'Southern' },
-            { value: 'CR-East', label: 'CR-East' },
-            { value: 'CR-North', label: 'CR-North' },
-            { value: 'CR-South', label: 'CR-South' },
-            { value: 'ER-North', label: 'ER-North' },
-            { value: 'ER-South', label: 'ER-South' },
-            { value: 'WR-North', label: 'WR-North' },
-            { value: 'WR-South', label: 'WR-South' },
-          ]}
+          options={regionSelectOptions}
           rules={[{ required: true, message: 'Please select region!' }]}
+          style={{ width: '150px' }}
         />
-        <ProFormText
+        <ProFormSelect
           name="areaManager"
           label="Area Manager"
-          placeholder="Enter area manager"
-          rules={[{ required: true, message: 'Please write area manager name!' }]}
+          placeholder="Select area manager"
+          options={managers.am.map((user) => ({ value: user.name, label: user.name }))}
+          rules={[{ required: true, message: 'Please select area manager name!' }]}
+          style={{ width: '250px' }}
         />
-        <ProFormText
+        <ProFormSelect
           name="regionalManager"
           label="Regional Manager"
-          placeholder="Enter regional manager"
-          rules={[{ required: true, message: 'Please write regional manager name!' }]}
+          placeholder="Select regional manager"
+          options={managers.rm.map((user) => ({ value: user.name, label: user.name }))}
+          rules={[{ required: true, message: 'Please select regional manager name!' }]}
+          style={{ width: '250px' }}
         />
       </ProForm.Group>
       <ProForm.Group>

@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
+import { Alert, Card, message } from 'antd';
+import { useEffect, useState } from 'react';
 import { history } from 'umi';
-import { Card, Alert, message } from 'antd';
-import axios from 'axios';
 
+import { useAppContext } from '@/contexts/AppContext';
+import { getUserByRole, raiseInitiative } from '@/services/user';
 import InitiativeForm from '../../components/Initiatives/InitiativeForm';
 
 const URL = process.env.SERVER_URL;
@@ -12,29 +13,27 @@ const InitiativesForm = () => {
   const [loading, setLoading] = useState(false);
   const [evidenceBeforeFileList, setEvidenceBeforeFileList] = useState([]);
   const [evidenceAfterFileList, setEvidenceAfterFileList] = useState([]);
+  const [managers, setManagers] = useState({ am: [], rm: [] });
+  const { user } = useAppContext();
+
+  useEffect(() => {
+    const fetch = async () => {
+      const [areaManagers, regManagers] = await Promise.all([
+        getUserByRole('am'),
+        getUserByRole('rm'),
+      ]);
+      setManagers({
+        am: areaManagers.data.users,
+        rm: regManagers.data.users,
+      });
+    };
+    fetch();
+  }, []);
 
   const submitForm = async (values) => {
     setLoading(true);
 
-    const formData = new FormData();
-    Object.keys(values).forEach((item) => {
-      // Don't append images
-      if (item !== 'evidencesBefore' && item !== 'evidencesAfter')
-        formData.append(item, values[item]);
-    });
-
-    for (let i = 0; i < evidenceBeforeFileList.length; i += 1) {
-      formData.append('evidencesBefore', evidenceBeforeFileList[i]);
-    }
-
-    for (let i = 0; i < evidenceAfterFileList.length; i += 1) {
-      formData.append('evidencesAfter', evidenceAfterFileList[i]);
-    }
-
-    axios
-      .post(`${URL}/api/auditor/initiative`, formData, {
-        headers: { Authorization: localStorage.userToken },
-      })
+    raiseInitiative(values, { evidenceBeforeFileList, evidenceAfterFileList })
       .then((res) => {
         setLoading(false);
         if (res.data.success) {
@@ -49,19 +48,16 @@ const InitiativesForm = () => {
   };
 
   const alertMessage = () => {
-    let messageText = null;
+    const roleMessages = {
+      rm:
+        'You have signed up as regional manager, you can not submit an initiative. Please signup as auditor or station manager in order to submit an initiative.',
+      am:
+        'You have signed up as area manager, you can not submit an initiative. Please signup as auditor or station manager in order to submit an initiative.',
+      viewer:
+        'You have signed up as viewer, you can not submit an initiative. Please signup as auditor or station manager in order to submit an initiative.',
+    };
 
-    if (JSON.parse(localStorage.getItem('user')).role === 'rm')
-      messageText =
-        'You have signed up as regional manager, you can not submit an initiative. Please signup as auditor or station manager in order to submit an initiative.';
-
-    if (JSON.parse(localStorage.getItem('user')).role === 'am')
-      messageText =
-        'You have signed up as area manager, you can not submit an initiative. Please signup as auditor or station manager in order to submit an initiative.';
-
-    if (JSON.parse(localStorage.getItem('user')).role === 'viewer')
-      messageText =
-        'You have signed up as viewer, you can not submit an initiative. Please signup as auditor or station manager in order to submit an initiative.';
+    let messageText = roleMessages[user.role];
 
     return (
       messageText && (
@@ -88,6 +84,7 @@ const InitiativesForm = () => {
           setEvidenceBeforeFileList={setEvidenceBeforeFileList}
           evidenceAfterFileList={evidenceAfterFileList}
           setEvidenceAfterFileList={setEvidenceAfterFileList}
+          managers={managers}
         />
       </Card>
     </PageHeaderWrapper>
