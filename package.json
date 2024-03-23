@@ -1,8 +1,8 @@
 {
-  "name": "firmfigure-client",
+  "name": "audit-rail-client",
   "version": "4.3.0",
   "private": true,
-  "description": "Business Excellence Automation",
+  "description": "Ensuring Excellence, One Station at a Time",
   "author": "Ammar Ansari",
   "scripts": {
     "analyze": "cross-env ANALYZE=1 umi build",

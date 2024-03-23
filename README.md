@@ -1,9 +1,6 @@
-# FirmFigure Client
-This application is for one of the **audit firm**s based in **KSA**, which helps them to **automate** their daily routine tasks. It also allows the admin to see the progress of each team working inside the firm.
+# AuditRail Client
 
-> This repo only contains the client side code. To read the server side code, please see [here](https://github.com/iAmmar7/Petromin-BE).
-
-Application is deployed on **Digital Ocean**'s [machine](http://157.245.20.65:4000) :fire:
+> This repo only contains the client side code. To read the server side code, please see [here](https://dev.azure.com/GSD23/AuditRail/_git/audit-rail-client).
 
 ## Features
 - Five types of users; auditor, regional managers, area managers, moderators and an admin.

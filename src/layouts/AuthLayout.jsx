@@ -1,7 +1,6 @@
-import React from 'react';
-import { Link, connect, Redirect } from 'umi';
-import jwt_decode from 'jwt-decode';
 import { footerText } from '@/utils/constants';
+import jwt_decode from 'jwt-decode';
+import { connect, Link, Redirect } from 'umi';
 
 // import logo from '../assets/logo.svg';
 import styles from './AuthLayout.less';
@@ -25,10 +24,10 @@ const AuthLayout = ({ children }) => {
         <div className={styles.top}>
           <div className={styles.header}>
             <Link to="/">
-              <img alt="logo" className={styles.logo} src="/FirmFigure_LOGO.png" />
+              <img alt="logo" className={styles.logo} src="/AuditRail_LOGO.png" />
             </Link>
           </div>
-          <div className={styles.desc}>Business Excellence Automation</div>
+          <div className={styles.desc}>Ensuring Excellence, One Station at a Time</div>
         </div>
         {children}
       </div>
