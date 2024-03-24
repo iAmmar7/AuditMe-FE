@@ -23,7 +23,7 @@ const columns = [
     render: (_) => <Typography.Text>{_.props.text}</Typography.Text>,
   },
   {
-    title: 'Audito',
+    title: 'Auditor',
     dataIndex: 'auditor',
     render: (_) => <Typography.Text strong>{_}</Typography.Text>,
   },
