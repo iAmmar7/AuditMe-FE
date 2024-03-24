@@ -1,4 +1,3 @@
-/* eslint-disable no-useless-computed-key */
 import ProTable from '@ant-design/pro-table';
 import { ConfigProvider, Tag, Typography } from 'antd';
 import enUS from 'antd/lib/locale/en_US';
@@ -8,11 +7,12 @@ import GeneratePrioritiesCSV from '../common/GeneratePrioritiesCSV';
 import styles from './Audit.less';
 
 const columns = [
-  // {
-  //   title: 'Issue ID',
-  //   dataIndex: 'id',
-  //   render: (_) => <Typography.Text>{_}</Typography.Text>,
-  // },
+  {
+    title: 'ID',
+    dataIndex: 'id',
+    width: '90px',
+    render: (_) => <Typography.Text>{_}</Typography.Text>,
+  },
   {
     title: 'Date',
     width: '9%',
@@ -23,8 +23,8 @@ const columns = [
     render: (_) => <Typography.Text>{_.props.text}</Typography.Text>,
   },
   {
-    title: 'BE Team',
-    dataIndex: 'user',
+    title: 'Audito',
+    dataIndex: 'auditor',
     render: (_) => <Typography.Text strong>{_}</Typography.Text>,
   },
   {
@@ -111,13 +111,8 @@ const columns = [
     render: (_) => <Tag>{_}</Tag>,
   },
   {
-    title: 'Regional Manager',
-    dataIndex: 'regionalManager',
-    render: (_) => <Typography.Text>{_}</Typography.Text>,
-  },
-  {
-    title: 'Area Manager',
-    dataIndex: 'areaManager',
+    title: 'Station Manager',
+    dataIndex: 'stationManager',
     render: (_) => <Typography.Text>{_}</Typography.Text>,
   },
   {
@@ -131,8 +126,8 @@ const columns = [
     render: (_) => <Typography.Text>{_.props.text}</Typography.Text>,
   },
   {
-    title: 'Station/BE',
-    dataIndex: 'stationNumber',
+    title: 'Station/City',
+    dataIndex: 'station',
     render: (_) => <Typography.Text>{_}</Typography.Text>,
   },
   {
@@ -145,11 +140,6 @@ const columns = [
     title: 'Resolve Days',
     dataIndex: 'daysResolved',
     search: false,
-    render: (_) => <Typography.Text>{_}</Typography.Text>,
-  },
-  {
-    title: 'Log Number',
-    dataIndex: 'logNumber',
     render: (_) => <Typography.Text>{_}</Typography.Text>,
   },
 ];

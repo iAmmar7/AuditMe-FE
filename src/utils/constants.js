@@ -38,3 +38,18 @@ export const issuePriorityOptions = [
   { value: 'Observation', label: 'Observation' },
   { value: 'Priority', label: 'Priority' },
 ];
+
+export const issueStatusOptions = [
+  {
+    value: 'Pending',
+    label: 'Pending',
+  },
+  {
+    value: 'Resolved',
+    label: 'Resolved',
+  },
+  {
+    value: 'Maintenance',
+    label: 'Maintenance',
+  },
+];

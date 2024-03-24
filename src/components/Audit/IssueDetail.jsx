@@ -19,30 +19,19 @@ function IssueDetail({ item }) {
           Date:{' '}
           <Typography.Text strong>{moment(item.date).format('Do MMMM, YYYY')}</Typography.Text>
         </Col>
-        <Col col={8} style={{ marginRight: '15px' }}>
-          Week: <Typography.Text strong>{item.week ? item.week : 'N/A'}</Typography.Text>
-        </Col>
         <Col col={8}>
           Region:{' '}
           <Tag>
-            <Typography.Text strong>{item.region ? item.region : 'N/A'}</Typography.Text>
+            <Typography.Text strong>{item.region ?? 'N/A'}</Typography.Text>
           </Tag>
         </Col>
       </Row>
       <Row style={{ marginTop: '15px' }}>
         <Col col={8} style={{ marginRight: '15px' }}>
-          Business Excellence Team:{' '}
-          <Typography.Text strong>{item.userName ? item.userName : 'N/A'}</Typography.Text>
+          Auditor: <Typography.Text strong>{item.auditor ?? 'N/A'}</Typography.Text>
         </Col>
         <Col col={8} style={{ marginRight: '15px' }}>
-          Area Manager:{' '}
-          <Typography.Text strong>{item.areaManager ? item.areaManager : 'N/A'}</Typography.Text>
-        </Col>
-        <Col col={8}>
-          Regional Manager:{' '}
-          <Typography.Text strong>
-            {item.regionalManager ? item.regionalManager : 'N/A'}
-          </Typography.Text>
+          Station Manager: <Typography.Text strong>{item.stationManager ?? 'N/A'}</Typography.Text>
         </Col>
       </Row>
       <Row style={{ marginTop: '15px' }}>
@@ -58,8 +47,7 @@ function IssueDetail({ item }) {
       </Row>
       <Row style={{ marginTop: '15px' }}>
         <Col col={24}>
-          Issue Details:{' '}
-          <Typography.Text strong>{item.issueDetails ? item.issueDetails : 'N/A'}</Typography.Text>
+          Issue Details: <Typography.Text strong>{item.details ?? 'N/A'}</Typography.Text>
         </Col>
       </Row>
       <Row style={{ marginTop: '15px' }}>
@@ -70,22 +58,19 @@ function IssueDetail({ item }) {
           </Typography.Text>
         </Col>
         <Col col={12}>
-          Station/BE#:{' '}
-          <Typography.Text strong>
-            {item.stationNumber ? item.stationNumber : 'N/A'}
-          </Typography.Text>
+          Station/City: <Typography.Text strong>{item.station ?? 'N/A'}</Typography.Text>
         </Col>
       </Row>
 
       {/* Evidences Before */}
-      <Row style={{ marginBottom: '5px', marginTop: '15px' }}>
+      <Row style={{ marginTop: '15px' }}>
         <Col>Evidences Before: </Col>
       </Row>
-      <Row gutter={[2, 2]}>
+      <Row style={{ padding: '20px 0px' }} gutter={[8, 8]}>
         {item.evidencesBefore.length > 0 ? (
           item.evidencesBefore.map((image) => (
-            <Col key={image} span={8} className={styles.issue_image_container}>
-              <Image src={URL + image} width="90%" className={styles.issue_image} />
+            <Col key={image} className={styles.issue_image_container}>
+              <Image src={URL + image} className={styles.issue_image} />
             </Col>
           ))
         ) : (
@@ -127,20 +112,16 @@ function IssueDetail({ item }) {
             {item.dateOfClosure ? moment(item.dateOfClosure).format('Do MMMM, YYYY') : 'N/A'}
           </Typography.Text>
         </Col>
-        <Col col={8}>
-          Log Number:{' '}
-          <Typography.Text strong>{item.logNumber ? item.logNumber : 'N/A'}</Typography.Text>
-        </Col>
       </Row>
       {/* Evidences After */}
       <Row style={{ marginBottom: '5px', marginTop: '15px' }}>
         <Col>Evidences After: </Col>
       </Row>
-      <Row gutter={[2, 2]} className={styles.issue_image_row}>
+      <Row style={{ padding: '20px 0px' }} gutter={[8, 8]}>
         {item.evidencesAfter.length > 0 ? (
           item.evidencesAfter.map((image) => (
-            <Col key={image} span={8} className={styles.issue_image_container}>
-              <Image src={URL + image} width="90%" className={styles.issue_image} />
+            <Col key={image} className={styles.issue_image_container}>
+              <Image src={URL + image} className={styles.issue_image} />
             </Col>
           ))
         ) : (

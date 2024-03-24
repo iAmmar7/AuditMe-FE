@@ -27,3 +27,7 @@ export function getAuditReports(filters) {
 export function getInitiativeReports(filters) {
   return apiClient.post('/user/initiative-reports', filters);
 }
+
+export function deleteReportImage(filters) {
+  return apiClient.patch('/user/delete-image', filters);
+}

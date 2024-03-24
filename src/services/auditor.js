@@ -1,7 +1,6 @@
 import { apiClient } from './apiClient';
 
-export function raiseIssue(data, fileList) {
-  console.log('raiseIssue', data);
+export function submitAuditReport(data, fileList) {
   const formData = new FormData();
   Object.keys(data).forEach((item) => {
     // Don't append images
@@ -15,7 +14,22 @@ export function raiseIssue(data, fileList) {
   return apiClient.post('/auditor/report', formData);
 }
 
-export function raiseInitiative(data, { evidenceBeforeFileList, evidenceAfterFileList }) {
+export function editAuditReport(data, { id, evidenceBeforeFileList }) {
+  console.log('editAuditReport', data);
+  const formData = new FormData();
+  Object.keys(data).forEach((value) => {
+    // Don't append images
+    if (value !== 'evidencesBefore') formData.append(value, data[value]);
+  });
+
+  for (let i = 0; i < evidenceBeforeFileList.length; i += 1) {
+    formData.append('evidencesBefore', evidenceBeforeFileList[i]);
+  }
+
+  return apiClient.patch(`/auditor/report/${id}`, formData);
+}
+
+export function submitInitiative(data, { evidenceBeforeFileList, evidenceAfterFileList }) {
   const formData = new FormData();
 
   Object.keys(data).forEach((item) => {

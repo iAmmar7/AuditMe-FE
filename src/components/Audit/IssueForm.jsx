@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import { DeleteTwoTone, QuestionCircleOutlined, UploadOutlined } from '@ant-design/icons';
 import ProForm, {
   ProFormDatePicker,
@@ -7,20 +6,29 @@ import ProForm, {
   ProFormTextArea,
 } from '@ant-design/pro-form';
 import { Button, Col, Divider, Image, message, Row, Tag, Tooltip, Typography, Upload } from 'antd';
-import axios from 'axios';
 import moment from 'moment';
 import { useEffect, useRef, useState } from 'react';
 
+import { useAppContext } from '@/contexts/AppContext';
+import { deleteReportImage, editAuditReport, updateAuditReport } from '@/services';
+import {
+  issuePriorityOptions,
+  issueStatusOptions,
+  issueTypeOptions,
+  regionSelectOptions,
+} from '@/utils/constants';
 import styles from './Audit.less';
 
 const URL = process.env.SERVER_URL;
 
-function IssueForm({ item, tableRef, setFormDisabled }) {
+function IssueForm(props) {
+  const { item, tableRef, setFormDisabled, stationManagers } = props;
   const formRef = useRef(null);
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState(item.status);
   const [evidenceBeforeFileList, setEvidenceBeforeFileList] = useState([]);
   const [evidenceAfterFileList, setEvidenceAfterFileList] = useState([]);
+  const { user } = useAppContext();
 
   useEffect(() => {
     if (formRef.current) {
@@ -36,22 +44,8 @@ function IssueForm({ item, tableRef, setFormDisabled }) {
   const updateFormByAuditor = async (values) => {
     setLoading(true);
 
-    const formData = new FormData();
-    Object.keys(values).forEach((value) => {
-      // Don't append images
-      if (value !== 'evidencesBefore') formData.append(value, values[value]);
-    });
-
-    for (let i = 0; i < evidenceBeforeFileList.length; i += 1) {
-      formData.append('evidencesBefore', evidenceBeforeFileList[i]);
-    }
-
     // Send axios request
-    axios
-      // eslint-disable-next-line no-underscore-dangle
-      .post(`${URL}/api/auditor/update-issue/${item._id}`, formData, {
-        headers: { Authorization: localStorage.userToken },
-      })
+    editAuditReport(values, { id: item._id, evidenceBeforeFileList })
       .then((res) => {
         setLoading(false);
         setFormDisabled(true);
@@ -66,36 +60,11 @@ function IssueForm({ item, tableRef, setFormDisabled }) {
       });
   };
 
-  const updateFormByRM = async (values) => {
+  const updateFormBySM = async (values) => {
     setLoading(true);
 
-    const formData = new FormData();
-    Object.keys(values).forEach((value) => {
-      // Don't append images
-      if (value !== 'evidencesAfter') formData.append(value, values[value]);
-    });
-
-    for (let i = 0; i < evidenceAfterFileList.length; i += 1) {
-      formData.append('evidencesAfter', evidenceAfterFileList[i]);
-    }
-
-    // Set api endpoint according to the logged in user
-    let apiURL;
-    if (JSON.parse(localStorage.user).role === 'rm') {
-      // eslint-disable-next-line no-underscore-dangle
-      apiURL = `${URL}/api/rm/update-issue/${item._id}`;
-    }
-
-    if (JSON.parse(localStorage.user).role === 'am') {
-      // eslint-disable-next-line no-underscore-dangle
-      apiURL = `${URL}/api/am/update-issue/${item._id}`;
-    }
-
     // Send axios request
-    axios
-      .post(apiURL, formData, {
-        headers: { Authorization: localStorage.userToken },
-      })
+    updateAuditReport(values, { id: item._id, evidenceAfterFileList })
       .then((res) => {
         setLoading(false);
         setFormDisabled(true);
@@ -112,19 +81,7 @@ function IssueForm({ item, tableRef, setFormDisabled }) {
 
   const deleteImage = async (requestType, imageType, image) => {
     setLoading(true);
-    axios
-      .post(
-        `${URL}/api/user/delete-image`,
-        {
-          id: item._id,
-          requestType,
-          imageType,
-          url: image,
-        },
-        {
-          headers: { Authorization: localStorage.userToken },
-        },
-      )
+    deleteReportImage({ id: item._id, requestType, imageType, url: image })
       .then(() => {
         setLoading(false);
         tableRef.current.reload();
@@ -143,30 +100,20 @@ function IssueForm({ item, tableRef, setFormDisabled }) {
           Date:{' '}
           <Typography.Text strong>{moment(item.date).format('Do MMMM, YYYY')}</Typography.Text>
         </Col>
-        <Col col={8} style={{ marginRight: '15px' }}>
-          Week: <Typography.Text strong>{item.week ? item.week : 'N/A'}</Typography.Text>
-        </Col>
         <Col col={8}>
           Region:{' '}
           <Tag>
-            <Typography.Text strong>{item.region ? item.region : 'N/A'}</Typography.Text>
+            <Typography.Text strong>{item.region ?? 'N/A'}</Typography.Text>
           </Tag>
         </Col>
       </Row>
       <Row style={{ marginTop: '15px' }}>
         <Col col={8} style={{ marginRight: '15px' }}>
           Business Excellence Team:{' '}
-          <Typography.Text strong>{item.userName ? item.userName : 'N/A'}</Typography.Text>
+          <Typography.Text strong>{item.auditor ?? 'N/A'}</Typography.Text>
         </Col>
         <Col col={8} style={{ marginRight: '15px' }}>
-          Area Manager:{' '}
-          <Typography.Text strong>{item.areaManager ? item.areaManager : 'N/A'}</Typography.Text>
-        </Col>
-        <Col col={8}>
-          Regional Manager:{' '}
-          <Typography.Text strong>
-            {item.regionalManager ? item.regionalManager : 'N/A'}
-          </Typography.Text>
+          Station Manager: <Typography.Text strong>{item.stationManager ?? 'N/A'}</Typography.Text>
         </Col>
       </Row>
       <Row style={{ marginTop: '15px' }}>
@@ -182,8 +129,7 @@ function IssueForm({ item, tableRef, setFormDisabled }) {
       </Row>
       <Row style={{ marginTop: '15px' }}>
         <Col col={24}>
-          Issue Details:{' '}
-          <Typography.Text strong>{item.issueDetails ? item.issueDetails : 'N/A'}</Typography.Text>
+          Issue Details: <Typography.Text strong>{item.details ?? 'N/A'}</Typography.Text>
         </Col>
       </Row>
       <Row style={{ marginTop: '15px' }}>
@@ -194,22 +140,19 @@ function IssueForm({ item, tableRef, setFormDisabled }) {
           </Typography.Text>
         </Col>
         <Col col={12}>
-          Station/BE#:{' '}
-          <Typography.Text strong>
-            {item.stationNumber ? item.stationNumber : 'N/A'}
-          </Typography.Text>
+          Station/City: <Typography.Text strong>{item.station ?? 'N/A'}</Typography.Text>
         </Col>
       </Row>
 
       {/* Evidences Before */}
-      <Row style={{ marginBottom: '5px', marginTop: '15px' }}>
+      <Row>
         <Col>Evidences Before: </Col>
       </Row>
-      <Row gutter={[2, 2]}>
+      <Row style={{ padding: '20px 0px' }} gutter={[8, 8]}>
         {item.evidencesBefore.length > 0 ? (
           item.evidencesBefore.map((image) => (
-            <Col key={image} span={8} className={styles.issue_image_container}>
-              <Image src={URL + image} width="90%" className={styles.issue_image} />
+            <Col key={image} className={styles.issue_image_container}>
+              <Image src={URL + image} className={styles.issue_image} />
             </Col>
           ))
         ) : (
@@ -221,10 +164,7 @@ function IssueForm({ item, tableRef, setFormDisabled }) {
     </>
   );
 
-  if (
-    JSON.parse(localStorage.user).role === 'auditor' ||
-    JSON.parse(localStorage.user).role === 'sm'
-  ) {
+  if (user?.role === 'auditor') {
     const evidencesProps = {
       name: 'evidencesBefore',
       listType: 'picture',
@@ -248,6 +188,7 @@ function IssueForm({ item, tableRef, setFormDisabled }) {
       <ProForm
         initialValues={{
           ...item,
+          stationManager: item.stationManagerId,
           priority: item.isPrioritized ? 'Priority' : 'Observation',
         }}
         submitter={{
@@ -255,7 +196,7 @@ function IssueForm({ item, tableRef, setFormDisabled }) {
             <Button
               type="primary"
               loading={loading}
-              disabled={!['auditor', 'sm'].includes(JSON.parse(localStorage.user).role)}
+              disabled={user?.role !== 'auditor'}
               onClick={() => props.form.submit()}
             >
               Submit
@@ -278,62 +219,39 @@ function IssueForm({ item, tableRef, setFormDisabled }) {
             name="region"
             label="Region"
             placeholder="Select region"
-            options={[
-              { value: 'Southern', label: 'Southern' },
-              { value: 'CR-East', label: 'CR-East' },
-              { value: 'CR-North', label: 'CR-North' },
-              { value: 'CR-South', label: 'CR-South' },
-              { value: 'ER-North', label: 'ER-North' },
-              { value: 'ER-South', label: 'ER-South' },
-              { value: 'WR-North', label: 'WR-North' },
-              { value: 'WR-South', label: 'WR-South' },
-            ]}
+            options={regionSelectOptions}
             rules={[{ required: true, message: 'Please select region!' }]}
+            style={{ width: '150px' }}
           />
-          <ProFormText
-            name="areaManager"
-            label="Area Manager"
-            placeholder="Enter area manager"
-            rules={[{ required: true, message: 'Please write area manager name!' }]}
-          />
-          <ProFormText
-            name="regionalManager"
-            label="Regional Manager"
-            placeholder="Enter regional manager"
-            rules={[{ required: true, message: 'Please write regional manager name!' }]}
+          <ProFormSelect
+            name="stationManager"
+            label="Station Manager"
+            placeholder="Select station manager"
+            options={stationManagers.map((sm) => ({ value: sm._id, label: sm.name }))}
+            rules={[{ required: true, message: 'Please select station manager name!' }]}
+            style={{ width: '250px' }}
           />
         </ProForm.Group>
         <ProForm.Group>
           <ProFormSelect
             name="type"
             label="Type"
-            placeholder="Select issue type....      ...."
-            options={[
-              { value: 'Customer Experience', label: 'Customer Experience' },
-              { value: 'Housekeeping', label: 'Housekeeping' },
-              { value: 'Customer Mistreatment', label: 'Customer Mistreatment' },
-              { value: 'Initiative', label: 'Initiative' },
-              { value: 'Admin Issues', label: 'Admin Issues' },
-              { value: 'Maintenance Issues', label: 'Maintenance Issues' },
-              { value: 'IT Issues', label: 'IT Issues' },
-              { value: 'Inventory Issues', label: 'Inventory Issues' },
-              { value: 'Violation', label: 'Violation' },
-              { value: 'Safety', label: 'Safety' },
-              { value: 'Others', label: 'Others' },
-            ]}
+            placeholder="Select issue type"
+            options={issueTypeOptions}
             rules={[{ required: true, message: 'Please select issue type!' }]}
+            style={{ width: '250px' }}
           />
           <ProFormText
-            name="stationNumber"
-            label="Station/BE#"
+            name="station"
+            label="Station/City"
             placeholder="Enter station"
             rules={[{ required: true, message: 'Please write station!' }]}
           />
         </ProForm.Group>
         <ProFormTextArea
-          width=" xl "
-          name="issueDetails"
-          label="Priority Issue Details"
+          width="xl"
+          name="details"
+          label="Audit Issue Details"
           placeholder="Add issue details"
           rules={[{ required: true, message: 'Please add details!' }]}
         />
@@ -350,10 +268,7 @@ function IssueForm({ item, tableRef, setFormDisabled }) {
             name="priority"
             label="Priority"
             placeholder="Select Priority"
-            options={[
-              { value: 'Observation', label: 'Observation' },
-              { value: 'Priority', label: 'Priority' },
-            ]}
+            options={issuePriorityOptions}
             rules={[{ required: true, message: 'Please select issue priority!' }]}
             disabled={item.isPrioritized}
           />
@@ -365,7 +280,7 @@ function IssueForm({ item, tableRef, setFormDisabled }) {
         <Upload {...evidencesProps}>
           <Button icon={<UploadOutlined />}>Select multiple images</Button>
         </Upload>
-        <Row style={{ margin: '15px 0px' }} gutter={[8, 8]}>
+        <Row style={{ padding: '20px 0px' }} gutter={[8, 8]}>
           {item?.evidencesBefore?.length > 0
             ? item?.evidencesBefore?.map((image) => (
                 <Col key={image} className={styles.issue_image_container}>
@@ -383,7 +298,7 @@ function IssueForm({ item, tableRef, setFormDisabled }) {
     );
   }
 
-  if (JSON.parse(localStorage.user).role === 'rm' || JSON.parse(localStorage.user).role === 'am') {
+  if (user?.role === 'sm') {
     const evidencesProps = {
       name: 'evidencesAfter',
       listType: 'picture',
@@ -419,10 +334,7 @@ function IssueForm({ item, tableRef, setFormDisabled }) {
                   <Button
                     type="primary"
                     loading={loading}
-                    disabled={
-                      JSON.parse(localStorage.user).role !== 'rm' &&
-                      JSON.parse(localStorage.user).role !== 'am'
-                    }
+                    disabled={user?.role !== 'sm'}
                     onClick={() => props.form.submit()}
                   >
                     Submit
@@ -430,7 +342,7 @@ function IssueForm({ item, tableRef, setFormDisabled }) {
                 </Row>
               ),
             }}
-            onFinish={updateFormByRM}
+            onFinish={updateFormBySM}
             onValuesChange={(_, values) => {
               if (values.status) {
                 setStatus(values.status);
@@ -460,7 +372,7 @@ function IssueForm({ item, tableRef, setFormDisabled }) {
             <Upload {...evidencesProps}>
               <Button icon={<UploadOutlined />}>Select multiple images</Button>
             </Upload>
-            <Row style={{ margin: '15px 0px' }} gutter={[8, 8]}>
+            <Row style={{ padding: '20px 0px' }} gutter={[8, 8]}>
               {item?.evidencesAfter?.length > 0
                 ? item?.evidencesAfter?.map((image) => (
                     <Col key={image} className={styles.issue_image_container}>
@@ -482,24 +394,12 @@ function IssueForm({ item, tableRef, setFormDisabled }) {
             />
             <ProForm.Group>
               <ProFormSelect
-                options={[
-                  {
-                    value: 'Pending',
-                    label: 'Pending',
-                  },
-                  {
-                    value: 'Resolved',
-                    label: 'Resolved',
-                  },
-                  {
-                    value: 'Maintenance',
-                    label: 'Maintenance',
-                  },
-                ]}
+                options={issueStatusOptions}
                 name="status"
                 label="Status"
                 placeholder="Select..."
                 rules={[{ required: true, message: 'Status is required!' }]}
+                style={{ width: '150px' }}
               />
               <ProFormDatePicker
                 disabled={status !== 'Resolved'}
@@ -509,16 +409,6 @@ function IssueForm({ item, tableRef, setFormDisabled }) {
                 placeholder="Select date"
                 tooltip="If status is resolved, date of closure is required"
                 rules={[{ required: status === 'Resolved', message: 'Please select date!' }]}
-              />
-              <ProFormText
-                disabled={status !== 'Maintenance'}
-                name="logNumber"
-                label="Log Number"
-                placeholder="Enter log number"
-                tooltip="If status is maintenance, log number is required"
-                rules={[
-                  { required: status === 'Maintenance', message: 'Please write log number!' },
-                ]}
               />
             </ProForm.Group>
           </ProForm>

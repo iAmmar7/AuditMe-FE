@@ -12,17 +12,26 @@ import {
   Tooltip,
   Typography,
 } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useAppContext } from '@/contexts/AppContext';
-import { deleteAuditReport } from '@/services';
+import { deleteAuditReport, getUserByRole } from '@/services';
 import IssueDetail from './IssueDetail';
 import IssueForm from './IssueForm';
 
 function AuditDetails({ item, tableRef }) {
   const [formDisabled, setFormDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [stationManagers, setStationManagers] = useState([]);
   const { user } = useAppContext();
+
+  useEffect(() => {
+    const fetch = async () => {
+      const sm = await getUserByRole('sm');
+      setStationManagers(sm.data.users);
+    };
+    fetch();
+  }, []);
 
   const deleteIssue = () => {
     setLoading(true);
@@ -79,8 +88,8 @@ function AuditDetails({ item, tableRef }) {
   }
 
   // if issue is pending
-  if (item.status === 'Pending') {
-    if (user.role === 'rm') {
+  if (item.status === 'Pending' || item.status === 'Maintenance') {
+    if (user.role === 'sm') {
       editButton = (
         <Row justify="center" align="end">
           <Col offset={1} style={{ paddingTop: '2px', marginRight: '4px' }}>
@@ -96,36 +105,7 @@ function AuditDetails({ item, tableRef }) {
           </Col>
         </Row>
       );
-    } else if (user.role === 'am' && !item?.isPrioritized) {
-      editButton = (
-        <Row justify="center" align="end">
-          <Col offset={1} style={{ paddingTop: '2px', marginRight: '4px' }}>
-            <Typography.Text>Update Status </Typography.Text>
-          </Col>
-          <Col>
-            <Switch
-              checkedChildren="Off"
-              unCheckedChildren="On"
-              checked={!formDisabled}
-              onClick={() => setFormDisabled(!formDisabled)}
-            />
-          </Col>
-        </Row>
-      );
-    } else if (user.role === 'am' && item?.isPrioritized) {
-      editButton = (
-        <Row justify="center" align="end">
-          <Col offset={1} style={{ paddingTop: '2px', marginRight: '4px' }}>
-            <Typography.Text>Update Status </Typography.Text>
-          </Col>
-          <Col>
-            <Tooltip title="Area managers can not update priority issues">
-              <Switch checkedChildren="Off" unCheckedChildren="On" checked={false} disabled />
-            </Tooltip>
-          </Col>
-        </Row>
-      );
-    } else if (item.userId.toString() === user._id.toString()) {
+    } else if (item.auditorId.toString() === user._id.toString()) {
       editButton = (
         <Row justify="center" align="end">
           <Col offset={1} style={{ paddingTop: '2px', marginRight: '4px' }}>
@@ -148,57 +128,7 @@ function AuditDetails({ item, tableRef }) {
             <Typography.Text>Edit issue </Typography.Text>
           </Col>
           <Col>
-            <Tooltip title={`Only ${item.userName} can edit this issue`}>
-              <Switch checkedChildren="Off" unCheckedChildren="On" checked={false} disabled />
-            </Tooltip>
-          </Col>
-        </Row>
-      );
-    }
-  }
-
-  // if issue is maitenance
-  if (item.status === 'Maintenance') {
-    if (user.role === 'rm') {
-      editButton = (
-        <Row justify="center" align="end">
-          <Col offset={1} style={{ paddingTop: '2px', marginRight: '4px' }}>
-            <Typography.Text>Update Status </Typography.Text>
-          </Col>
-          <Col>
-            <Switch
-              checkedChildren="Off"
-              unCheckedChildren="On"
-              checked={!formDisabled}
-              onClick={() => setFormDisabled(!formDisabled)}
-            />
-          </Col>
-        </Row>
-      );
-    } else if (user.role === 'am' && !item?.isPrioritized) {
-      editButton = (
-        <Row justify="center" align="end">
-          <Col offset={1} style={{ paddingTop: '2px', marginRight: '4px' }}>
-            <Typography.Text>Update Status </Typography.Text>
-          </Col>
-          <Col>
-            <Switch
-              checkedChildren="Off"
-              unCheckedChildren="On"
-              checked={!formDisabled}
-              onClick={() => setFormDisabled(!formDisabled)}
-            />
-          </Col>
-        </Row>
-      );
-    } else {
-      editButton = (
-        <Row justify="center" align="end">
-          <Col offset={1} style={{ paddingTop: '2px', marginRight: '4px' }}>
-            <Typography.Text>Update issue </Typography.Text>
-          </Col>
-          <Col>
-            <Tooltip title={`Only ${item.resolvedByName} can update this issue now`}>
+            <Tooltip title={`Only ${item.auditor} can edit this issue`}>
               <Switch checkedChildren="Off" unCheckedChildren="On" checked={false} disabled />
             </Tooltip>
           </Col>
@@ -226,7 +156,12 @@ function AuditDetails({ item, tableRef }) {
   let content = formDisabled ? (
     <IssueDetail item={item} />
   ) : (
-    <IssueForm item={item} tableRef={tableRef} setFormDisabled={setFormDisabled} />
+    <IssueForm
+      item={item}
+      tableRef={tableRef}
+      setFormDisabled={setFormDisabled}
+      stationManagers={stationManagers}
+    />
   );
 
   if (loading) {

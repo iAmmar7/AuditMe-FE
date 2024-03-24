@@ -63,19 +63,17 @@ const AuditReports = () => {
         key: result.data.reports[i]._id,
         id: result.data.reports[i].id,
         date: moment(result.data.reports[i].date).format('DD-MMM-YY'),
-        user: result.data.reports[i].userName,
+        auditor: result.data.reports[i].auditor,
         status,
         type: result.data.reports[i].type,
         region: result.data.reports[i].region,
-        regionalManager: result.data.reports[i].regionalManager,
-        areaManager: result.data.reports[i].areaManager,
+        stationManager: result.data.reports[i].stationManager,
         dateIdentified: moment(result.data.reports[i].dateIdentified).format('DD-MMM-YY'),
-        stationNumber: result.data.reports[i].stationNumber,
+        station: result.data.reports[i].station,
         daysOpen:
           result.data.reports[i].status === 'Resolved' ? null : result.data.reports[i].daysOpen,
         daysResolved:
           result.data.reports[i].status === 'Resolved' ? result.data.reports[i].daysOpen : null,
-        logNumber: result.data.reports[i].logNumber,
       });
     }
 
@@ -87,9 +85,9 @@ const AuditReports = () => {
   };
 
   const expandedRowRender = (item) => {
-    const filteredItem = allData.filter((data) => item.key === data._id);
+    const filteredItem = allData.find((data) => item.key === data._id);
 
-    return <AuditDetails item={filteredItem[0]} tableRef={tableRef} />;
+    return <AuditDetails item={filteredItem} tableRef={tableRef} />;
   };
 
   return (

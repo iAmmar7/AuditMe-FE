@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { history } from 'umi';
 
 import { useAppContext } from '@/contexts/AppContext';
-import { getUserByRole, raiseInitiative } from '@/services';
+import { getUserByRole, submitInitiative } from '@/services';
 import InitiativeForm from '../../components/Initiatives/InitiativeForm';
 
 const InitiativeFormPage = () => {
@@ -25,7 +25,7 @@ const InitiativeFormPage = () => {
   const submitForm = async (values) => {
     setLoading(true);
 
-    raiseInitiative(values, { evidenceBeforeFileList, evidenceAfterFileList })
+    submitInitiative(values, { evidenceBeforeFileList, evidenceAfterFileList })
       .then((res) => {
         setLoading(false);
         if (res.data.success) {
