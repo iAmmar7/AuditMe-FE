@@ -42,15 +42,13 @@ function AuditForm(props) {
     <ProForm
       form={form}
       initialValues={{
-        // region: 'CR-North',
-        // areaManager: 'John Doe AM',
-        // regionalManager: 'John Doe RM',
-        // processSpecialist: 'John Doe PS',
-        // stationNumber: 'Test123',
-        // issueDetails: 'Test details',
-        // type: 'Initiative',
-        // dateIdentified: '2023-03-19',
-        // date: '2023-03-23',
+        date: '2023-03-24',
+        region: 'CR-North',
+        type: 'Initiative',
+        station: 'Berlin',
+        details:
+          'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.',
+        dateIdentified: '2023-03-19',
         priority: 'Priority',
       }}
       submitter={{
@@ -139,7 +137,7 @@ function AuditForm(props) {
       </ProForm.Group>
       <ProFormTextArea
         width="xl"
-        name="issueDetails"
+        name="details"
         label="Audit Issue Details"
         placeholder="Add issue details"
         rules={[{ required: true, message: 'Please write issue details!' }]}

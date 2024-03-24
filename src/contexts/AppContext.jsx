@@ -10,7 +10,6 @@ export const AppProvider = ({ children }) => {
   useEffect(() => {
     const fetchUser = async () => {
       const userData = await getCurrentUser();
-      console.log('userData', userData);
       setUser(userData.data.user);
     };
     const tokenFromStorage = localStorage.getItem('userToken');

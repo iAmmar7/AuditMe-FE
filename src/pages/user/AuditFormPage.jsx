@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { history } from 'umi';
 
 import { useAppContext } from '@/contexts/AppContext';
-import { getUserByRole, raiseIssue } from '@/services/user';
+import { getUserByRole, raiseIssue } from '@/services';
 import AuditForm from '../../components/Audit/AuditForm';
 
 const PrioritiesForm = () => {
@@ -28,8 +28,7 @@ const PrioritiesForm = () => {
       .then((res) => {
         if (res.data.success) {
           message.success('Issue has been successfully published!');
-          if (res?.data?.report?.isPrioritized) history.push('/user/reports/priorities-reports');
-          else history.push('/user/reports/observation-reports');
+          history.push('/user/reports/audit-reports');
         }
       })
       .catch(() => {

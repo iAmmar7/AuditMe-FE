@@ -1,6 +1,7 @@
 import { apiClient } from './apiClient';
 
 export function raiseIssue(data, fileList) {
+  console.log('raiseIssue', data);
   const formData = new FormData();
   Object.keys(data).forEach((item) => {
     // Don't append images
@@ -11,7 +12,7 @@ export function raiseIssue(data, fileList) {
     formData.append('evidences', fileList[i]);
   }
 
-  return apiClient.post('/audit/report', formData);
+  return apiClient.post('/auditor/report', formData);
 }
 
 export function raiseInitiative(data, { evidenceBeforeFileList, evidenceAfterFileList }) {
@@ -30,5 +31,5 @@ export function raiseInitiative(data, { evidenceBeforeFileList, evidenceAfterFil
     formData.append('evidencesAfter', evidenceAfterFileList[i]);
   }
 
-  return apiClient.post('/audit/initiative', formData);
+  return apiClient.post('/auditor/initiative', formData);
 }

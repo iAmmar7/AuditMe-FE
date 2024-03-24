@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { message } from 'antd';
 import moment from 'moment';
