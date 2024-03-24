@@ -47,7 +47,7 @@ const PrioritiesForm = () => {
         'You have signed up as viewer, you cannot submit an issue. Please sign up as auditor in order to raise an issue.',
     };
 
-    let messageText = roleMessages[user.role];
+    let messageText = roleMessages[user?.role];
 
     return (
       messageText && (

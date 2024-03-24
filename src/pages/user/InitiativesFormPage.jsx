@@ -7,8 +7,6 @@ import { useAppContext } from '@/contexts/AppContext';
 import { getUserByRole, raiseInitiative } from '@/services/user';
 import InitiativeForm from '../../components/Initiatives/InitiativeForm';
 
-const URL = process.env.SERVER_URL;
-
 const InitiativesForm = () => {
   const [loading, setLoading] = useState(false);
   const [evidenceBeforeFileList, setEvidenceBeforeFileList] = useState([]);
@@ -43,13 +41,12 @@ const InitiativesForm = () => {
 
   const alertMessage = () => {
     const roleMessages = {
-      rm: 'You have signed up as regional manager, you can not submit an initiative. Please signup as auditor or station manager in order to submit an initiative.',
-      am: 'You have signed up as area manager, you can not submit an initiative. Please signup as auditor or station manager in order to submit an initiative.',
+      sm: 'You have signed up as station manager, you can not submit an initiative. Please signup as auditor in order to submit an initiative.',
       viewer:
-        'You have signed up as viewer, you can not submit an initiative. Please signup as auditor or station manager in order to submit an initiative.',
+        'You have signed up as viewer, you can not submit an initiative. Please signup as auditor in order to submit an initiative.',
     };
 
-    let messageText = roleMessages[user.role];
+    let messageText = roleMessages[user?.role];
 
     return (
       messageText && (
