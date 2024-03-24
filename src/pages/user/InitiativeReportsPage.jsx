@@ -10,8 +10,6 @@ import InitiativeTable from '../../components/Initiatives/InitiativeTable';
 
 moment.locale('en');
 
-const URL = process.env.SERVER_URL;
-
 let allData = [];
 const InitiativeReportsPage = () => {
   const tableRef = useRef(null);
