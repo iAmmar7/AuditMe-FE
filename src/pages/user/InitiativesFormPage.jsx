@@ -13,19 +13,13 @@ const InitiativesForm = () => {
   const [loading, setLoading] = useState(false);
   const [evidenceBeforeFileList, setEvidenceBeforeFileList] = useState([]);
   const [evidenceAfterFileList, setEvidenceAfterFileList] = useState([]);
-  const [managers, setManagers] = useState({ am: [], rm: [] });
+  const [stationMangers, setStationMangers] = useState([]);
   const { user } = useAppContext();
 
   useEffect(() => {
     const fetch = async () => {
-      const [areaManagers, regManagers] = await Promise.all([
-        getUserByRole('am'),
-        getUserByRole('rm'),
-      ]);
-      setManagers({
-        am: areaManagers.data.users,
-        rm: regManagers.data.users,
-      });
+      const sm = await getUserByRole('sm');
+      setStationMangers(sm.data.users);
     };
     fetch();
   }, []);
@@ -49,10 +43,8 @@ const InitiativesForm = () => {
 
   const alertMessage = () => {
     const roleMessages = {
-      rm:
-        'You have signed up as regional manager, you can not submit an initiative. Please signup as auditor or station manager in order to submit an initiative.',
-      am:
-        'You have signed up as area manager, you can not submit an initiative. Please signup as auditor or station manager in order to submit an initiative.',
+      rm: 'You have signed up as regional manager, you can not submit an initiative. Please signup as auditor or station manager in order to submit an initiative.',
+      am: 'You have signed up as area manager, you can not submit an initiative. Please signup as auditor or station manager in order to submit an initiative.',
       viewer:
         'You have signed up as viewer, you can not submit an initiative. Please signup as auditor or station manager in order to submit an initiative.',
     };
@@ -84,7 +76,7 @@ const InitiativesForm = () => {
           setEvidenceBeforeFileList={setEvidenceBeforeFileList}
           evidenceAfterFileList={evidenceAfterFileList}
           setEvidenceAfterFileList={setEvidenceAfterFileList}
-          managers={managers}
+          stationMangers={stationMangers}
         />
       </Card>
     </PageHeaderWrapper>

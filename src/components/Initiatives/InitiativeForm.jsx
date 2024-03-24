@@ -1,5 +1,5 @@
 import { useAppContext } from '@/contexts/AppContext';
-import { regionSelectOptions } from '@/utils/constants';
+import { issueTypeOptions, regionSelectOptions } from '@/utils/constants';
 import { QuestionCircleOutlined, UploadOutlined } from '@ant-design/icons';
 import ProForm, {
   ProFormDatePicker,
@@ -14,7 +14,7 @@ function InitiativeForm(props) {
   const {
     loading,
     submitForm,
-    managers,
+    stationMangers,
     evidenceBeforeFileList,
     setEvidenceBeforeFileList,
     evidenceAfterFileList,
@@ -124,19 +124,11 @@ function InitiativeForm(props) {
           style={{ width: '150px' }}
         />
         <ProFormSelect
-          name="areaManager"
-          label="Area Manager"
-          placeholder="Select area manager"
-          options={managers.am.map((user) => ({ value: user.name, label: user.name }))}
-          rules={[{ required: true, message: 'Please select area manager name!' }]}
-          style={{ width: '250px' }}
-        />
-        <ProFormSelect
-          name="regionalManager"
-          label="Regional Manager"
-          placeholder="Select regional manager"
-          options={managers.rm.map((user) => ({ value: user.name, label: user.name }))}
-          rules={[{ required: true, message: 'Please select regional manager name!' }]}
+          name="stationManager"
+          label="Station Manager"
+          placeholder="Select station manager"
+          options={stationMangers.map((user) => ({ value: user._id, label: user.name }))}
+          rules={[{ required: true, message: 'Please select station manager name!' }]}
           style={{ width: '250px' }}
         />
       </ProForm.Group>
@@ -144,31 +136,20 @@ function InitiativeForm(props) {
         <ProFormSelect
           name="type"
           label="Type"
-          placeholder="Select issue type....      ...."
-          options={[
-            { value: 'Customer Experience', label: 'Customer Experience' },
-            { value: 'Housekeeping', label: 'Housekeeping' },
-            { value: 'Customer Mistreatment', label: 'Customer Mistreatment' },
-            { value: 'Initiative', label: 'Initiative' },
-            { value: 'Admin Issues', label: 'Admin Issues' },
-            { value: 'Maintenance Issues', label: 'Maintenance Issues' },
-            { value: 'IT Issues', label: 'IT Issues' },
-            { value: 'Inventory Issues', label: 'Inventory Issues' },
-            { value: 'Violation', label: 'Violation' },
-            { value: 'Safety', label: 'Safety' },
-            { value: 'Others', label: 'Others' },
-          ]}
+          placeholder="Select issue type"
+          options={issueTypeOptions}
           rules={[{ required: true, message: 'Please select issue type!' }]}
+          style={{ width: '250px' }}
         />
         <ProFormText
-          name="stationNumber"
-          label="Station/BE#"
-          placeholder="Enter station"
+          name="station"
+          label="City/Station"
+          placeholder="Enter city/station"
           rules={[{ required: true, message: 'Please write station!' }]}
         />
       </ProForm.Group>
       <ProFormTextArea
-        width=" xl "
+        width="xl"
         name="details"
         label="Initiatives / Improvements / Action Taken"
         placeholder="Add initiative details"

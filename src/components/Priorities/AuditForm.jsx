@@ -11,12 +11,12 @@ import { FooterToolbar } from '@ant-design/pro-layout';
 import { Button, Form, message, Tooltip, Typography, Upload } from 'antd';
 import moment from 'moment';
 
-function PriorityForm(props) {
+function AuditForm(props) {
   const { user } = useAppContext();
   const [form] = Form.useForm();
   // const [disabled, setDisabled] = useState([]);
 
-  const { loading, managers, submitForm, evidenceFileList, setEvidenceFileList } = props;
+  const { loading, stationManagers, submitForm, evidenceFileList, setEvidenceFileList } = props;
 
   const evidencesProps = {
     name: 'evidences',
@@ -60,7 +60,7 @@ function PriorityForm(props) {
               <Button
                 type="secondary"
                 loading={loading}
-                disabled={!['auditor', 'sm'].includes(user.role)}
+                disabled={user.role !== 'auditor'}
                 onClick={() => submitProps?.form?.resetFields()}
               >
                 Reset
@@ -68,7 +68,7 @@ function PriorityForm(props) {
               <Button
                 type="primary"
                 loading={loading}
-                disabled={!['auditor', 'sm'].includes(user.role)}
+                disabled={user.role !== 'auditor'}
                 onClick={() => submitProps?.form?.submit()}
               >
                 Submit
@@ -113,19 +113,11 @@ function PriorityForm(props) {
           style={{ width: '150px' }}
         />
         <ProFormSelect
-          name="areaManager"
-          label="Area Manager"
-          placeholder="Select area manager"
-          options={managers.am.map((user) => ({ value: user.name, label: user.name }))}
-          rules={[{ required: true, message: 'Please select area manager name!' }]}
-          style={{ width: '250px' }}
-        />
-        <ProFormSelect
-          name="regionalManager"
-          label="Regional Manager"
-          placeholder="Select regional manager"
-          options={managers.rm.map((user) => ({ value: user.name, label: user.name }))}
-          rules={[{ required: true, message: 'Please select regional manager name!' }]}
+          name="stationManager"
+          label="Station Manager"
+          placeholder="Select station manager"
+          options={stationManagers.map((user) => ({ value: user._id, label: user.name }))}
+          rules={[{ required: true, message: 'Please select station manager name!' }]}
           style={{ width: '250px' }}
         />
       </ProForm.Group>
@@ -139,16 +131,16 @@ function PriorityForm(props) {
           style={{ width: '250px' }}
         />
         <ProFormText
-          name="stationNumber"
-          label="Station/BE#"
-          placeholder="Enter station"
+          name="station"
+          label="City/Station"
+          placeholder="Enter city/station"
           rules={[{ required: true, message: 'Please write station!' }]}
         />
       </ProForm.Group>
       <ProFormTextArea
-        width=" xl "
+        width="xl"
         name="issueDetails"
-        label="Priority Issue Details"
+        label="Audit Issue Details"
         placeholder="Add issue details"
         rules={[{ required: true, message: 'Please write issue details!' }]}
       />
@@ -165,7 +157,6 @@ function PriorityForm(props) {
           name="priority"
           label="Priority"
           placeholder="Select Priority"
-          // disabled={disabled.includes('priority')}
           disabled
           options={issuePriorityOptions}
           rules={[{ required: true, message: 'Please select issue priority!' }]}
@@ -182,4 +173,4 @@ function PriorityForm(props) {
   );
 }
 
-export default PriorityForm;
+export default AuditForm;

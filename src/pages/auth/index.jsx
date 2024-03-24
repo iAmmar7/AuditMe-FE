@@ -46,9 +46,7 @@ const Auth = () => {
           if (res.data.success) {
             setUser(res.data.user);
             setToken(res.data.token);
-            localStorage.setItem('userType', res.data.user.role);
             localStorage.setItem('userToken', res.data.token);
-            localStorage.setItem('user', JSON.stringify(res.data.user));
             message.success('Login successful');
             history.push('/user/');
           }
@@ -67,7 +65,6 @@ const Auth = () => {
         .signup(values)
         .then((res) => {
           if (res.data.success) {
-            localStorage.setItem('userType', values.userType);
             message.success('SignUp successful');
             setResponse({
               ...response,

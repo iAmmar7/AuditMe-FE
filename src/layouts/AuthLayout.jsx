@@ -1,15 +1,17 @@
-import { footerText } from '@/utils/constants';
+import { footerText, tagLine } from '@/utils/constants';
 import jwt_decode from 'jwt-decode';
 import { connect, Link, Redirect } from 'umi';
 
-// import logo from '../assets/logo.svg';
+import { useAppContext } from '@/contexts/AppContext';
 import styles from './AuthLayout.less';
 
 const AuthLayout = ({ children }) => {
+  const { token } = useAppContext();
+
   // Check for Token
-  if (localStorage.userToken) {
+  if (token) {
     // Decode token and get user info and expression
-    const decoded = jwt_decode(localStorage.userToken);
+    const decoded = jwt_decode(token);
     // Check for expired token
     const currentTime = Date.now() / 1000;
     if (decoded.exp > currentTime) {
@@ -27,7 +29,7 @@ const AuthLayout = ({ children }) => {
               <img alt="logo" className={styles.logo} src="/AuditRail_LOGO.png" />
             </Link>
           </div>
-          <div className={styles.desc}>Ensuring Excellence, One Station at a Time</div>
+          <div className={styles.desc}>{tagLine}</div>
         </div>
         {children}
       </div>

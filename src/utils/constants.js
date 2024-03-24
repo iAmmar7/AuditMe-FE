@@ -1,12 +1,13 @@
 export const rolesDescription = {
   auditor: 'Auditor',
-  rm: 'Regional Manager',
-  am: 'Area Manager',
   sm: 'Station Manager',
   viewer: 'Viewer',
+  admin: 'Admin',
 };
 
 export const footerText = `Copyright \u00A9 ${new Date().getFullYear()} Audit Automation || Shifali x Ammar`;
+
+export const tagLine = 'Ensuring Excellence, One Station at a Time';
 
 export const regionSelectOptions = [
   { value: 'Southern', label: 'Southern' },

@@ -5,24 +5,18 @@ import { history } from 'umi';
 
 import { useAppContext } from '@/contexts/AppContext';
 import { getUserByRole, raiseIssue } from '@/services/user';
-import PriorityForm from '../../components/Priorities/PriorityForm';
+import AuditForm from '../../components/Priorities/AuditForm';
 
 const PrioritiesForm = () => {
   const [loading, setLoading] = useState(false);
   const [evidenceFileList, setEvidenceFileList] = useState([]);
-  const [managers, setManagers] = useState({ am: [], rm: [] });
+  const [stationManagers, setStationManagers] = useState([]);
   const { user } = useAppContext();
 
   useEffect(() => {
     const fetch = async () => {
-      const [areaManagers, regManagers] = await Promise.all([
-        getUserByRole('am'),
-        getUserByRole('rm'),
-      ]);
-      setManagers({
-        am: areaManagers.data.users,
-        rm: regManagers.data.users,
-      });
+      const sm = await getUserByRole('sm');
+      setStationManagers(sm.data.users);
     };
     fetch();
   }, []);
@@ -48,12 +42,9 @@ const PrioritiesForm = () => {
 
   const alertMessage = () => {
     const roleMessages = {
-      rm:
-        'You have signed up as regional manager, you cannot submit an issue. Please sign up as auditor or station manager in order to raise an issue.',
-      am:
-        'You have signed up as area manager, you cannot submit an issue. Please sign up as auditor or station manager in order to raise an issue.',
+      sm: 'You have signed up as station manager, you cannot submit an issue. Please sign up as auditor in order to raise an issue.',
       viewer:
-        'You have signed up as viewer, you cannot submit an issue. Please sign up as auditor or station manager, in order to raise an issue.',
+        'You have signed up as viewer, you cannot submit an issue. Please sign up as auditor in order to raise an issue.',
     };
 
     let messageText = roleMessages[user.role];
@@ -76,12 +67,12 @@ const PrioritiesForm = () => {
     <PageHeaderWrapper content="Raise an issue here by completing the form below">
       {alertMessage()}
       <Card>
-        <PriorityForm
+        <AuditForm
           loading={loading}
           submitForm={submitForm}
           evidenceFileList={evidenceFileList}
           setEvidenceFileList={setEvidenceFileList}
-          managers={managers}
+          stationManagers={stationManagers}
         />
       </Card>
     </PageHeaderWrapper>

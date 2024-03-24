@@ -52,7 +52,6 @@ const BasicLayout = (props) => {
   const logoutUser = () => {
     setUser(null);
     setToken(null);
-    localStorage.removeItem('user');
     localStorage.removeItem('userToken');
     message.success('Logout successfully');
     history.push('/auth');
@@ -70,7 +69,7 @@ const BasicLayout = (props) => {
       }}
       menuDataRender={(routes) => {
         const newRoutes = [...routes];
-        if (user.isAdmin) newRoutes[4].hideInMenu = false;
+        if (user?.role === 'admin') newRoutes[4].hideInMenu = false;
 
         return newRoutes;
       }}
@@ -127,11 +126,11 @@ const BasicLayout = (props) => {
                 size="small"
                 style={{ backgroundColor: ColorList[Math.floor(Math.random() * 4)] }}
               >
-                {user.name.charAt(0)}
+                {user?.name?.charAt(0)}
               </Avatar>
             </Col>
             <Col>
-              <Typography.Text>{user.name}</Typography.Text>
+              <Typography.Text>{user?.name}</Typography.Text>
             </Col>
           </Row>
         </Dropdown>

@@ -1,3 +1,4 @@
+import { getCurrentUser } from '@/services/user';
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 
 const AppContext = createContext();
@@ -7,14 +8,15 @@ export const AppProvider = ({ children }) => {
   const [token, setToken] = useState(null);
 
   useEffect(() => {
-    const userFromStorage = localStorage.getItem('user');
-    if (userFromStorage) {
-      setUser(JSON.parse(userFromStorage));
-    }
-
+    const fetchUser = async () => {
+      const userData = await getCurrentUser();
+      console.log('userData', userData);
+      setUser(userData.data.user);
+    };
     const tokenFromStorage = localStorage.getItem('userToken');
     if (tokenFromStorage) {
       setToken(tokenFromStorage);
+      fetchUser();
     }
   }, []);
 
