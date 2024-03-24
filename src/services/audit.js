@@ -1,6 +1,4 @@
-import axios from 'axios';
-
-const URL = process.env.SERVER_URL;
+import { apiClient } from './apiClient';
 
 export function raiseIssue(data, fileList) {
   const formData = new FormData();
@@ -13,9 +11,7 @@ export function raiseIssue(data, fileList) {
     formData.append('evidences', fileList[i]);
   }
 
-  return axios.post(`${URL}/api/auditor/report`, formData, {
-    headers: { Authorization: localStorage.userToken },
-  });
+  return apiClient.post('/audit/report', formData);
 }
 
 export function raiseInitiative(data, { evidenceBeforeFileList, evidenceAfterFileList }) {
@@ -34,7 +30,5 @@ export function raiseInitiative(data, { evidenceBeforeFileList, evidenceAfterFil
     formData.append('evidencesAfter', evidenceAfterFileList[i]);
   }
 
-  return axios.post(`${URL}/api/auditor/initiative`, formData, {
-    headers: { Authorization: localStorage.userToken },
-  });
+  return apiClient.post('/audit/initiative', formData);
 }

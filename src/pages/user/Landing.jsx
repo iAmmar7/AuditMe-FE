@@ -1,18 +1,16 @@
-import React, { useEffect, useState } from 'react';
 import {
   CheckCircleOutlined,
-  StockOutlined,
   CloseCircleOutlined,
   PauseCircleOutlined,
+  StockOutlined,
 } from '@ant-design/icons';
-import { Card, Typography, Select, Row, Col, Spin, Statistic } from 'antd';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
+import { Card, Col, Row, Select, Spin, Statistic, Typography } from 'antd';
 import moment from 'moment';
-import axios from 'axios';
+import { useCallback, useEffect, useState } from 'react';
 
+import { getReportChart } from '@/services';
 import RegionChart from '../../components/Charts/RegionChart';
-
-const URL = process.env.SERVER_URL;
 
 moment.locale('en');
 const monthsList = [
@@ -34,11 +32,8 @@ const Landing = () => {
     count: 0,
   });
 
-  const getStats = (query) => {
-    axios
-      .get(`${URL}/api/user/report-chart?month=${query}`, {
-        headers: { Authorization: localStorage.userToken },
-      })
+  const getStats = useCallback((query) => {
+    getReportChart()
       .then((res) => {
         if (res.data.success) {
           setData({
@@ -48,10 +43,10 @@ const Landing = () => {
             total: res.data.total,
           });
         } else {
-          setData({
-            ...data,
+          setData((currentData) => ({
+            ...currentData,
             loading: false,
-          });
+          }));
         }
       })
       .catch(() => {
@@ -62,11 +57,11 @@ const Landing = () => {
           total: 0,
         });
       });
-  };
+  }, []);
 
   useEffect(() => {
     getStats('allTime');
-  }, []);
+  }, [getStats]);
 
   let statCards = null;
   if (!data.loading && data.overallStats.length > 0) {

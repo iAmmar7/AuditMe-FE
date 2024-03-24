@@ -1,18 +1,21 @@
-import axios from 'axios';
-
-const URL = process.env.SERVER_URL;
+import { apiClient } from './apiClient';
 
 export function getCurrentUser() {
-  return axios.get(`${URL}/api/user`, {
-    headers: { Authorization: localStorage.userToken },
-  });
+  return apiClient.get('/user');
 }
 
 export function getUserByRole(role) {
-  return axios.get(`${URL}/api/user/roles`, {
+  return apiClient.get('/user/roles', {
     params: {
       role,
     },
-    headers: { Authorization: localStorage.userToken },
   });
+}
+
+export function updateActivity() {
+  return apiClient.post('/user/activity');
+}
+
+export function getReportChart(query) {
+  return apiClient.get(`/user/report-chart?month=${query}`);
 }
