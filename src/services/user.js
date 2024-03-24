@@ -19,3 +19,11 @@ export function updateActivity() {
 export function getReportChart(query) {
   return apiClient.get(`/user/report-chart?month=${query}`);
 }
+
+export function getAuditReports(filters) {
+  return apiClient.post('/user/audit-reports', filters);
+}
+
+export function getInitiativeReports(filters) {
+  return apiClient.post('/user/initiative-reports', filters);
+}

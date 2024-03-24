@@ -7,7 +7,7 @@ import { useAppContext } from '@/contexts/AppContext';
 import { getUserByRole, raiseInitiative } from '@/services';
 import InitiativeForm from '../../components/Initiatives/InitiativeForm';
 
-const InitiativesForm = () => {
+const InitiativeFormPage = () => {
   const [loading, setLoading] = useState(false);
   const [evidenceBeforeFileList, setEvidenceBeforeFileList] = useState([]);
   const [evidenceAfterFileList, setEvidenceAfterFileList] = useState([]);
@@ -80,4 +80,4 @@ const InitiativesForm = () => {
   );
 };
 
-export default InitiativesForm;
+export default InitiativeFormPage;

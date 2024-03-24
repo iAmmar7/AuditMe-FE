@@ -1,19 +1,19 @@
 /* eslint-disable no-underscore-dangle */
-import React, { useRef } from 'react';
-import { message } from 'antd';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
+import { message } from 'antd';
 import moment from 'moment';
-import axios from 'axios';
+import { useRef } from 'react';
 
-import PriorityTable from '../../components/Priorities/PriorityTable';
-import PriorityDetails from '../../components/Priorities/PriorityDetails';
+import { getAuditReports } from '@/services';
+import AuditDetails from '../../components/Audit/AuditDetails';
+import AuditTable from '../../components/Audit/AuditTable';
 
 moment.locale('en');
 
 const URL = process.env.SERVER_URL;
 
 let allData = [];
-const PrioritiesReports = () => {
+const AuditReports = () => {
   const tableRef = useRef(null);
 
   const onRequest = async (parameters, sorter, filter) => {
@@ -31,12 +31,8 @@ const PrioritiesReports = () => {
         regionFilter: filter?.region,
       },
     };
-    const result = await axios.post(`${URL}/api/user/priorities-reports`, queryData, {
-      headers: {
-        Authorization: localStorage.userToken,
-      },
-    });
 
+    const result = await getAuditReports(queryData);
     if (!result) {
       message.error('Unable to fetch data, reload');
     }
@@ -93,12 +89,12 @@ const PrioritiesReports = () => {
   const expandedRowRender = (item) => {
     const filteredItem = allData.filter((data) => item.key === data._id);
 
-    return <PriorityDetails item={filteredItem[0]} tableRef={tableRef} />;
+    return <AuditDetails item={filteredItem[0]} tableRef={tableRef} />;
   };
 
   return (
     <PageHeaderWrapper content="EDER - Early Detection Early Resolution">
-      <PriorityTable
+      <AuditTable
         expandedRowRender={expandedRowRender}
         onRequest={onRequest}
         tableRef={tableRef}
@@ -108,4 +104,4 @@ const PrioritiesReports = () => {
   );
 };
 
-export default PrioritiesReports;
+export default AuditReports;

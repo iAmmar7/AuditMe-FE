@@ -5,7 +5,7 @@ import { history } from 'umi';
 
 import { useAppContext } from '@/contexts/AppContext';
 import { getUserByRole, raiseIssue } from '@/services/user';
-import AuditForm from '../../components/Priorities/AuditForm';
+import AuditForm from '../../components/Audit/AuditForm';
 
 const PrioritiesForm = () => {
   const [loading, setLoading] = useState(false);

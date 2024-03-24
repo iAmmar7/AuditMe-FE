@@ -1,43 +1,35 @@
 /* eslint-disable no-underscore-dangle */
-import React, { useRef } from 'react';
-import { message } from 'antd';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
+import { message } from 'antd';
 import moment from 'moment';
-import axios from 'axios';
+import { useRef } from 'react';
 
-import InitiativeTable from '../../components/Initiatives/InitiativeTable';
+import { getInitiativeReports } from '@/services';
 import InitiativeDetails from '../../components/Initiatives/InitiativeDetails';
+import InitiativeTable from '../../components/Initiatives/InitiativeTable';
 
 moment.locale('en');
 
 const URL = process.env.SERVER_URL;
 
 let allData = [];
-const InitiativesReports = () => {
+const InitiativeReportsPage = () => {
   const tableRef = useRef(null);
 
   const onRequest = async (parameters, sorter, filter) => {
-    const result = await axios.post(
-      `${URL}/api/user/initiatives-reports`,
-      {
-        params: parameters,
-        sorter: {
-          dateSorter: sorter?.date,
-          dateIdentifiedSorter: sorter?.dateIdentified,
-          daysOpenSorter: sorter?.daysOpen,
-        },
-        filter: {
-          statusFilter: filter?.status,
-          typeFilter: filter?.type,
-          regionFilter: filter?.region,
-        },
+    const result = await getInitiativeReports({
+      params: parameters,
+      sorter: {
+        dateSorter: sorter?.date,
+        dateIdentifiedSorter: sorter?.dateIdentified,
+        daysOpenSorter: sorter?.daysOpen,
       },
-      {
-        headers: {
-          Authorization: localStorage.userToken,
-        },
+      filter: {
+        statusFilter: filter?.status,
+        typeFilter: filter?.type,
+        regionFilter: filter?.region,
       },
-    );
+    });
 
     if (!result) {
       message.error('Unable to fetch data, reload');
@@ -84,4 +76,4 @@ const InitiativesReports = () => {
   );
 };
 
-export default InitiativesReports;
+export default InitiativeReportsPage;

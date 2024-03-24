@@ -1,38 +1,32 @@
-/* eslint-disable no-underscore-dangle */
-import React, { useState } from 'react';
 import { DeleteOutlined } from '@ant-design/icons';
 import {
-  Card,
-  Row,
-  Col,
-  Typography,
-  Switch,
-  Divider,
   Button,
-  Tooltip,
-  Spin,
-  Popconfirm,
+  Card,
+  Col,
+  Divider,
   message,
+  Popconfirm,
+  Row,
+  Spin,
+  Switch,
+  Tooltip,
+  Typography,
 } from 'antd';
-import axios from 'axios';
+import { useState } from 'react';
 
+import { useAppContext } from '@/contexts/AppContext';
+import { deleteAuditReport } from '@/services';
 import IssueDetail from './IssueDetail';
 import IssueForm from './IssueForm';
 
-const URL = process.env.SERVER_URL;
-
-function PriorityDetails({ item, tableRef }) {
+function AuditDetails({ item, tableRef }) {
   const [formDisabled, setFormDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
+  const { user } = useAppContext();
 
   const deleteIssue = () => {
     setLoading(true);
-    axios
-      .delete(`${URL}/api/user/delete-issue/${item._id}`, {
-        headers: {
-          Authorization: localStorage.userToken,
-        },
-      })
+    deleteAuditReport()
       .then((res) => {
         if (res.data.success) {
           setLoading(false);
@@ -50,7 +44,7 @@ function PriorityDetails({ item, tableRef }) {
 
   // If issue has resolved
   if (item.status === 'Resolved') {
-    if (JSON.parse(localStorage.user).id.toString() === item.resolvedById.toString()) {
+    if (user._id.toString() === item.resolvedById.toString()) {
       editButton = (
         <Row justify="center" align="end">
           <Col offset={1} style={{ paddingTop: '2px', marginRight: '4px' }}>
@@ -86,7 +80,7 @@ function PriorityDetails({ item, tableRef }) {
 
   // if issue is pending
   if (item.status === 'Pending') {
-    if (JSON.parse(localStorage.user).role === 'rm') {
+    if (user.role === 'rm') {
       editButton = (
         <Row justify="center" align="end">
           <Col offset={1} style={{ paddingTop: '2px', marginRight: '4px' }}>
@@ -102,7 +96,7 @@ function PriorityDetails({ item, tableRef }) {
           </Col>
         </Row>
       );
-    } else if (JSON.parse(localStorage.user).role === 'am' && !item?.isPrioritized) {
+    } else if (user.role === 'am' && !item?.isPrioritized) {
       editButton = (
         <Row justify="center" align="end">
           <Col offset={1} style={{ paddingTop: '2px', marginRight: '4px' }}>
@@ -118,7 +112,7 @@ function PriorityDetails({ item, tableRef }) {
           </Col>
         </Row>
       );
-    } else if (JSON.parse(localStorage.user).role === 'am' && item?.isPrioritized) {
+    } else if (user.role === 'am' && item?.isPrioritized) {
       editButton = (
         <Row justify="center" align="end">
           <Col offset={1} style={{ paddingTop: '2px', marginRight: '4px' }}>
@@ -131,7 +125,7 @@ function PriorityDetails({ item, tableRef }) {
           </Col>
         </Row>
       );
-    } else if (item.userId.toString() === JSON.parse(localStorage.user).id.toString()) {
+    } else if (item.userId.toString() === user._id.toString()) {
       editButton = (
         <Row justify="center" align="end">
           <Col offset={1} style={{ paddingTop: '2px', marginRight: '4px' }}>
@@ -165,7 +159,7 @@ function PriorityDetails({ item, tableRef }) {
 
   // if issue is maitenance
   if (item.status === 'Maintenance') {
-    if (JSON.parse(localStorage.user).role === 'rm') {
+    if (user.role === 'rm') {
       editButton = (
         <Row justify="center" align="end">
           <Col offset={1} style={{ paddingTop: '2px', marginRight: '4px' }}>
@@ -181,7 +175,7 @@ function PriorityDetails({ item, tableRef }) {
           </Col>
         </Row>
       );
-    } else if (JSON.parse(localStorage.user).role === 'am' && !item?.isPrioritized) {
+    } else if (user.role === 'am' && !item?.isPrioritized) {
       editButton = (
         <Row justify="center" align="end">
           <Col offset={1} style={{ paddingTop: '2px', marginRight: '4px' }}>
@@ -214,7 +208,7 @@ function PriorityDetails({ item, tableRef }) {
   }
 
   // For viewer account
-  if (JSON.parse(localStorage.user).role === 'viewer') {
+  if (user.role === 'viewer') {
     editButton = (
       <Row justify="center" align="end">
         <Col offset={1} style={{ paddingTop: '2px', marginRight: '4px' }}>
@@ -235,18 +229,19 @@ function PriorityDetails({ item, tableRef }) {
     <IssueForm item={item} tableRef={tableRef} setFormDisabled={setFormDisabled} />
   );
 
-  if (loading)
+  if (loading) {
     content = (
       <div style={{ textAlign: 'center', paddingTop: '20px', paddingBottom: '20px' }}>
         <Spin />
       </div>
     );
+  }
 
   return (
     <Card>
       <Row justify="center">
         <Col span={12}>
-          {JSON.parse(localStorage.user).isAdmin ? (
+          {user.role === 'admin' ? (
             <Row>
               <Popconfirm
                 title="Are you sure to delete this?"
@@ -281,4 +276,4 @@ function PriorityDetails({ item, tableRef }) {
   );
 }
 
-export default PriorityDetails;
+export default AuditDetails;

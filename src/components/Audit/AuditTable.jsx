@@ -1,11 +1,11 @@
 /* eslint-disable no-useless-computed-key */
-import React, { useRef } from 'react';
-import { ConfigProvider, Typography, Tag } from 'antd';
-import enUS from 'antd/lib/locale/en_US';
 import ProTable from '@ant-design/pro-table';
+import { ConfigProvider, Tag, Typography } from 'antd';
+import enUS from 'antd/lib/locale/en_US';
+import { useRef } from 'react';
 
 import GeneratePrioritiesCSV from '../common/GeneratePrioritiesCSV';
-import styles from './Priorities.less';
+import styles from './Audit.less';
 
 const columns = [
   // {
@@ -154,7 +154,7 @@ const columns = [
   },
 ];
 
-function PriorityTable(props) {
+function AuditTable(props) {
   const formRef = useRef(null);
   const { expandedRowRender, onRequest, tableRef, isPrioritized } = props;
 
@@ -235,4 +235,4 @@ function PriorityTable(props) {
   );
 }
 
-export default PriorityTable;
+export default AuditTable;

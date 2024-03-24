@@ -1,9 +1,8 @@
 /* eslint-disable react/no-unescaped-entities */
-import React from 'react';
-import { Row, Col, Typography, Tag, Image, Divider, Alert } from 'antd';
+import { Alert, Col, Divider, Image, Row, Tag, Typography } from 'antd';
 import moment from 'moment';
 
-import styles from './Priorities.less';
+import styles from './Audit.less';
 
 const URL = process.env.SERVER_URL;
 

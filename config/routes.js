@@ -40,7 +40,7 @@ export default [
             path: '/user/initiative-form',
             name: 'Initiatives',
             icon: 'edit',
-            component: './user/InitiativesFormPage',
+            component: './user/InitiativeFormPage',
           },
           {
             path: '/user/reports',
@@ -48,14 +48,14 @@ export default [
             icon: 'tablet',
             routes: [
               {
-                path: '/user/reports/priorities-reports',
-                name: 'Priorities Issues',
-                component: './user/PrioritiesReports',
+                path: '/user/reports/audit-reports',
+                name: 'Audit',
+                component: './user/AuditReportsPage',
               },
               {
                 path: '/user/reports/initiative-reports',
                 name: 'Initiatives',
-                component: './user/InitiativesReports',
+                component: './user/InitiativeReportsPage',
               },
             ],
           },
