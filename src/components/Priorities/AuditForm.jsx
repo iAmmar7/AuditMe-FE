@@ -60,7 +60,7 @@ function AuditForm(props) {
               <Button
                 type="secondary"
                 loading={loading}
-                disabled={user.role !== 'auditor'}
+                disabled={user?.role !== 'auditor'}
                 onClick={() => submitProps?.form?.resetFields()}
               >
                 Reset
@@ -68,7 +68,7 @@ function AuditForm(props) {
               <Button
                 type="primary"
                 loading={loading}
-                disabled={user.role !== 'auditor'}
+                disabled={user?.role !== 'auditor'}
                 onClick={() => submitProps?.form?.submit()}
               >
                 Submit
@@ -116,7 +116,7 @@ function AuditForm(props) {
           name="stationManager"
           label="Station Manager"
           placeholder="Select station manager"
-          options={stationManagers.map((user) => ({ value: user._id, label: user.name }))}
+          options={stationManagers.map((sm) => ({ value: sm._id, label: sm.name }))}
           rules={[{ required: true, message: 'Please select station manager name!' }]}
           style={{ width: '250px' }}
         />

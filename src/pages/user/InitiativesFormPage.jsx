@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { history } from 'umi';
 
 import { useAppContext } from '@/contexts/AppContext';
-import { getUserByRole, raiseInitiative } from '@/services/user';
+import { getUserByRole, raiseInitiative } from '@/services';
 import InitiativeForm from '../../components/Initiatives/InitiativeForm';
 
 const InitiativesForm = () => {
