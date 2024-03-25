@@ -92,12 +92,7 @@ const AuditReports = () => {
 
   return (
     <PageHeaderWrapper content="EDER - Early Detection Early Resolution">
-      <AuditTable
-        expandedRowRender={expandedRowRender}
-        onRequest={onRequest}
-        tableRef={tableRef}
-        isPrioritized
-      />
+      <AuditTable expandedRowRender={expandedRowRender} onRequest={onRequest} tableRef={tableRef} />
     </PageHeaderWrapper>
   );
 };

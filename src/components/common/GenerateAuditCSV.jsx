@@ -1,33 +1,28 @@
-import React, { useState, useRef } from 'react';
-import { CSVLink } from 'react-csv';
-import { Spin, message } from 'antd';
+import { auditReportCSV } from '@/services';
+import { message, Spin } from 'antd';
 import _ from 'lodash';
-import axios from 'axios';
 import moment from 'moment';
-
-const URL = process.env.SERVER_URL;
+import { useRef, useState } from 'react';
+import { CSVLink } from 'react-csv';
 
 const headers = [
   { label: 'Issue ID', key: 'id' },
   { label: 'Date', key: 'date' },
-  { label: 'Week', key: 'week' },
-  { label: 'BE Team', key: 'processSpecialist' },
+  { label: 'Auditor', key: 'auditor' },
   { label: 'Status', key: 'status' },
   { label: 'Type', key: 'type' },
   { label: 'Region', key: 'region' },
-  { label: 'Regional Manager', key: 'regionalManager' },
-  { label: 'Area Manager', key: 'areaManager' },
+  { label: 'Station Manager', key: 'stationManager' },
   { label: 'Date Identified', key: 'dateIdentified' },
-  { label: 'Station/BE', key: 'stationNumber' },
-  { label: 'Issue Details', key: 'issueDetails' },
-  { label: 'Log Number', key: 'logNumber' },
+  { label: 'Station/City', key: 'station' },
+  { label: 'Issue Details', key: 'details' },
   { label: 'Days Open', key: 'daysOpen' },
   { label: 'Resolve Days', key: 'daysResolved' },
   { label: 'Resolved By', key: 'resolvedByName' },
   { label: 'Date Of Closure', key: 'dateOfClosure' },
 ];
 
-const GeneratePrioritiesCSV = ({ filters, isPrioritized }) => {
+const GenerateAuditCSV = ({ filters }) => {
   const csvRef = useRef(null);
 
   const [data, setData] = useState({
@@ -57,14 +52,7 @@ const GeneratePrioritiesCSV = ({ filters, isPrioritized }) => {
         ],
       };
 
-    axios
-      .post(
-        `${URL}/api/user/csv/priorities-reports`,
-        { filters: modifiedFilters, isPrioritized },
-        {
-          headers: { Authorization: localStorage.userToken },
-        },
-      )
+    auditReportCSV({ filters: modifiedFilters })
       .then((res) => {
         setData({
           loading: false,
@@ -93,8 +81,8 @@ const GeneratePrioritiesCSV = ({ filters, isPrioritized }) => {
         target="_blank"
         filename={
           _.isEmpty(filters)
-            ? `Priorities Report - ${moment().format('MMMM Do YYYY, h:mm:ss a')}.csv`
-            : `Priorities Report - With Filters - ${moment().format('MMMM Do YYYY, h:mm:ss a')}.csv`
+            ? `Audit Report - ${moment().format('MMMM Do YYYY, h:mm:ss a')}.csv`
+            : `Audit Report - With Filters - ${moment().format('MMMM Do YYYY, h:mm:ss a')}.csv`
         }
         headers={headers}
         data={data.reports}
@@ -107,4 +95,4 @@ const GeneratePrioritiesCSV = ({ filters, isPrioritized }) => {
   );
 };
 
-export default GeneratePrioritiesCSV;
+export default GenerateAuditCSV;

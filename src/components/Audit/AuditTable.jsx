@@ -3,7 +3,8 @@ import { ConfigProvider, Tag, Typography } from 'antd';
 import enUS from 'antd/lib/locale/en_US';
 import { useRef } from 'react';
 
-import GeneratePrioritiesCSV from '../common/GeneratePrioritiesCSV';
+import { issueTypeOptions, regionSelectOptions } from '@/utils/constants';
+import GenerateAuditCSV from '../common/GenerateAuditCSV';
 import styles from './Audit.less';
 
 const columns = [
@@ -54,19 +55,7 @@ const columns = [
     title: 'Type',
     dataIndex: 'type',
     valueType: 'select',
-    filters: [
-      { text: 'Customer Experience', value: 'Customer Experience' },
-      { text: 'Housekeeping', value: 'Housekeeping' },
-      { text: 'Customer Mistreatment', value: 'Customer Mistreatment' },
-      { text: 'Initiative', value: 'Initiative' },
-      { text: 'Admin Issues', value: 'Admin Issues' },
-      { text: 'Maintenance Issues', value: 'Maintenance Issues' },
-      { text: 'IT Issues', value: 'IT Issues' },
-      { text: 'Inventory Issues', value: 'Inventory Issues' },
-      { text: 'Violation', value: 'Violation' },
-      { text: 'Safety', value: 'Safety' },
-      { text: 'Others', value: 'Others' },
-    ],
+    filters: issueTypeOptions.map((issue) => ({ text: issue.label, value: issue.value })),
     valueEnum: {
       ['Customer Experience']: { text: 'Customer Experience', type: 'Customer Experience' },
       Housekeeping: { text: 'Housekeeping', type: 'Housekeeping' },
@@ -88,16 +77,7 @@ const columns = [
     minWidth: 100,
     dataIndex: 'region',
     valueType: 'select',
-    filters: [
-      { text: 'Southern', value: 'Southern' },
-      { text: 'CR-East', value: 'CR-East' },
-      { text: 'CR-North', value: 'CR-North' },
-      { text: 'CR-South', value: 'CR-South' },
-      { text: 'ER-North', value: 'ER-North' },
-      { text: 'ER-South', value: 'ER-South' },
-      { text: 'WR-North', value: 'WR-North' },
-      { text: 'WR-South', value: 'WR-South' },
-    ],
+    filters: regionSelectOptions.map((region) => ({ text: region.label, value: region.value })),
     valueEnum: {
       Southern: { text: 'Southern', region: 'Southern' },
       ['CR-East']: { text: 'CR-East', region: 'CR-East' },
@@ -146,7 +126,7 @@ const columns = [
 
 function AuditTable(props) {
   const formRef = useRef(null);
-  const { expandedRowRender, onRequest, tableRef, isPrioritized } = props;
+  const { expandedRowRender, onRequest, tableRef } = props;
 
   return (
     <ConfigProvider locale={enUS}>
@@ -157,13 +137,7 @@ function AuditTable(props) {
         actionRef={tableRef}
         rowKey="key"
         toolBarRender={() => {
-          return [
-            <GeneratePrioritiesCSV
-              key="csv"
-              filters={formRef?.current?.getFieldValue()}
-              isPrioritized={isPrioritized}
-            />,
-          ];
+          return [<GenerateAuditCSV key="csv" filters={formRef?.current?.getFieldValue()} />];
         }}
         pagination={{
           showQuickJumper: true,

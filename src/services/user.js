@@ -31,3 +31,7 @@ export function getInitiativeReports(filters) {
 export function deleteReportImage(filters) {
   return apiClient.patch('/user/delete-image', filters);
 }
+
+export function auditReportCSV(filters) {
+  return apiClient.post('/user/csv/audit-reports', filters);
+}
