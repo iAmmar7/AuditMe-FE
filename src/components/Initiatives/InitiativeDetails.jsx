@@ -1,40 +1,34 @@
-import React, { useState } from 'react';
 import { DeleteOutlined } from '@ant-design/icons';
 import {
-  Card,
-  Row,
-  Col,
-  Typography,
-  Switch,
-  Divider,
   Button,
-  Tooltip,
-  Spin,
-  Popconfirm,
+  Card,
+  Col,
+  Divider,
   message,
+  Popconfirm,
+  Row,
+  Spin,
+  Switch,
+  Tooltip,
+  Typography,
 } from 'antd';
-import axios from 'axios';
+import { useState } from 'react';
 
-import InitiativeInfo from './InitiativeInfo';
+import { useAppContext } from '@/contexts/AppContext';
+import { deleteInitiativeReport } from '@/services';
 import InitiativeEdit from './InitiativeEdit';
-
-const URL = process.env.SERVER_URL;
+import InitiativeInfo from './InitiativeInfo';
 
 function InitiativeDetails({ item, tableRef }) {
   const [formDisabled, setFormDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
+  const { user } = useAppContext();
 
   let editButton = null;
 
   const deleteItem = () => {
     setLoading(true);
-    axios
-      // eslint-disable-next-line no-underscore-dangle
-      .delete(`${URL}/api/user/delete-initiative/${item._id}`, {
-        headers: {
-          Authorization: localStorage.userToken,
-        },
-      })
+    deleteInitiativeReport(item._id)
       .then((res) => {
         if (res.data.success) {
           setLoading(false);
@@ -48,24 +42,8 @@ function InitiativeDetails({ item, tableRef }) {
       });
   };
 
-  // If the current user is regional manager
-  if (JSON.parse(localStorage.user).role === 'rm') {
-    editButton = (
-      <Row justify="center" align="end">
-        <Col offset={1} style={{ paddingTop: '2px', marginRight: '4px' }}>
-          <Typography.Text>Edit initiative </Typography.Text>
-        </Col>
-        <Col>
-          <Tooltip title={`Only ${item.userName} can edit this initiative`}>
-            <Switch checkedChildren="Off" unCheckedChildren="On" checked={false} disabled />
-          </Tooltip>
-        </Col>
-      </Row>
-    );
-  }
-
   // If the currrent user is the one who added this initiative
-  if (JSON.parse(localStorage.user).id.toString() === item.userId.toString()) {
+  if (user?._id?.toString() === item.auditorId?.toString()) {
     editButton = (
       <Row justify="center" align="end">
         <Col offset={1} style={{ paddingTop: '2px', marginRight: '4px' }}>
@@ -81,33 +59,28 @@ function InitiativeDetails({ item, tableRef }) {
         </Col>
       </Row>
     );
-  }
-
-  // If the current user is auditor but not the one who added this initiative
-  else {
+  } // If the current user is viewer
+  else if (user?.role === 'viewer') {
     editButton = (
       <Row justify="center" align="end">
         <Col offset={1} style={{ paddingTop: '2px', marginRight: '4px' }}>
-          <Typography.Text>Edit issue </Typography.Text>
+          <Typography.Text>Edit initiative </Typography.Text>
         </Col>
         <Col>
-          <Tooltip title={`Only ${item.userName} can edit this issue`}>
+          <Tooltip title="A viewer can not edit issues">
             <Switch checkedChildren="Off" unCheckedChildren="On" checked={false} disabled />
           </Tooltip>
         </Col>
       </Row>
     );
-  }
-
-  // If the current user is viewer
-  if (JSON.parse(localStorage.user).role === 'viewer') {
+  } else {
     editButton = (
       <Row justify="center" align="end">
         <Col offset={1} style={{ paddingTop: '2px', marginRight: '4px' }}>
-          <Typography.Text>Edit status </Typography.Text>
+          <Typography.Text>Edit initiative </Typography.Text>
         </Col>
         <Col>
-          <Tooltip title="A viewer can not edit issues">
+          <Tooltip title={`Only ${item.auditorName} can edit this issue`}>
             <Switch checkedChildren="Off" unCheckedChildren="On" checked={false} disabled />
           </Tooltip>
         </Col>
@@ -132,7 +105,7 @@ function InitiativeDetails({ item, tableRef }) {
     <Card>
       <Row justify="center">
         <Col span={12}>
-          {JSON.parse(localStorage.user).isAdmin ? (
+          {user?.role === 'admin' ? (
             <Popconfirm
               title="Are you sure to delete this?"
               onConfirm={deleteItem}

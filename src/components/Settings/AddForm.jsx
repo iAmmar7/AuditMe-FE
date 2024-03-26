@@ -1,28 +1,19 @@
-import React, { useState } from 'react';
-import { Button, Row, Alert, message } from 'antd';
-import ProForm, { ProFormText, ProFormSelect } from '@ant-design/pro-form';
-import axios from 'axios';
-
-const URL = process.env.SERVER_URL;
+import { useAppContext } from '@/contexts/AppContext';
+import { addUser } from '@/services';
+import ProForm, { ProFormSelect, ProFormText } from '@ant-design/pro-form';
+import { Alert, Button, message, Row } from 'antd';
+import { useState } from 'react';
 
 const AddForm = ({ tableRef, modalClose }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const { user } = useAppContext();
 
-  const addUser = async (values) => {
+  const addUserHandler = async (values) => {
     setLoading(true);
 
-    // Send axios request
-    axios
-      .post(
-        `${URL}/api/user/add-user`,
-        { ...values },
-        {
-          headers: { Authorization: localStorage.userToken },
-        },
-      )
+    addUser({ ...values })
       .then((res) => {
-        console.log(res);
         setLoading(false);
         modalClose();
         tableRef.current.reload();
@@ -57,7 +48,7 @@ const AddForm = ({ tableRef, modalClose }) => {
                 type="primary"
                 loading={loading}
                 justify="right"
-                disabled={!JSON.parse(localStorage.user).isAdmin}
+                disabled={user?.role !== 'admin'}
                 onClick={() => submitProps.form.submit()}
               >
                 Add
@@ -65,14 +56,8 @@ const AddForm = ({ tableRef, modalClose }) => {
             </Row>
           ),
         }}
-        onFinish={addUser}
+        onFinish={addUserHandler}
       >
-        <ProFormText
-          name="badgeNumber"
-          label="Bagde Number"
-          placeholder="Enter bagde number"
-          rules={[{ required: true, message: 'Please write user badge number!' }]}
-        />
         <ProFormText
           name="name"
           label="Name"
@@ -80,19 +65,24 @@ const AddForm = ({ tableRef, modalClose }) => {
           rules={[{ required: true, message: 'Please write user name!' }]}
         />
         <ProFormText
+          name="email"
+          label="Email"
+          placeholder="Enter email address"
+          rules={[{ required: true, message: 'Please write user email!' }]}
+        />
+        <ProFormText
           name="password"
           label="Password"
           placeholder="Enter password"
-          rules={[{ required: true, message: 'Please write user name!' }]}
+          rules={[{ required: true, message: 'Please write user password!' }]}
         />
         <ProFormSelect
-          name="userType"
-          label="User type"
+          name="role"
+          label="User role"
           valueEnum={{
             auditor: 'Auditor',
-            rm: 'Regional Manager',
-            am: 'Area Manager',
             sm: 'Station Manager',
+            admin: 'Admin',
             viewer: 'Viewer',
           }}
           placeholder="Signup as"

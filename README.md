@@ -1,5 +1,5 @@
 # AuditRail
-This Application has been made for personal project purpose. Aimed at enhancing operational efficiency and accountability, this application serves as a central hub for auditors, area managers, and administrators to identify, report, and manage faults and issues within the DB application, Deployed on  Vercel.
+This Application has been made for personal project purpose. Aimed at enhancing operational efficiency and accountability, this application serves as a central hub for auditors, area managers, and administrators to identify, report, and manage faults and issues within the DB application, Deployed on Vercel.
 
 ## Features
 - Three types of users; auditor, area managers, and an admin.

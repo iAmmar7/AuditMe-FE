@@ -34,11 +34,9 @@ export default defineConfig({
   theme: {
     'primary-color': defaultSettings.primaryColor,
   },
-  title: 'FirmFigure',
+  title: 'AuditRail',
   ignoreMomentLocale: true,
   proxy: proxy[REACT_APP_ENV || 'dev'],
-  // base: 'D:/VSCode/Petromin/AuditMe-BE/dist/',
-  // publicPath: 'D:/VSCode/Petromin/AuditMe-BE/dist/',
   exportStatic: {},
   esbuild: {},
   define: {

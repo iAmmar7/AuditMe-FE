@@ -1,12 +1,13 @@
 export const rolesDescription = {
   auditor: 'Auditor',
-  rm: 'Regional Manager',
-  am: 'Area Manager',
   sm: 'Station Manager',
   viewer: 'Viewer',
+  admin: 'Admin',
 };
 
 export const footerText = `Copyright \u00A9 ${new Date().getFullYear()} Audit Automation || Shifali x Ammar`;
+
+export const tagLine = 'Ensuring Excellence, One Station at a Time';
 
 export const regionSelectOptions = [
   { value: 'Southern', label: 'Southern' },
@@ -36,4 +37,19 @@ export const issueTypeOptions = [
 export const issuePriorityOptions = [
   { value: 'Observation', label: 'Observation' },
   { value: 'Priority', label: 'Priority' },
+];
+
+export const issueStatusOptions = [
+  {
+    value: 'Pending',
+    label: 'Pending',
+  },
+  {
+    value: 'Resolved',
+    label: 'Resolved',
+  },
+  {
+    value: 'Maintenance',
+    label: 'Maintenance',
+  },
 ];

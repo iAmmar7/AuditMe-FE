@@ -4,19 +4,15 @@
  * https://github.com/ant-design/ant-design-pro-layout
  */
 import { useAppContext } from '@/contexts/AppContext';
+import { updateActivity } from '@/services';
 import { footerText } from '@/utils/constants';
 import { UserOutlined } from '@ant-design/icons';
 import ProLayout from '@ant-design/pro-layout';
 import { Avatar, Col, Dropdown, Menu, message, Row, Typography } from 'antd';
-import axios from 'axios';
 import { useEffect } from 'react';
 import { connect, history, Link } from 'umi';
 
-// import logo from '../assets/logo.svg';
-// import userAvatar from '../assets/user_avatar.png';
-
 const ColorList = ['#f56a00', '#7265e6', '#ffbf00', '#00a2ae'];
-const URL = process.env.SERVER_URL;
 
 const BasicLayout = (props) => {
   const {
@@ -31,13 +27,7 @@ const BasicLayout = (props) => {
   const { user, token, setUser, setToken } = useAppContext();
 
   useEffect(() => {
-    axios.post(
-      `${URL}/api/user/update-activity`,
-      {},
-      {
-        headers: { Authorization: token },
-      },
-    );
+    updateActivity();
   }, [token]);
 
   const handleMenuCollapse = (payload) => {
@@ -52,7 +42,6 @@ const BasicLayout = (props) => {
   const logoutUser = () => {
     setUser(null);
     setToken(null);
-    localStorage.removeItem('user');
     localStorage.removeItem('userToken');
     message.success('Logout successfully');
     history.push('/auth');
@@ -70,7 +59,7 @@ const BasicLayout = (props) => {
       }}
       menuDataRender={(routes) => {
         const newRoutes = [...routes];
-        if (user.isAdmin) newRoutes[4].hideInMenu = false;
+        if (user?.role === 'admin') newRoutes[4].hideInMenu = false;
 
         return newRoutes;
       }}
@@ -127,11 +116,11 @@ const BasicLayout = (props) => {
                 size="small"
                 style={{ backgroundColor: ColorList[Math.floor(Math.random() * 4)] }}
               >
-                {user.name.charAt(0)}
+                {user?.name?.charAt(0)}
               </Avatar>
             </Col>
             <Col>
-              <Typography.Text>{user.name}</Typography.Text>
+              <Typography.Text>{user?.name}</Typography.Text>
             </Col>
           </Row>
         </Dropdown>

@@ -1,7 +1,5 @@
-import React from 'react';
-import { LockTwoTone, UserOutlined, MailOutlined } from '@ant-design/icons';
-import { ProFormText, ProFormSelect } from '@ant-design/pro-form';
-import { rolesDescription } from '@/utils/constants';
+import { LockTwoTone, MailOutlined, UserOutlined } from '@ant-design/icons';
+import { ProFormSelect, ProFormText } from '@ant-design/pro-form';
 
 export default function SignUp({ styles }) {
   return (
@@ -57,7 +55,11 @@ export default function SignUp({ styles }) {
           size: 'large',
         }}
         hasFeedback
-        valueEnum={rolesDescription}
+        valueEnum={{
+          auditor: 'Auditor',
+          sm: 'Station Manager',
+          viewer: 'Viewer',
+        }}
         placeholder="Signup as"
         rules={[{ required: true, message: 'Please select signup as' }]}
       />

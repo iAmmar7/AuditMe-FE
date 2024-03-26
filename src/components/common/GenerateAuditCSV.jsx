@@ -1,23 +1,28 @@
-import { initiativeReportCSV } from '@/services';
+import { auditReportCSV } from '@/services';
 import { message, Spin } from 'antd';
 import _ from 'lodash';
 import moment from 'moment';
 import { useRef, useState } from 'react';
 import { CSVLink } from 'react-csv';
 
-const URL = process.env.SERVER_URL;
-
 const headers = [
-  { label: 'Initiative ID', key: 'id' },
+  { label: 'Issue ID', key: 'id' },
   { label: 'Date', key: 'date' },
   { label: 'Auditor', key: 'auditor' },
+  { label: 'Status', key: 'status' },
   { label: 'Type', key: 'type' },
   { label: 'Region', key: 'region' },
-  { label: 'Details', key: 'details' },
+  { label: 'Station Manager', key: 'stationManager' },
+  { label: 'Date Identified', key: 'dateIdentified' },
   { label: 'Station/City', key: 'station' },
+  { label: 'Issue Details', key: 'details' },
+  { label: 'Days Open', key: 'daysOpen' },
+  { label: 'Resolve Days', key: 'daysResolved' },
+  { label: 'Resolved By', key: 'resolvedByName' },
+  { label: 'Date Of Closure', key: 'dateOfClosure' },
 ];
 
-const GenerateInitiativesCSV = ({ filters }) => {
+const GenerateAuditCSV = ({ filters }) => {
   const csvRef = useRef(null);
 
   const [data, setData] = useState({
@@ -38,10 +43,21 @@ const GenerateInitiativesCSV = ({ filters }) => {
         ],
       };
 
-    initiativeReportCSV({ filters: modifiedFilters })
+    if (modifiedFilters.dateIdentified)
+      modifiedFilters = {
+        ...modifiedFilters,
+        dateIdentified: [
+          moment(modifiedFilters.dateIdentified[0]).format('YYYY-MM-DD'),
+          moment(modifiedFilters.dateIdentified[1]).format('YYYY-MM-DD'),
+        ],
+      };
+
+    auditReportCSV({ filters: modifiedFilters })
       .then((res) => {
-        console.log('data', res.data);
-        setData({ loading: false, reports: res.data.reports });
+        setData({
+          loading: false,
+          reports: res.data.reports,
+        });
         if (res.data.reports?.length > 0) csvRef.current.link.click();
         else message.error('No data for CSV!');
       })
@@ -65,10 +81,8 @@ const GenerateInitiativesCSV = ({ filters }) => {
         target="_blank"
         filename={
           _.isEmpty(filters)
-            ? `Initiatives Report - ${moment().format('MMMM Do YYYY, h:mm:ss a')}.csv`
-            : `Initiatives Report - With Filters - ${moment().format(
-                'MMMM Do YYYY, h:mm:ss a',
-              )}.csv`
+            ? `Audit Report - ${moment().format('MMMM Do YYYY, h:mm:ss a')}.csv`
+            : `Audit Report - With Filters - ${moment().format('MMMM Do YYYY, h:mm:ss a')}.csv`
         }
         headers={headers}
         data={data.reports}
@@ -81,4 +95,4 @@ const GenerateInitiativesCSV = ({ filters }) => {
   );
 };
 
-export default GenerateInitiativesCSV;
+export default GenerateAuditCSV;
