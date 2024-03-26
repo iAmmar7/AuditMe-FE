@@ -35,7 +35,7 @@ function AuditDetails({ item, tableRef }) {
 
   const deleteIssue = () => {
     setLoading(true);
-    deleteAuditReport()
+    deleteAuditReport(item._id)
       .then((res) => {
         if (res.data.success) {
           setLoading(false);
@@ -53,7 +53,7 @@ function AuditDetails({ item, tableRef }) {
 
   // If issue has resolved
   if (item.status === 'Resolved') {
-    if (user._id.toString() === item.resolvedById.toString()) {
+    if (user?._id?.toString() === item?.resolvedById?.toString()) {
       editButton = (
         <Row justify="center" align="end">
           <Col offset={1} style={{ paddingTop: '2px', marginRight: '4px' }}>
@@ -89,7 +89,7 @@ function AuditDetails({ item, tableRef }) {
 
   // if issue is pending
   if (item.status === 'Pending' || item.status === 'Maintenance') {
-    if (user.role === 'sm') {
+    if (user?.role === 'sm') {
       editButton = (
         <Row justify="center" align="end">
           <Col offset={1} style={{ paddingTop: '2px', marginRight: '4px' }}>
@@ -105,7 +105,7 @@ function AuditDetails({ item, tableRef }) {
           </Col>
         </Row>
       );
-    } else if (item.auditorId.toString() === user._id.toString()) {
+    } else if (item?.auditorId?.toString() === user?._id?.toString()) {
       editButton = (
         <Row justify="center" align="end">
           <Col offset={1} style={{ paddingTop: '2px', marginRight: '4px' }}>
@@ -138,7 +138,7 @@ function AuditDetails({ item, tableRef }) {
   }
 
   // For viewer account
-  if (user.role === 'viewer') {
+  if (user?.role === 'viewer') {
     editButton = (
       <Row justify="center" align="end">
         <Col offset={1} style={{ paddingTop: '2px', marginRight: '4px' }}>
@@ -176,7 +176,7 @@ function AuditDetails({ item, tableRef }) {
     <Card>
       <Row justify="center">
         <Col span={12}>
-          {user.role === 'admin' ? (
+          {user?.role === 'admin' ? (
             <Row>
               <Popconfirm
                 title="Are you sure to delete this?"

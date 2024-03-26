@@ -41,6 +41,8 @@ const InitiativeFormPage = () => {
 
   const alertMessage = () => {
     const roleMessages = {
+      admin:
+        'You have signed up as admin, you can not submit an initiative. Please signup as auditor in order to submit an initiative.',
       sm: 'You have signed up as station manager, you can not submit an initiative. Please signup as auditor in order to submit an initiative.',
       viewer:
         'You have signed up as viewer, you can not submit an initiative. Please signup as auditor in order to submit an initiative.',

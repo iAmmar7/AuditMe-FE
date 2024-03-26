@@ -41,6 +41,8 @@ const PrioritiesForm = () => {
 
   const alertMessage = () => {
     const roleMessages = {
+      admin:
+        'You have signed up as admin, you cannot submit an issue. Please sign up as auditor in order to raise an issue.',
       sm: 'You have signed up as station manager, you cannot submit an issue. Please sign up as auditor in order to raise an issue.',
       viewer:
         'You have signed up as viewer, you cannot submit an issue. Please sign up as auditor in order to raise an issue.',

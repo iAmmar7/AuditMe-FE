@@ -1,24 +1,20 @@
-import React, { useState, useRef } from 'react';
-import { CSVLink } from 'react-csv';
-import { Spin, message } from 'antd';
+import { initiativeReportCSV } from '@/services';
+import { message, Spin } from 'antd';
 import _ from 'lodash';
-import axios from 'axios';
 import moment from 'moment';
+import { useRef, useState } from 'react';
+import { CSVLink } from 'react-csv';
 
 const URL = process.env.SERVER_URL;
 
 const headers = [
   { label: 'Initiative ID', key: 'id' },
   { label: 'Date', key: 'date' },
-  { label: 'Week', key: 'week' },
-  { label: 'BE Team', key: 'processSpecialist' },
+  { label: 'Auditor', key: 'auditor' },
   { label: 'Type', key: 'type' },
   { label: 'Region', key: 'region' },
-  { label: 'Regional Manager', key: 'regionalManager' },
-  { label: 'Area Manager', key: 'areaManager' },
   { label: 'Details', key: 'details' },
-  { label: 'Date Identified', key: 'dateIdentified' },
-  { label: 'Station/BE', key: 'stationNumber' },
+  { label: 'Station/City', key: 'station' },
 ];
 
 const GenerateInitiativesCSV = ({ filters }) => {
@@ -42,15 +38,9 @@ const GenerateInitiativesCSV = ({ filters }) => {
         ],
       };
 
-    axios
-      .post(
-        `${URL}/api/user/csv/initiatives-reports`,
-        { filters: modifiedFilters },
-        {
-          headers: { Authorization: localStorage.userToken },
-        },
-      )
+    initiativeReportCSV({ filters: modifiedFilters })
       .then((res) => {
+        console.log('data', res.data);
         setData({ loading: false, reports: res.data.reports });
         if (res.data.reports?.length > 0) csvRef.current.link.click();
         else message.error('No data for CSV!');

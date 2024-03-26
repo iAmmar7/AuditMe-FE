@@ -35,3 +35,7 @@ export function deleteReportImage(filters) {
 export function auditReportCSV(filters) {
   return apiClient.post('/user/csv/audit-reports', filters);
 }
+
+export function initiativeReportCSV(filters) {
+  return apiClient.post('/user/csv/initiatives-reports', filters);
+}
