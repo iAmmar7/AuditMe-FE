@@ -1,8 +1,4 @@
-/* eslint-disable eslint-comments/disable-enable-pair */
-/* eslint-disable @typescript-eslint/no-var-requires */
-/* eslint-disable eslint-comments/no-unlimited-disable */
 const { spawn } = require('child_process');
-// eslint-disable-next-line import/no-extraneous-dependencies
 const { kill } = require('cross-port-killer');
 
 const env = Object.create(process.env);
@@ -13,9 +9,13 @@ env.PROGRESS = 'none';
 // flag to prevent multiple test
 let once = false;
 
-const startServer = spawn(/^win/.test(process.platform) ? 'npm.cmd' : 'npm', ['start'], {
-  env,
-});
+const startServer = spawn(
+  /^win/.test(process.platform) ? 'npm.cmd' : 'npm',
+  ['start'],
+  {
+    env,
+  },
+);
 
 startServer.stderr.on('data', (data) => {
   // eslint-disable-next-line

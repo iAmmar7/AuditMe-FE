@@ -1,10 +1,11 @@
+import React from 'react';
 import ProForm from '@ant-design/pro-form';
 import { Alert, Button, message, Tabs } from 'antd';
 import { useState } from 'react';
 import { history } from 'umi';
 
-import { useAppContext } from '@/contexts/AppContext';
-import { login, signup } from '@/services';
+import { useAppContext } from '../../contexts/AppContext';
+import { login, signup } from '../../services';
 import LogIn from '../../components/Auth/Login';
 import SignUp from '../../components/Auth/Signup';
 import styles from './index.less';

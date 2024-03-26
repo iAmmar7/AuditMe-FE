@@ -10,9 +10,6 @@
     "dev": "npm run start:dev",
     "i18n-remove": "pro i18n-remove --locale=en-US --write",
     "postinstall": "umi g tmp",
-    "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx ",
-    "lint:fix": "eslint --fix --cache --ext .js,.jsx,.ts,.tsx --format=pretty ./src && npm run lint:style",
-    "lint:js": "eslint --cache --ext .js,.jsx,.ts,.tsx --format=pretty ./src",
     "start": "umi dev",
     "start:dev": "cross-env REACT_APP_ENV=dev MOCK=none umi dev",
     "start:no-mock": "cross-env MOCK=none umi dev",
@@ -21,6 +18,7 @@
     "start:test": "cross-env REACT_APP_ENV=test MOCK=none umi dev",
     "pretest": "node ./tests/beforeTest",
     "test": "umi test",
+    "test:component": "umi test ./src/components",
     "test:all": "node ./tests/run-tests.js"
   },
   "browserslist": [
@@ -63,6 +61,21 @@
     "cross-env": "^7.0.3",
     "cross-port-killer": "^1.4.0",
     "detect-installer": "^1.0.2",
-    "eslint": "^7.32.0"
-  }
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.8",
+    "eslint": "^7.32.0",
+    "jsdom-global": "^3.0.2",
+    "mockjs": "^1.0.1-beta3",
+    "puppeteer-core": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=10.0.0"
+  },
+  "checkFiles": [
+    "src/**/*.js*",
+    "src/**/*.ts*",
+    "src/**/*.less",
+    "config/**/*.js*",
+    "scripts/**/*.js"
+  ]
 }
