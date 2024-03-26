@@ -3,7 +3,7 @@ import { LockTwoTone, UserOutlined, MailOutlined } from '@ant-design/icons';
 import { ProFormText, ProFormSelect } from '@ant-design/pro-form';
 import { rolesDescription } from '@/utils/constants';
 
-export default function SingUp({ styles }) {
+export default function SignUp({ styles }) {
   return (
     <>
       <ProFormText
