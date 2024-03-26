@@ -1,38 +1,29 @@
 /* eslint-disable no-underscore-dangle */
-import React, { useRef } from 'react';
-import { Alert, message } from 'antd';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import jwt_decode from 'jwt-decode';
+import { Alert, message } from 'antd';
 import moment from 'moment';
-import axios from 'axios';
+import { useRef } from 'react';
 
+import { useAppContext } from '@/contexts/AppContext';
+import { getAllUsers } from '@/services';
 import UserTable from '../../components/Settings/UserTable';
 
 moment.locale('en');
 
-const URL = process.env.SERVER_URL;
-
 const Settings = () => {
+  const { user } = useAppContext();
   const tableRef = useRef();
 
   const onRequest = async (parameters, sorter, filter) => {
-    const result = await axios.post(
-      `${URL}/api/user/all-users`,
-      {
-        params: parameters,
-        sorter: {
-          nameSorter: sorter?.name,
-        },
-        filter: {
-          roleFilter: filter?.role,
-        },
+    const result = await getAllUsers({
+      params: parameters,
+      sorter: {
+        nameSorter: sorter?.name,
       },
-      {
-        headers: {
-          Authorization: localStorage.userToken,
-        },
+      filter: {
+        roleFilter: filter?.role,
       },
-    );
+    });
 
     if (!result) {
       message.error('Unable to fetch users, reload');
@@ -43,10 +34,9 @@ const Settings = () => {
       tableList.push({
         id: result.data.users[i]._id,
         name: result.data.users[i].name,
-        badgeNumber: result.data.users[i].badgeNumber,
+        email: result.data.users[i].email,
         role: result.data.users[i].role,
         recentActivity: result.data.users[i].recentActivity,
-        password: result.data.users[i].password,
       });
     }
 
@@ -57,11 +47,9 @@ const Settings = () => {
     };
   };
 
-  const decoded = jwt_decode(localStorage.userToken);
-
   return (
     <PageHeaderWrapper content="All registered users">
-      {!decoded.isAdmin ? (
+      {!user?.role === 'admin' ? (
         <Alert
           style={{
             marginBottom: 24,
