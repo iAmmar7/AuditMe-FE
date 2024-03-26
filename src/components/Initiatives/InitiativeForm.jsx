@@ -32,7 +32,11 @@ function InitiativeForm(props) {
       setEvidenceBeforeFileList(newFileList);
     },
     beforeUpload: (file) => {
-      if (file.type !== 'image/png' && file.type !== 'image/jpg' && file.type !== 'image/jpeg') {
+      if (
+        file.type !== 'image/png' &&
+        file.type !== 'image/jpg' &&
+        file.type !== 'image/jpeg'
+      ) {
         message.error(`Supported image formats are png, jpg and jpeg`);
         return;
       }
@@ -52,7 +56,11 @@ function InitiativeForm(props) {
       setEvidenceAfterFileList(newFileList);
     },
     beforeUpload: (file) => {
-      if (file.type !== 'image/png' && file.type !== 'image/jpg' && file.type !== 'image/jpeg') {
+      if (
+        file.type !== 'image/png' &&
+        file.type !== 'image/jpg' &&
+        file.type !== 'image/jpeg'
+      ) {
         message.error(`Supported image formats are png, jpg and jpeg`);
         return;
       }
@@ -64,14 +72,16 @@ function InitiativeForm(props) {
 
   return (
     <ProForm
-      initialValues={{
-        date: '2024-03-26',
-        region: 'Southern',
-        station: 'Fulda',
-        details: 'Test initiative details',
-        type: 'Admin Issues',
-        dateIdentified: '2024-03-19',
-      }}
+      initialValues={
+        {
+          // date: '2024-03-26',
+          // region: 'Southern',
+          // station: 'Fulda',
+          // details: 'Test initiative details',
+          // type: 'Admin Issues',
+          // dateIdentified: '2024-03-19',
+        }
+      }
       submitter={{
         render: (submitProps) => {
           return (
@@ -138,7 +148,9 @@ function InitiativeForm(props) {
         name="details"
         label="Initiatives / Improvements / Action Taken"
         placeholder="Add initiative details"
-        rules={[{ required: true, message: 'Please write initiative details!' }]}
+        rules={[
+          { required: true, message: 'Please write initiative details!' },
+        ]}
       />
 
       <div style={{ marginBottom: '20px' }}>

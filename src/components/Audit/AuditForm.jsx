@@ -1,5 +1,9 @@
 import { useAppContext } from '@/contexts/AppContext';
-import { issuePriorityOptions, issueTypeOptions, regionSelectOptions } from '@/utils/constants';
+import {
+  issuePriorityOptions,
+  issueTypeOptions,
+  regionSelectOptions,
+} from '@/utils/constants';
 import { QuestionCircleOutlined, UploadOutlined } from '@ant-design/icons';
 import ProForm, {
   ProFormDatePicker,
@@ -16,7 +20,13 @@ function AuditForm(props) {
   const [form] = Form.useForm();
   // const [disabled, setDisabled] = useState([]);
 
-  const { loading, stationManagers, submitForm, evidenceFileList, setEvidenceFileList } = props;
+  const {
+    loading,
+    stationManagers,
+    submitForm,
+    evidenceFileList,
+    setEvidenceFileList,
+  } = props;
 
   const evidencesProps = {
     name: 'evidences',
@@ -28,7 +38,11 @@ function AuditForm(props) {
       setEvidenceFileList(newFileList);
     },
     beforeUpload: (file) => {
-      if (file.type !== 'image/png' && file.type !== 'image/jpg' && file.type !== 'image/jpeg') {
+      if (
+        file.type !== 'image/png' &&
+        file.type !== 'image/jpg' &&
+        file.type !== 'image/jpeg'
+      ) {
         message.error(`Supported image formats are png, jpg and jpeg`);
         return;
       }
@@ -41,16 +55,18 @@ function AuditForm(props) {
   return (
     <ProForm
       form={form}
-      initialValues={{
-        date: '2024-03-24',
-        region: 'CR-North',
-        type: 'Housekeeping',
-        station: 'Frankfurt',
-        details:
-          'Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.',
-        dateIdentified: '2024-03-15',
-        priority: 'Priority',
-      }}
+      initialValues={
+        {
+          // date: '2024-03-24',
+          // region: 'CR-North',
+          // type: 'Housekeeping',
+          // station: 'Frankfurt',
+          // details:
+          //   'Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.',
+          // dateIdentified: '2024-03-15',
+          // priority: 'Priority',
+        }
+      }
       submitter={{
         render: (submitProps) => {
           return (
@@ -114,8 +130,13 @@ function AuditForm(props) {
           name="stationManager"
           label="Station Manager"
           placeholder="Select station manager"
-          options={stationManagers.map((sm) => ({ value: sm._id, label: sm.name }))}
-          rules={[{ required: true, message: 'Please select station manager name!' }]}
+          options={stationManagers.map((sm) => ({
+            value: sm._id,
+            label: sm.name,
+          }))}
+          rules={[
+            { required: true, message: 'Please select station manager name!' },
+          ]}
           style={{ width: '250px' }}
         />
       </ProForm.Group>
