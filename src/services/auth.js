@@ -5,7 +5,7 @@ export function signup(data) {
     name: data.name,
     email: data.email,
     password: data.password,
-    role: data.userType,
+    role: data.role,
   });
 }
 

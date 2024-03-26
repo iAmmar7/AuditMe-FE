@@ -1,3 +1,4 @@
+import React from 'react';
 import { LockTwoTone, MailOutlined, UserOutlined } from '@ant-design/icons';
 import { ProFormSelect, ProFormText } from '@ant-design/pro-form';
 
@@ -50,7 +51,7 @@ export default function SignUp({ styles }) {
         ]}
       />
       <ProFormSelect
-        name="userType"
+        name="role"
         fieldProps={{
           size: 'large',
         }}

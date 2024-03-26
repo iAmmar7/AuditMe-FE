@@ -1,25 +1,38 @@
+import { mount } from 'enzyme';
+import { act } from 'react-dom/test-utils';
 import React from 'react';
-import { shallow } from 'enzyme';
-import SignUp from '../src/components/Auth/SignUp'; // Corrected component import
+import ProForm from '@ant-design/pro-form';
+import SignUp from '../src/components/Auth/Signup';
 
-describe('SignUp component', () => {
-  it('renders name input field', () => {
-    const wrapper = shallow(<SignUp />);
-    expect(wrapper.find('input[name="name"]').exists()).toBeTruthy();
-  });
+describe('SignUp Component', () => {
+  it('updates input fields on change', async () => {
+    let wrapper;
+    await act(async () => {
+      wrapper = mount(
+        <ProForm>
+          <SignUp styles={{ prefixIcon: 'test-prefix-icon' }} />
+        </ProForm>
+      );
+    });
 
-  it('renders email input field', () => {
-    const wrapper = shallow(<SignUp />);
-    expect(wrapper.find('input[name="email"]').exists()).toBeTruthy();
-  });
+    wrapper.find('input[id="name"]').simulate('change', {
+      target: { value: 'John Doe', name: 'name' },
+    });
+    wrapper.find('input[id="email"]').simulate('change', {
+      target: { value: 'john.doe@example.com', name: 'email' },
+    });
+    wrapper.find('input[id="password"]').simulate('change', {
+      target: { value: 'securepassword', name: 'password' },
+    });
 
-  it('renders password input field', () => {
-    const wrapper = shallow(<SignUp />);
-    expect(wrapper.find('input[name="password"]').exists()).toBeTruthy();
-  });
-
-  it('renders user type select field', () => {
-    const wrapper = shallow(<SignUp />);
-    expect(wrapper.find('select[name="userType"]').exists()).toBeTruthy();
+    expect(wrapper.find('input[id="name"]').props().value).toEqual(
+      'John Doe',
+    );
+    expect(wrapper.find('input[id="email"]').props().value).toEqual(
+      'john.doe@example.com',
+    );
+    expect(wrapper.find('input[id="password"]').props().value).toEqual(
+      'securepassword',
+    );
   });
 });
