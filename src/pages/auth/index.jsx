@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { history } from 'umi';
 
 import { useAppContext } from '@/contexts/AppContext';
-import authService from '@/services/auth';
+import { login, signup } from '@/services';
 import LogIn from '../../components/Auth/Login';
 import SignUp from '../../components/Auth/Signup';
 import styles from './index.less';
@@ -40,15 +40,12 @@ const Auth = () => {
     });
 
     if (tab === 'login') {
-      authService
-        .login(values)
+      login(values)
         .then((res) => {
           if (res.data.success) {
             setUser(res.data.user);
             setToken(res.data.token);
-            localStorage.setItem('userType', res.data.user.role);
             localStorage.setItem('userToken', res.data.token);
-            localStorage.setItem('user', JSON.stringify(res.data.user));
             message.success('Login successful');
             history.push('/user/');
           }
@@ -63,11 +60,9 @@ const Auth = () => {
     }
 
     if (tab === 'signup') {
-      authService
-        .signup(values)
+      signup(values)
         .then((res) => {
           if (res.data.success) {
-            localStorage.setItem('userType', values.userType);
             message.success('SignUp successful');
             setResponse({
               ...response,

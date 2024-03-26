@@ -1,9 +1,7 @@
-import axios from 'axios';
+import { apiClient } from './apiClient';
 
-const URL = process.env.SERVER_URL;
-
-function signup(data) {
-  return axios.post(`${URL}/api/auth/user/signup`, {
+export function signup(data) {
+  return apiClient.post('/auth/signup', {
     name: data.name,
     email: data.email,
     password: data.password,
@@ -11,13 +9,9 @@ function signup(data) {
   });
 }
 
-function login(data) {
-  return axios.post(`${URL}/api/auth/user/login`, {
+export function login(data) {
+  return apiClient.post('/auth/login', {
     email: data.email,
     password: data.password,
   });
 }
-
-const authService = { signup, login };
-
-export default authService;

@@ -1,9 +1,8 @@
-import { stringify } from 'querystring';
-import { history } from 'umi';
 import { fakeAccountLogin } from '@/services/login';
-import { setAuthority } from '@/utils/authority';
 import { getPageQuery } from '@/utils/utils';
 import { message } from 'antd';
+import { stringify } from 'querystring';
+import { history } from 'umi';
 const Model = {
   namespace: 'login',
   state: {
@@ -57,7 +56,6 @@ const Model = {
   },
   reducers: {
     changeLoginStatus(state, { payload }) {
-      setAuthority(payload.currentAuthority);
       return { ...state, status: payload.status, type: payload.type };
     },
   },

@@ -1,49 +1,41 @@
-import axios from 'axios';
+import { apiClient } from './apiClient';
 
-const URL = process.env.SERVER_URL;
+export function getCurrentUser() {
+  return apiClient.get('/user');
+}
 
 export function getUserByRole(role) {
-  return axios.get(`${URL}/api/user/roles`, {
+  return apiClient.get('/user/roles', {
     params: {
       role,
     },
-    headers: { Authorization: localStorage.userToken },
   });
 }
 
-export function raiseIssue(data, fileList) {
-  const formData = new FormData();
-  Object.keys(data).forEach((item) => {
-    // Don't append images
-    if (item !== 'evidences') formData.append(item, data[item]);
-  });
-
-  for (let i = 0; i < fileList.length; i += 1) {
-    formData.append('evidences', fileList[i]);
-  }
-
-  return axios.post(`${URL}/api/auditor/raise-issue`, formData, {
-    headers: { Authorization: localStorage.userToken },
-  });
+export function updateActivity() {
+  return apiClient.patch('/user/activity');
 }
 
-export function raiseInitiative(data, { evidenceBeforeFileList, evidenceAfterFileList }) {
-  const formData = new FormData();
+export function getReportChart(query) {
+  return apiClient.get(`/user/report-chart?month=${query}`);
+}
 
-  Object.keys(data).forEach((item) => {
-    // Don't append images
-    if (item !== 'evidencesBefore' && item !== 'evidencesAfter') formData.append(item, data[item]);
-  });
+export function getAuditReports(filters) {
+  return apiClient.post('/user/audit-reports', filters);
+}
 
-  for (let i = 0; i < evidenceBeforeFileList.length; i += 1) {
-    formData.append('evidencesBefore', evidenceBeforeFileList[i]);
-  }
+export function getInitiativeReports(filters) {
+  return apiClient.post('/user/initiative-reports', filters);
+}
 
-  for (let i = 0; i < evidenceAfterFileList.length; i += 1) {
-    formData.append('evidencesAfter', evidenceAfterFileList[i]);
-  }
+export function deleteReportImage(filters) {
+  return apiClient.patch('/user/delete-image', filters);
+}
 
-  return axios.post(`${URL}/api/auditor/initiative`, formData, {
-    headers: { Authorization: localStorage.userToken },
-  });
+export function auditReportCSV(filters) {
+  return apiClient.post('/user/csv/audit-reports', filters);
+}
+
+export function initiativeReportCSV(filters) {
+  return apiClient.post('/user/csv/initiatives-reports', filters);
 }

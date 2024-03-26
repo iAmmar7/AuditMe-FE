@@ -5,7 +5,7 @@ const proSettings = {
   contentWidth: 'Fluid',
   fixedHeader: false,
   fixSiderbar: true,
-  title: 'FirmFigure',
+  title: 'AuditRail',
   colorWeak: false,
   iconfontUrl: '',
   // pwa: true,

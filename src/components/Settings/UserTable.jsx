@@ -1,24 +1,22 @@
-import React, { useState } from 'react';
+import ProTable from '@ant-design/pro-table';
 import {
+  Avatar,
+  Button,
   ConfigProvider,
-  Typography,
+  Form,
+  message,
   Modal,
   Popconfirm,
-  message,
-  Avatar,
-  Form,
   Tag,
-  Button,
+  Typography,
 } from 'antd';
-import ProTable from '@ant-design/pro-table';
 import enUS from 'antd/lib/locale/en_US';
-import axios from 'axios';
 import moment from 'moment';
+import { useState } from 'react';
 
+import { deleteUser } from '@/services';
 import AddForm from './AddForm';
 import EditForm from './EditForm';
-
-const URL = process.env.SERVER_URL;
 
 function UserTable({ onRequest, tableRef }) {
   const [form] = Form.useForm();
@@ -41,12 +39,8 @@ function UserTable({ onRequest, tableRef }) {
     setAddModeOn(false);
   };
 
-  const deleteUser = (record) => {
-    // Send axios request
-    axios
-      .delete(`${URL}/api/user/delete-user/${record.id}`, {
-        headers: { Authorization: localStorage.userToken },
-      })
+  const deleteUserHanlder = (record) => {
+    deleteUser(record.id)
       .then((res) => {
         tableRef.current.reload();
         if (res.data.success) {
@@ -75,67 +69,43 @@ function UserTable({ onRequest, tableRef }) {
     {
       title: 'Name',
       dataIndex: 'name',
-      width: 200,
       ellipsis: true,
       sorter: () => null,
       render: (_) => <Typography.Text strong>{_}</Typography.Text>,
     },
     {
-      title: 'Badge Number',
-      dataIndex: 'badgeNumber',
-      render: (_) => <Typography.Text>{_}</Typography.Text>,
+      title: 'Email',
+      dataIndex: 'email',
+      ellipsis: true,
+      sorter: () => null,
+      render: (_) => <Typography.Text strong>{_}</Typography.Text>,
     },
     {
       title: 'Role',
       dataIndex: 'role',
       search: false,
       filters: [
-        {
-          text: 'Auditor',
-          value: 'auditor',
-        },
-        {
-          text: 'RM',
-          value: 'rm',
-        },
-        {
-          text: 'AM',
-          value: 'am',
-        },
-        {
-          text: 'SM',
-          value: 'sm',
-        },
-        {
-          text: 'Viewer',
-          value: 'viewer',
-        },
+        { text: 'Auditor', value: 'auditor' },
+        { text: 'SM', value: 'sm' },
+        { text: 'Admin', value: 'admin' },
+        { text: 'Viewer', value: 'viewer' },
       ],
-      // eslint-disable-next-line consistent-return
       render: (role) => {
         if (role === 'auditor') return <Tag color="purple">Auditor</Tag>;
         if (role === 'sm') return <Tag color="green">SM</Tag>;
-        if (role === 'rm') return <Tag color="orange">RM</Tag>;
-        if (role === 'am') return <Tag color="red">AM</Tag>;
-        if (role === 'viewer') return <Tag color="pink">Viewer</Tag>;
+        if (role === 'viewer') return <Tag color="blue">Viewer</Tag>;
+        if (role === 'admin') return <Tag color="red">admin</Tag>;
       },
     },
     {
       title: 'Recent Activity',
       dataIndex: 'recentActivity',
+      search: false,
       render: (date) => (
         <Typography.Text>
           {date.length > 1 ? moment(date).format('DD/MM/YYYY h:mma') : date}
         </Typography.Text>
       ),
-    },
-    {
-      title: 'Password',
-      dataIndex: 'password',
-      editable: true,
-      search: false,
-      copyable: true,
-      render: (_) => <Typography.Text>{_}</Typography.Text>,
     },
     {
       title: 'Operation',
@@ -146,8 +116,7 @@ function UserTable({ onRequest, tableRef }) {
           onClick={() => {
             form.setFieldsValue({ id: record.id });
             form.setFieldsValue({ name: record.name });
-            form.setFieldsValue({ badgeNumber: record.badgeNumber });
-            form.setFieldsValue({ password: record.password });
+            form.setFieldsValue({ email: record.email });
             setEditModeOn(true);
           }}
         >
@@ -155,7 +124,7 @@ function UserTable({ onRequest, tableRef }) {
         </a>,
         <Popconfirm
           title="Are you sure to delete this user?"
-          onConfirm={() => deleteUser(record)}
+          onConfirm={() => deleteUserHanlder(record)}
           okText="Yes"
           cancelText="No"
           key="delete"
