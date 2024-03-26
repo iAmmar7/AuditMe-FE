@@ -1,15 +1,17 @@
 /* eslint-disable no-underscore-dangle */
-import React, { useState } from 'react';
-import { Row, Col, Image, Typography, Tooltip, Upload, Button, message } from 'antd';
-import { UploadOutlined, QuestionCircleOutlined, DeleteTwoTone } from '@ant-design/icons';
+import { DeleteTwoTone, QuestionCircleOutlined, UploadOutlined } from '@ant-design/icons';
 import ProForm, {
-  ProFormText,
-  ProFormTextArea,
   ProFormDatePicker,
   ProFormSelect,
+  ProFormText,
+  ProFormTextArea,
 } from '@ant-design/pro-form';
-import axios from 'axios';
+import { Button, Col, Image, message, Row, Tooltip, Typography, Upload } from 'antd';
+import { useState } from 'react';
 
+import { useAppContext } from '@/contexts/AppContext';
+import { deleteReportImage, editInitiative } from '@/services';
+import { issueTypeOptions, regionSelectOptions } from '@/utils/constants';
 import styles from './Initiatives.less';
 
 const URL = process.env.SERVER_URL;
@@ -18,30 +20,13 @@ function InitiativeEdit({ item, tableRef, setFormDisabled }) {
   const [loading, setLoading] = useState(false);
   const [evidenceBeforeFileList, setEvidenceBeforeFileList] = useState([]);
   const [evidenceAfterFileList, setEvidenceAfterFileList] = useState([]);
+  const { user } = useAppContext();
 
   const updateInitiative = async (values) => {
     setLoading(true);
 
-    const formData = new FormData();
-    Object.keys(values).forEach((value) => {
-      // Don't append images
-      if (value !== 'evidencesBefore' && value !== 'evidencesAfter')
-        formData.append(value, values[value]);
-    });
-
-    for (let i = 0; i < evidenceBeforeFileList.length; i += 1) {
-      formData.append('evidencesBefore', evidenceBeforeFileList[i]);
-    }
-
-    for (let i = 0; i < evidenceAfterFileList.length; i += 1) {
-      formData.append('evidencesAfter', evidenceAfterFileList[i]);
-    }
-
     // Send axios request
-    axios
-      .post(`${URL}/api/auditor/update-initiative/${item._id}`, formData, {
-        headers: { Authorization: localStorage.userToken },
-      })
+    editInitiative(values, { id: item._id, evidenceBeforeFileList, evidenceAfterFileList })
       .then((res) => {
         setLoading(false);
         setFormDisabled(true);
@@ -58,19 +43,7 @@ function InitiativeEdit({ item, tableRef, setFormDisabled }) {
 
   const deleteImage = async (requestType, imageType, image) => {
     setLoading(true);
-    axios
-      .post(
-        `${URL}/api/user/delete-image`,
-        {
-          id: item._id,
-          requestType,
-          imageType,
-          url: image,
-        },
-        {
-          headers: { Authorization: localStorage.userToken },
-        },
-      )
+    deleteReportImage({ id: item._id, requestType, imageType, url: image })
       .then(() => {
         setLoading(false);
         tableRef.current.reload();
@@ -130,7 +103,7 @@ function InitiativeEdit({ item, tableRef, setFormDisabled }) {
           <Button
             type="primary"
             loading={loading}
-            disabled={JSON.parse(localStorage.user).role === 'rm'}
+            disabled={!['auditor'].includes(user?.role)}
             onClick={() => props.form.submit()}
           >
             Submit
@@ -153,54 +126,22 @@ function InitiativeEdit({ item, tableRef, setFormDisabled }) {
           name="region"
           label="Region"
           placeholder="Select region"
-          options={[
-            { value: 'Southern', label: 'Southern' },
-            { value: 'CR-East', label: 'CR-East' },
-            { value: 'CR-North', label: 'CR-North' },
-            { value: 'CR-South', label: 'CR-South' },
-            { value: 'ER-North', label: 'ER-North' },
-            { value: 'ER-South', label: 'ER-South' },
-            { value: 'WR-North', label: 'WR-North' },
-            { value: 'WR-South', label: 'WR-South' },
-          ]}
+          options={regionSelectOptions}
           rules={[{ required: true, message: 'Please select region!' }]}
-        />
-        <ProFormText
-          name="areaManager"
-          label="Area Manager"
-          placeholder="Enter area manager"
-          rules={[{ required: true, message: 'Please write area manager name!' }]}
-        />
-        <ProFormText
-          name="regionalManager"
-          label="Regional Manager"
-          placeholder="Enter regional manager"
-          rules={[{ required: true, message: 'Please write regional manager name!' }]}
         />
       </ProForm.Group>
       <ProForm.Group>
         <ProFormSelect
           name="type"
           label="Type"
-          placeholder="Select issue type....      ...."
-          options={[
-            { value: 'Customer Experience', label: 'Customer Experience' },
-            { value: 'Housekeeping', label: 'Housekeeping' },
-            { value: 'Customer Mistreatment', label: 'Customer Mistreatment' },
-            { value: 'Initiative', label: 'Initiative' },
-            { value: 'Admin Issues', label: 'Admin Issues' },
-            { value: 'Maintenance Issues', label: 'Maintenance Issues' },
-            { value: 'IT Issues', label: 'IT Issues' },
-            { value: 'Inventory Issues', label: 'Inventory Issues' },
-            { value: 'Violation', label: 'Violation' },
-            { value: 'Safety', label: 'Safety' },
-            { value: 'Others', label: 'Others' },
-          ]}
+          placeholder="Select issue type"
+          options={issueTypeOptions}
           rules={[{ required: true, message: 'Please select issue type!' }]}
+          style={{ width: '250px' }}
         />
         <ProFormText
-          name="stationNumber"
-          label="Station/BE#"
+          name="station"
+          label="Station/City"
           placeholder="Enter station"
           rules={[{ required: true, message: 'Please write station!' }]}
         />
@@ -219,7 +160,7 @@ function InitiativeEdit({ item, tableRef, setFormDisabled }) {
       <Upload {...evidencesBeforeProps}>
         <Button icon={<UploadOutlined />}>Select multiple images</Button>
       </Upload>
-      <Row style={{ margin: '15px 0px' }} gutter={[8, 8]}>
+      <Row style={{ padding: '15px 0px' }} gutter={[8, 8]}>
         {item?.evidencesBefore?.length > 0
           ? item?.evidencesBefore?.map((image) => (
               <Col key={image} className={styles.issue_image_container}>
@@ -240,7 +181,7 @@ function InitiativeEdit({ item, tableRef, setFormDisabled }) {
       <Upload {...evidencesAfterProps}>
         <Button icon={<UploadOutlined />}>Select multiple images</Button>
       </Upload>
-      <Row style={{ margin: '15px 0px' }} gutter={[8, 8]}>
+      <Row style={{ padding: '15px 0px' }} gutter={[8, 8]}>
         {item?.evidencesAfter?.length > 0
           ? item?.evidencesAfter?.map((image) => (
               <Col key={image} className={styles.issue_image_container}>

@@ -15,7 +15,6 @@ export function submitAuditReport(data, fileList) {
 }
 
 export function editAuditReport(data, { id, evidenceBeforeFileList }) {
-  console.log('editAuditReport', data);
   const formData = new FormData();
   Object.keys(data).forEach((value) => {
     // Don't append images
@@ -46,4 +45,23 @@ export function submitInitiative(data, { evidenceBeforeFileList, evidenceAfterFi
   }
 
   return apiClient.post('/auditor/initiative', formData);
+}
+
+export function editInitiative(data, { id, evidenceBeforeFileList, evidenceAfterFileList }) {
+  const formData = new FormData();
+  Object.keys(data).forEach((value) => {
+    // Don't append images
+    if (value !== 'evidencesBefore' && value !== 'evidencesAfter')
+      formData.append(value, data[value]);
+  });
+
+  for (let i = 0; i < evidenceBeforeFileList.length; i += 1) {
+    formData.append('evidencesBefore', evidenceBeforeFileList[i]);
+  }
+
+  for (let i = 0; i < evidenceAfterFileList.length; i += 1) {
+    formData.append('evidencesAfter', evidenceAfterFileList[i]);
+  }
+
+  return apiClient.patch(`/auditor/initiative/${id}`, formData);
 }

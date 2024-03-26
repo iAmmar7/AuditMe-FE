@@ -13,7 +13,7 @@ export function getUserByRole(role) {
 }
 
 export function updateActivity() {
-  return apiClient.post('/user/activity');
+  return apiClient.patch('/user/activity');
 }
 
 export function getReportChart(query) {

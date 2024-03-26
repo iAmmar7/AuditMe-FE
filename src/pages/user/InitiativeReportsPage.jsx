@@ -40,12 +40,11 @@ const InitiativeReportsPage = () => {
         key: result.data.reports[i]._id,
         id: result.data.reports[i].id,
         date: moment(result.data.reports[i].date).format('DD-MMM-YY'),
-        user: result.data.reports[i].userName,
+        auditor: result.data.reports[i].auditorName,
         type: result.data.reports[i].type,
         region: result.data.reports[i].region,
-        regionalManager: result.data.reports[i].regionalManager,
-        areaManager: result.data.reports[i].areaManager,
-        stationNumber: result.data.reports[i].stationNumber,
+        station: result.data.reports[i].station,
+        details: result.data.reports[i].details,
       });
     }
 

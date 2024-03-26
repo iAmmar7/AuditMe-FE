@@ -37,7 +37,6 @@ function InitiativeForm(props) {
         return;
       }
       setEvidenceBeforeFileList([...evidenceBeforeFileList, file]);
-      // eslint-disable-next-line consistent-return
       return false;
     },
     evidenceBeforeFileList,
@@ -58,7 +57,6 @@ function InitiativeForm(props) {
         return;
       }
       setEvidenceAfterFileList([...evidenceAfterFileList, file]);
-      // eslint-disable-next-line consistent-return
       return false;
     },
     evidenceAfterFileList,
@@ -66,19 +64,14 @@ function InitiativeForm(props) {
 
   return (
     <ProForm
-      initialValues={
-        {
-          // date: '2023-03-23',
-          // region: 'CR-North',
-          // areaManager: 'John Doe AM',
-          // regionalManager: 'John Doe RM',
-          // stationNumber: 'Test123',
-          // details: 'Test initiative details',
-          // type: 'Initiative',
-          // dateIdentified: '2023-03-19',
-          // actionTaken: 'Test action',
-        }
-      }
+      initialValues={{
+        date: '2024-03-26',
+        region: 'Southern',
+        station: 'Fulda',
+        details: 'Test initiative details',
+        type: 'Admin Issues',
+        dateIdentified: '2024-03-19',
+      }}
       submitter={{
         render: (submitProps) => {
           return (
@@ -86,7 +79,7 @@ function InitiativeForm(props) {
               <Button
                 type="secondary"
                 loading={loading}
-                disabled={user.role !== 'auditor'}
+                disabled={user?.role !== 'auditor'}
                 onClick={() => submitProps?.form?.resetFields()}
               >
                 Reset
@@ -94,7 +87,7 @@ function InitiativeForm(props) {
               <Button
                 type="primary"
                 loading={loading}
-                disabled={user.role !== 'auditor'}
+                disabled={user?.role !== 'auditor'}
                 onClick={() => submitProps.form.submit()}
               >
                 Submit
@@ -123,13 +116,11 @@ function InitiativeForm(props) {
           rules={[{ required: true, message: 'Please select region!' }]}
           style={{ width: '150px' }}
         />
-        <ProFormSelect
-          name="stationManager"
-          label="Station Manager"
-          placeholder="Select station manager"
-          options={stationMangers.map((user) => ({ value: user._id, label: user.name }))}
-          rules={[{ required: true, message: 'Please select station manager name!' }]}
-          style={{ width: '250px' }}
+        <ProFormText
+          name="station"
+          label="City/Station"
+          placeholder="Enter city/station"
+          rules={[{ required: true, message: 'Please write station!' }]}
         />
       </ProForm.Group>
       <ProForm.Group>
@@ -140,12 +131,6 @@ function InitiativeForm(props) {
           options={issueTypeOptions}
           rules={[{ required: true, message: 'Please select issue type!' }]}
           style={{ width: '250px' }}
-        />
-        <ProFormText
-          name="station"
-          label="City/Station"
-          placeholder="Enter city/station"
-          rules={[{ required: true, message: 'Please write station!' }]}
         />
       </ProForm.Group>
       <ProFormTextArea
