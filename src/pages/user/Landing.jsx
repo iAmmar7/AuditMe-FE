@@ -118,13 +118,23 @@ const Landing = () => {
           </Col>
         </Row>
         {data.loading ? (
-          <div style={{ textAlign: 'center', paddingTop: '30px', paddingBottom: '30px' }}>
+          <div
+            style={{
+              textAlign: 'center',
+              paddingTop: '30px',
+              paddingBottom: '30px',
+            }}
+          >
             <Spin size="large" />
           </div>
         ) : (
           <>
             <RegionChart stats={data.regionStats} total={data.total} />
-            <Row gutter={[8, 8]} justify="center" style={{ paddingTop: '30px' }}>
+            <Row
+              gutter={[8, 8]}
+              justify="center"
+              style={{ paddingTop: '30px' }}
+            >
               <Col col={6}>
                 <Card>
                   <Statistic

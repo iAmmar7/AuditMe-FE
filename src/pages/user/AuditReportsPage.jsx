@@ -68,12 +68,18 @@ const AuditReports = () => {
         type: result.data.reports[i].type,
         region: result.data.reports[i].region,
         stationManager: result.data.reports[i].stationManager,
-        dateIdentified: moment(result.data.reports[i].dateIdentified).format('DD-MMM-YY'),
+        dateIdentified: moment(result.data.reports[i].dateIdentified).format(
+          'DD-MMM-YY',
+        ),
         station: result.data.reports[i].station,
         daysOpen:
-          result.data.reports[i].status === 'Resolved' ? null : result.data.reports[i].daysOpen,
+          result.data.reports[i].status === 'Resolved'
+            ? null
+            : result.data.reports[i].daysOpen,
         daysResolved:
-          result.data.reports[i].status === 'Resolved' ? result.data.reports[i].daysOpen : null,
+          result.data.reports[i].status === 'Resolved'
+            ? result.data.reports[i].daysOpen
+            : null,
       });
     }
 
@@ -92,7 +98,11 @@ const AuditReports = () => {
 
   return (
     <PageHeaderWrapper content="EDER - Early Detection Early Resolution">
-      <AuditTable expandedRowRender={expandedRowRender} onRequest={onRequest} tableRef={tableRef} />
+      <AuditTable
+        expandedRowRender={expandedRowRender}
+        onRequest={onRequest}
+        tableRef={tableRef}
+      />
     </PageHeaderWrapper>
   );
 };
