@@ -174,7 +174,7 @@ function AuditForm(props) {
           name="priority"
           label="Priority"
           placeholder="Select Priority"
-          disabled
+          // disabled
           options={issuePriorityOptions}
           rules={[{ required: true, message: 'Please select issue priority!' }]}
         />
